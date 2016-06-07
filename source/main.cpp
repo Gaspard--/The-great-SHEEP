@@ -1,12 +1,11 @@
 #include "my_opengl.hpp"
-#include "state.hpp"
 #include "game_state.hpp"
 #include <iostream>
 
 int		main()
 {
   GLFWwindow	*window;
-  State		*state;
+  GameState	*gameState;
 
   // Initialize the library
   if (!glfwInit())
@@ -31,17 +30,17 @@ int		main()
       return -1;
     }
   //create our gamestate
-  state = new GameState();
-  state->display->WIDTH = 1920;
-  state->display->HEIGHT = 1080;
+  gameState = new GameState();
+  gameState->display->WIDTH = 1920;
+  gameState->display->HEIGHT = 1080;
 
   // Loop until the user closes the window
   while (!glfwWindowShouldClose(window))
     {
       // update logic
-      state->logic->tick();
+      gameState->logic->tick();
       // render
-      state->display->render();
+      gameState->display->render();
       // Swap front and back buffers
       glfwSwapBuffers(window);
       // Poll for and process events

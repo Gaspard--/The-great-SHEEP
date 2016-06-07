@@ -3,17 +3,19 @@
 
 # include "terrain_generator.hpp"
 # include "terrain.hpp"
-# include "state.hpp"
+# include "input.hpp"
 # include "game_logic.hpp"
 # include "game_display.hpp"
 
 class		GameDisplay;
 class		GameLogic;
 
-class		GameState:
-  public	State
+class		GameState
 {
 public:
+  GameDisplay	*display;
+  GameLogic	*logic;
+  Input		*input;
   Terrain	*terrain;
   GameState();
 };

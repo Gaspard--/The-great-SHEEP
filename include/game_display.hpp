@@ -1,7 +1,6 @@
 #ifndef GAME_DISPLAY_HPP_
 # define GAME_DISPLAY_HPP_
 
-# include "display.hpp"
 # include "triangle_render_queue.hpp"
 # include "my_opengl.hpp"
 # include "render_queue.hpp"
@@ -10,8 +9,7 @@
 
 class	GameState;
 
-class			GameDisplay:
-  public		Display
+class			GameDisplay
 {
 private:
   Complex<float>	*camera;
@@ -21,8 +19,10 @@ private:
 public:
   TriangleRenderQueue	triangleRenderQueue;
 
+  int			WIDTH;
+  int			HEIGHT;
   GameDisplay(GameState *game);
-  virtual void		render();
+  void			render();
   void			drawTile(Complex<int> pos);
   void			drawTerrain();
 
@@ -47,6 +47,7 @@ public:
 	renderQueue->render(renderQueue->vertexAmount);
       }
   }
+
 };
 
 #endif // GAME_DISPLAY_HPP_
