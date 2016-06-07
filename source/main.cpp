@@ -12,7 +12,7 @@ int		main()
   if (!glfwInit())
     return (-1);
   // Create a windowed mode window and its OpenGL context
-  window = glfwCreateWindow(1920, 1080, "Hello World", glfwGetPrimaryMonitor(), NULL);
+  window = glfwCreateWindow(1920, 1080, "Hello World", NULL, NULL);
   if (!window)
     {
       glfwTerminate();
