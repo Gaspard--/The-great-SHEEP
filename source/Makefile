@@ -5,7 +5,7 @@
 ## Login   <kellen_j@epitech.net>
 ##
 ## Started on  Fri Nov 13 17:19:42 2015 Jakob Kellendonk
-## Last update Tue Jun  7 17:48:55 2016 Jakob Kellendonk
+## Last update Tue Apr  5 09:34:46 2016 Jakob Kellendonk
 ##
 
 CC =	g++
@@ -20,7 +20,7 @@ CPPFLAGS +=	-I./include -I. -std=c++11 -g -O3
 
 LDFLAGS = `pkg-config --static --libs glfw3`
 
-NAME =	The-great-SHEEP
+NAME =	bullethell
 
 SRCS_C = gl3w.c
 

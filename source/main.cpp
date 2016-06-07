@@ -1,28 +1,52 @@
-#include <SFML/Graphics.hpp>
+#include "my_opengl.hpp"
+#include "state.hpp"
+#include "game_state.hpp"
+#include <iostream>
 
-int main()
+int		main()
 {
-  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!",
-			  sf::Style::Titlebar | sf::Style::Close);
-  sf::CircleShape shape(100.f);
-  shape.setFillColor(sf::Color::Green);
+  GLFWwindow	*window;
+  State		*state;
 
-  while (window.isOpen())
+  // Initialize the library
+  if (!glfwInit())
+    return (-1);
+  // Create a windowed mode window and its OpenGL context
+  window = glfwCreateWindow(1920, 1080, "Hello World", glfwGetPrimaryMonitor(), NULL);
+  if (!window)
     {
-      sf::Event event;
-      while (window.pollEvent(event))
-	{
-	  if (event.type == sf::Event::Closed)
-	    window.close();
-	  else if (event.type == sf::Event::KeyPressed
-		   && event.key.code == sf::Keyboard::Escape)
-	    window.close();
-	}
-
-      window.clear();
-      window.draw(shape);
-      window.display();
+      glfwTerminate();
+      return (-1);
     }
+  // Make the window's context current
+  glfwMakeContextCurrent(window);
+  if (gl3wInit())
+    {
+      std::cerr << "failed to initialize OpenGL" << std::endl;
+      return -1;
+    }
+  if (!gl3wIsSupported(3, 0))
+    {
+      std::cerr << "OpenGL 3.0 not supported" << std::endl;
+      return -1;
+    }
+  //create our gamestate
+  state = new GameState();
+  state->display->WIDTH = 1920;
+  state->display->HEIGHT = 1080;
 
-  return 0;
+  // Loop until the user closes the window
+  while (!glfwWindowShouldClose(window))
+    {
+      // update logic
+      state->logic->tick();
+      // render
+      state->display->render();
+      // Swap front and back buffers
+      glfwSwapBuffers(window);
+      // Poll for and process events
+      glfwPollEvents();
+    }
+  glfwTerminate();
+  return (0);
 }
