@@ -1,0 +1,70 @@
+- jeu en survival.
+- terrain générer aleatoirement.
+- gestion de hauteur (par plateau)
+- monstre capturable différentiable / typeable.
+- 3 monstre capturable par perso
+- les monstres evolues, et leur mort sera permanante.
+- map streamable
+
+- Commande :
+  - selection des monstres avec A Z E R et action C V B (touche rebindable). On vise avec la souris.
+- Gagner -> battre the great SHEEP (qui est aussi un dresseur).
+
+- pas d'inventaire.
+- systeme jour nuit + mini eco-system. Pic de difficulté lors de la nuit.
+- system de faim pour le perso et les creature.
+
+- Terrain est modifiable
+  - syteme de agriculture
+  - environnement (arbre rivière)
+  - construction de base.
+  - biomes. (avec des monstres qui changent)
+  - Donjons:
+    - Espace séparés du reste du monde.
+    - Boss capturable qui vaut beaucoup de nourriture.
+
+- rencontrer d'autre dresseur (qui font leur propre campement).
+  
+- actions:
+  - peuvent avoir sur l'environnement
+  - peuvent avoir des effets sur les autres monstres
+  - peu d'action par seconde mais beaucoup d'effets. (pas d'action générique)
+  - action de domptage
+
+- type de monstre:
+  - caracteristiques:
+    - peuvent être montables.
+    - volant.
+    - besoin de sommeil plus ou moins faible.
+    - niveau -> donne des actions. xp par action.
+      - certaines capacités necessitent un type d'évolution.
+      - boost d'xp lors si monstre vivant mangé.
+  - stats FIX:
+    - croissance -> donne des évolutions.
+      - type d'evolution affecté par ce qui est mangé
+    - oubli -> nb de capacités oublié, ya un maximum.
+    - sagesse -> nb d'xp total accumullé (valeur de l'ame)
+    - intelligence -> augmente la vitesse d'xp
+    - metabolisme -> augmente la croissence
+    - puissance -> intensité des effets
+    - pvmax -> vie
+    - vitesse -> vitesse de déplacement
+  -stats VARIABLES:
+    - pv courant
+    - faim
+
+- états:
+  - endormi
+  - brulé
+  - empoisonné
+  - mort
+
+--------------------------------------------------
+Deux systemes de progression:
+corps & esprit
+croissance -> augmente quand le monstre mange. Evolution quand pallier de croissance atteint & est toujours la même.
+action -> deux manière de gagner des actions:
+ - utiliser des action (bar d'xp par action)
+ - absorber une ame (manger un monstre vivant) -> boost d'xp.
+
+
