@@ -21,6 +21,14 @@ int		main()
 			     480,
 			     SDL_WINDOW_SHOWN);
 
+  renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED);
+
+  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1024, 768);
+
+
+
+  SDL_RenderPresent(renderer);
+
   if (pWindow)
     {
       /* Attendre trois secondes, que l'utilisateur voie la fenêtre */
