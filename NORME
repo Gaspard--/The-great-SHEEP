@@ -1,0 +1,41 @@
+Definition des termes:
+camelCase(lolLel), PascalCase(LolLel), miniscule(lol_lel), MAJUSCULE(LOL_LEL)
+
+Nom de class en PascalCase.
+Nom de structure & union & enum en minuscule.
+
+PAS DE FONCTION DANS LES STRUCTURES!!!
+
+Nom de vairable et namespace en camelCase.
+Nom de constant en MAJUSCULE.
+Nom de fichier en minuscule.
+Pas de fonction hors de namespace ou de class hormi le main.
+Pas d'include de .cpp. Un seul .cpp et un .hpp par class.
+On predeclare les class, puis on inclut dans le .cpp:
+Garde dans les .hpp.
+
+a.hpp:
+#ifndef A_HPP_
+# define A_HPP_
+class B;
+
+class A
+{
+  B b;
+}
+
+#endif !A_HPP_
+
+a.cpp:
+#include "B.hpp"
+
+Pas de fonction dans les .hpp hormi pour les templates.
+Acollade à la ligne.Espace après les mots clefs.
+Tous les mots clefs sont autorisés hormi auto.
+Vous pouvez déclarer et affecter une variable sur la même ligne.
+Pas de code redondant.
+Allgnement des variable pas nécessaire.
+Pointeurs à droite, références a gauche:
+int   *a
+int&   b
+Les pointeurs sont décuragés.
