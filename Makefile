@@ -8,7 +8,8 @@ LDFLAGS =	`sdl2-config --libs`
 
 NAME =		The-great-SHEEP
 
-SRC =		source/main.cpp
+SRC =		source/main.cpp \
+		source/display.cpp
 
 OBJ =		$(SRC:.cpp=.o)
 

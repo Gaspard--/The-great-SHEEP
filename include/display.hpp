@@ -1,6 +1,9 @@
 #ifndef DISPLAY_HPP_
 # define DISPLAY_HPP_
 
+# include <SDL2/SDL.h>
+# include <stdio.h>
+
 namespace display
 {
   enum texture_names
@@ -14,6 +17,10 @@ class Display
 {
 public:
   Display();
+  ~Display();
+
+  void	render();
+
 private:
   SDL_Window	*window;
   SDL_Renderer	*renderer;
