@@ -77,7 +77,7 @@ void	GameDisplay::render()
   triangleRenderQueue.reset();
   drawTerrain();
   triangleRenderQueue.draw(new Vect<6, float>[3]{
-      new float[6]{-0.01f, -0.1f, 1.0f, 0.0f, 0.0f, 1.0f},
+      Vect<6, float>(new float[6]{-0.01f, -0.1f, 1.0f, 0.0f, 0.0f, 1.0f}),
 	new float[6]{0.01f, -0.1f, 1.0f, 0.0f, 0.0f, 1.0f},
 	  new float[6]{0.0f, 0.1f, 0.0f, 0.0f, 1.0f, 1.0f}
     });
