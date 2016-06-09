@@ -40,8 +40,8 @@ Display::Display()
   int		i;
 
   textures[display::TEXTURE_COEUR] = IMG_LoadTexture(renderer, "assets/icon_heart.png");
-
   textures[display::TEXTURE_POKEMON] = IMG_LoadTexture(renderer, "assets/pok.png");
+
   i = 0;
   while (i < display::TEXTURE_MAX)
     {
@@ -56,8 +56,14 @@ Display::Display()
 
 Display::~Display()
 {
-  SDL_DestroyTexture(textures[display::TEXTURE_COEUR]);
-  SDL_DestroyTexture(textures[display::TEXTURE_POKEMON]);
+  int		i;
+
+  i = 0;
+  while (i < display::TEXTURE_MAX)
+    {
+      SDL_DestroyTexture(textures[i]);
+      i = i + 1;
+    }
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
