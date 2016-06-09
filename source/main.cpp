@@ -1,19 +1,10 @@
-//
-// main.cpp for  in /home/buffat_b/sdl
-//
-// Made by
-// Login   <buffat_b@epitech.net>
-//
-// Started on  Thu Jun  9 15:26:15 2016
-// Last update Thu Jun  9 15:46:26 2016 Jakob Kellendonk
-//
-
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include "display.hpp"
 
 int		main()
 {
-  SDL_Window*	pWindow = NULL;
+  SDL_Window	*pWindow = NULL;
 
   /* Initialisation simple */
   if (SDL_Init(SDL_INIT_VIDEO))
