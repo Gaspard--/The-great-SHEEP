@@ -1,10 +1,10 @@
-CC =	cc
+CC =		g++
 
 RM = rm -rf
 
 CPPFLAGS =	`sdl2-config --cflags` -W -Wall -Wextra -Iinclude/
 
-LDFLAGS =	`sdl2-config --libs`
+LDFLAGS =	`sdl2-config --libs` -lSDL2_image
 
 NAME =		The-great-SHEEP
 

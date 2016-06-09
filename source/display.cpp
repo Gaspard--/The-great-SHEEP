@@ -7,12 +7,15 @@ void	Display::render()
 
 Display::Display()
 {
+  int		i;
+
   if (SDL_Init(SDL_INIT_VIDEO))
     {
-      fprintf(stderr, "Échec de l'initialisation de la SDL : (%s)\n", SDL_GetError());
+      fprintf(stderr, "Failed to initialise SDL : (%s)\n", SDL_GetError());
       exit(-1);
     }
-  /* Création de la fenêtre */
+
+  // Create widnow
   window = SDL_CreateWindow("The great SHEEP.",
 			     SDL_WINDOWPOS_UNDEFINED,
 			     SDL_WINDOWPOS_UNDEFINED,
@@ -21,14 +24,30 @@ Display::Display()
 			     SDL_WINDOW_SHOWN);
   if (!window)
     {
-      fprintf(stderr,"Échec de l'ouverture de la fenetre : (%s)\n", SDL_GetError());
+      fprintf(stderr,"Failed to open a window : (%s)\n", SDL_GetError());
       exit(-1);
     }
-  /*Création render */
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-  /* création texture */
-  textures[display::TEXTURE_COEUR] = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, 1024, 768);
+  // Create renderer
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  if (!renderer)
+    {
+      fprintf(stderr,"Failed to create renderer : (%s)\n", SDL_GetError());
+      exit(-1);
+    }
+
+  // Load textures
+  textures[display::TEXTURE_COEUR] = IMG_LoadTexture(renderer, "assets/icon_heart.png");
+  i = 0;
+  while (i < display::TEXTURE_MAX)
+    {
+      if (!textures[i])
+	{
+	  fprintf(stderr, "Failed to open a texture : (%s)\n", SDL_GetError());
+	  exit(-1);
+	}
+      i = i + 1;
+    }
 }
 
 Display::~Display()
