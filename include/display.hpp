@@ -10,6 +10,7 @@ namespace display
   enum texture_names
     {
       TEXTURE_COEUR,
+      TEXTURE_POKEMON,
       TEXTURE_MAX
     };
 };
