@@ -5,13 +5,13 @@
 // Login   <buffat_b@epitech.net>
 //
 // Started on  Thu Jun  9 15:26:15 2016
-// Last update Thu Jun  9 15:35:05 2016 
+// Last update Thu Jun  9 15:43:56 2016 Jakob Kellendonk
 //
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-int		main(int argc, char** argv)
+int		main()
 {
   SDL_Window*	pWindow = NULL;
 
