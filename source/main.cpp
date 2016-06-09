@@ -5,7 +5,7 @@
 // Login   <buffat_b@epitech.net>
 //
 // Started on  Thu Jun  9 15:26:15 2016
-// Last update Thu Jun  9 15:43:56 2016 Jakob Kellendonk
+// Last update Thu Jun  9 15:46:26 2016 Jakob Kellendonk
 //
 
 #include <SDL2/SDL.h>
@@ -18,12 +18,13 @@ int		main()
   /* Initialisation simple */
   if (SDL_Init(SDL_INIT_VIDEO))
     {
-      fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
+      fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n", SDL_GetError());
       return (-1);
     }
 
   /* Création de la fenêtre */
-  pWindow = SDL_CreateWindow("Ma première application SDL2",SDL_WINDOWPOS_UNDEFINED,
+  pWindow = SDL_CreateWindow("The great SHEEP.",
+			     SDL_WINDOWPOS_UNDEFINED,
 			     SDL_WINDOWPOS_UNDEFINED,
 			     640,
 			     480,
