@@ -2,12 +2,12 @@
 
 void	Display::render()
 {
+  SDL_RenderCopy(renderer, textures[display::TEXTURE_COEUR], NULL, NULL);
   SDL_RenderPresent(renderer);
 }
 
 Display::Display()
 {
-  int		i;
 
   if (SDL_Init(SDL_INIT_VIDEO))
     {
@@ -37,6 +37,8 @@ Display::Display()
     }
 
   // Load textures
+  int		i;
+
   textures[display::TEXTURE_COEUR] = IMG_LoadTexture(renderer, "assets/icon_heart.png");
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -52,5 +54,8 @@ Display::Display()
 
 Display::~Display()
 {
+  SDL_DestroyTexture(textures[display::TEXTURE_COEUR]);
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
   SDL_Quit();
 }
