@@ -22,15 +22,19 @@ class B;
 class A
 {
   B b;
-}
+};
 
 #endif !A_HPP_
 
 a.cpp:
-#include "B.hpp"
+#include "a.hpp"
+#include "b.hpp"
 
 Pas de fonction dans les .hpp hormi pour les templates.
-Acollade à la ligne.Espace après les mots clefs.
+Acollades à la ligne. Espace après les mots clefs.
+Espace autour de des operateur hormi les operateurs unaires (comme ! et ~). (Nb: - est parfois un operateur unaire)
+Pas d'espace entre le nom d'une fonction et ses parenthèses lors de l'appelle d'une fonction.
+Espace après une virgule.
 Tous les mots clefs sont autorisés hormi auto.
 Vous pouvez déclarer et affecter une variable sur la même ligne.
 Pas de code redondant.
@@ -38,4 +42,4 @@ Allgnement des variable pas nécessaire.
 Pointeurs à droite, références a gauche:
 int   *a
 int&   b
-Les pointeurs sont décuragés.
+Les pointeurs sont découragés.
