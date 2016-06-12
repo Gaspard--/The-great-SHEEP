@@ -22,7 +22,25 @@ public:
     i = 0;
     while (i < dim)
       {
-	data[i] = static_cast<U>(other.data[i]);
+	data[i] = static_cast<T>(other.data[i]);
+	i = i + 1;
+      }
+  }
+
+  template<unsigned int dim2>
+  Vect(Vect<dim2, T> other, Vect<dim - dim2, T> other2)
+  {
+    int	i;
+
+    i = 0;
+    while (i < dim2)
+      {
+	data[i] = other.data[i];
+	i = i + 1;
+      }
+    while (i < dim)
+      {
+	data[i] = other2.data[i - dim2];
 	i = i + 1;
       }
   }
@@ -38,21 +56,13 @@ public:
 	i = i + 1;
       }
   }
-  
-  Vect(T first, ...)
-  {
-    unsigned int	i;
-    va_list		args;
 
-    va_start(args, first);
-    i = 0;
-    while (i < dim)
-      {
-	data[i] = va_arg(args, T);
-	i = i + 1;
-      }
-    va_end(args);
+  template<class... U>
+  Vect(T first, U... more) : Vect(more...)
+  {
+    data[dim - sizeof...(more) - 1] = first;
   }
+
 
   Vect<dim, T>		operator+(const Vect<dim, T>& other)
   {

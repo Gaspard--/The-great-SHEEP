@@ -2,7 +2,7 @@ CC =		g++
 
 RM =		rm -rf
 
-CPPFLAGS =	`sdl2-config --cflags` -W -Wall -Wextra -g -Iinclude/
+CPPFLAGS =	`sdl2-config --cflags` -W -Wall -Wextra -g -Iinclude/ -std=c++11
 
 LDFLAGS =	`sdl2-config --libs` -lSDL2_image
 
