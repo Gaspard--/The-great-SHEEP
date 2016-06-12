@@ -1,6 +1,6 @@
 CC =		g++
 
-RM = rm -rf
+RM =		rm -rf
 
 CPPFLAGS =	`sdl2-config --cflags` -W -Wall -Wextra -Iinclude/
 
@@ -9,7 +9,8 @@ LDFLAGS =	`sdl2-config --libs` -lSDL2_image
 NAME =		The-great-SHEEP
 
 SRC =		source/main.cpp \
-		source/display.cpp
+		source/display.cpp \
+		source/terrain.cpp \
 
 OBJ =		$(SRC:.cpp=.o)
 

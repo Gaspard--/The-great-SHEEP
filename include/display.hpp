@@ -4,6 +4,9 @@
 # include <SDL2/SDL.h>
 # include <SDL_image.h>
 # include <stdio.h>
+# include <vector>
+
+class Terrain;
 
 namespace display
 {
@@ -11,6 +14,9 @@ namespace display
     {
       TEXTURE_COEUR,
       TEXTURE_POKEMON,
+      TEXTURE_BASIC_TILESET,
+      TEXTURE_BASIC_OBJECT_SET,
+      TEXTURE_BASIC_CHARACTER_SET,
       TEXTURE_MAX
     };
 };
@@ -22,6 +28,10 @@ public:
   ~Display();
 
   void	render();
+  void	clearScreen(int r, int g, int b);
+  void	displayTiles(Terrain*);
+  void	displayObjects(Terrain*);
+  void	displayCharacters(Terrain*);
 
 private:
   SDL_Window	*window;
