@@ -10,7 +10,7 @@ int		main()
   SDL_Event	event;
 
   event.type = 0;
-  while (event.type != SDL_QUIT)
+  while (event.type != SDL_QUIT && event.key.keysym.sym != SDLK_ESCAPE)
     {
       display->clearScreen(0, 0, 0);
       display->displayTiles(terrain);
