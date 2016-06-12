@@ -65,7 +65,7 @@ void	Terrain::disposeObjects(void)
 
   // arbitrary chosen
   numberObjects = 25;
-  i = 1;
+  i = 0;
   while (i < numberObjects)
     {
       Objects[i].type = rand() % 5;

@@ -6,10 +6,10 @@ namespace display
     enum tile_names
       {
 	TILE_GRASS,
-	TILE_TREES,
+	TILE_HILL,
 	TILE_ROAD,
 	TILE_WATER,
-	TILE_HOUSE,
+	TILE_SHORE,
 	TILE_MAX
       };
 };

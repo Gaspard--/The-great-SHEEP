@@ -20,7 +20,7 @@ int		main()
       terrain->disposeCharacters();
       display->displayCharacters(terrain);
       display->render();
-      SDL_Delay(800);
+      SDL_Delay(500);
       SDL_PollEvent(&event);
     }
 
