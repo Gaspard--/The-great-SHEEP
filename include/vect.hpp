@@ -1,8 +1,8 @@
 #ifndef VECT_HPP_
 # define VECT_HPP_
 
-# include <stdarg.h>
 # include <iostream>
+# include <array>
 
 template <unsigned int dim, class T>
 class Vect
@@ -14,8 +14,12 @@ public:
   {
   }
 
+  Vect(Vect<dim, T>& other) : data(other.data)
+  {
+  }
+
   template<class U>
-  Vect(Vect<dim, U> other)
+  Vect(Vect<dim, U>& other)
   {
     int	i;
 
@@ -27,42 +31,33 @@ public:
       }
   }
 
-  template<unsigned int dim2>
-  Vect(Vect<dim2, T> other, Vect<dim - dim2, T> other2)
+  template<unsigned int dim2, class U, class V>
+  Vect(Vect<dim2, U>& other, Vect<dim - dim2, V>& other2)
   {
     int	i;
 
     i = 0;
     while (i < dim2)
       {
-	data[i] = other.data[i];
+	data[i] = static_cast<T>(other.data[i]);
 	i = i + 1;
       }
     while (i < dim)
       {
-	data[i] = other2.data[i - dim2];
+	data[i] = static_cast<T>(other2.data[i - dim2]);
 	i = i + 1;
       }
   }
 
-  Vect(T t[dim])
+  Vect(T t[dim]) : data(t)
   {
-    int	i;
-
-    i = 0;
-    while (i < dim)
-      {
-	data[i] = t[i];
-	i = i + 1;
-      }
   }
 
-  template<class... U>
-  Vect(T first, U... more) : Vect(more...)
+  template<class... U, class V>
+  Vect(V first, U... more) : Vect(more...)
   {
-    data[dim - sizeof...(more) - 1] = first;
+    data[dim - sizeof...(more) - 1] = static_cast<T>(first);
   }
-
 
   Vect<dim, T>		operator+(const Vect<dim, T>& other)
   {
