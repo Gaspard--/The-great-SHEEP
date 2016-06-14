@@ -3,15 +3,15 @@
 
 namespace display
 {
-      enum character_names
-	{
-	  CHARACTER_MAIN,
-	  CHARACTER_DRAGOON,
-	  CHARACTER_TROLL,
-	  CHARACTER_SPIDER,
-	  CHARACTER_HARPY,
-	  CHARACTER_MAX
-	};
+  enum character_names
+    {
+      CHARACTER_MAIN,
+      CHARACTER_DRAGOON,
+      CHARACTER_TROLL,
+      CHARACTER_SPIDER,
+      CHARACTER_HARPY,
+      CHARACTER_MAX
+    };
 };
 
 struct  Character
@@ -20,5 +20,9 @@ struct  Character
   int	y;
   int   type;
 };
+
+//class renderable
+//getPosition(); vect2 double //renvoie position de l'entité
+
 
 #endif // !CHARACTER_HPP_

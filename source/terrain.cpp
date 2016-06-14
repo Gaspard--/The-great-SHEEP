@@ -6,106 +6,47 @@
 
 Terrain::Terrain()
 {
-  width = TILE_WIDTH;
-  height = TILE_HEIGHT;
-  numberCharacters = 0;
-  Tiles.reserve(width * height);
-  Objects.reserve(width * height);
-  Characters.reserve(width * height);
-  disposeTiles();
-  disposeObjects();
-  disposeCharacters();
+  world_dimension.data[0] = 500;
+  world_dimension.data[1] = 500;
+
+  tiles.reserve(world_dimension.data[0] * world_dimension.data[1]);
+
+  orderTiles();
 }
 
 Terrain::~Terrain()
 {
-  Tiles.clear();
-  Objects.clear();
-  Characters.clear();
+  tiles.clear();
 }
 
-const Tile *Terrain::getTiles(void)
-{
-  return (Tiles.data());
-}
-
-int Terrain::getNumberTiles(void)
-{
-  return (width * height);
-}
-
-void	Terrain::disposeTiles(void)
+void	Terrain::orderTiles(void)
 {
   int	size;
   int	i;
 
-  size = width * height;
+  size = world_dimension.data[0] * world_dimension.data[1];
   i = 0;
   while (i < size)
     {
-      Tiles[i].type = rand() % 5;
-      Tiles[i].number = i;
+      tiles[i].type = rand() % 5;
+      tiles[i].x = i % world_dimension.data[0];
+      tiles[i].y = i / world_dimension.data[0];
       i = i + 1;
     }
 }
 
-const Object *Terrain::getObjects(void)
+bool	Terrain::isTile(int x, int y)
 {
-  return (Objects.data());
+  if (y > world_dimension[1])
+    std::cout << "YOLOYOLOYOLOYOLOYOLOYOLOYOLOYOLOYOLOYOLOYOLOYOLO" << std::endl;
+
+  if (x < 0 || x > world_dimension.data[0]
+      || y < 0 || y > world_dimension.data[1])
+    return (0);
+  return (1);
 }
 
-int Terrain::getNumberObjects(void)
+const Tile&	Terrain::getTile(int x, int y)
 {
-  return (numberObjects);
-}
-
-void	Terrain::disposeObjects(void)
-{
-  int	i;
-
-  // arbitrary chosen
-  numberObjects = 25;
-  i = 0;
-  while (i < numberObjects)
-    {
-      Objects[i].type = rand() % 5;
-      Objects[i].x = rand() % TILE_WIDTH;
-      Objects[i].y = rand() % TILE_HEIGHT;
-      i = i + 1;
-    }
-}
-
-const Character *Terrain::getCharacters(void)
-{
-  return (Characters.data());
-}
-
-int Terrain::getNumberCharacters(void)
-{
-  return (numberCharacters);
-}
-
-void	Terrain::disposeCharacters(void)
-{
-  int	i;
-
-  Characters[0].type = display::CHARACTER_MAIN;
-  Characters[0].x = 15;
-  Characters[0].y = 15;
-
-  // arbitrary chosen
-  numberCharacters = 10;
-  i = 1;
-  while (i < numberCharacters)
-    {
-      Characters[i].type = rand() % 4 + 1;
-      Characters[i].x = rand() % WINDOW_WIDTH;
-      Characters[i].y = rand() % WINDOW_HEIGHT;
-      i = i + 1;
-    }
-}
-
-Tile	Terrain::getTile(int x, int y)
-{
-  return (Tiles.at(y * width + x));
+  return (tiles[y * world_dimension.data[0] + x]);
 }

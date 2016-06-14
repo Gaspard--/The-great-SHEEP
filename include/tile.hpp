@@ -1,6 +1,8 @@
 #ifndef TILE_HPP_
 # define TILE_HPP_
 
+#include "vect.hpp"
+
 namespace display
 {
     enum tile_names
@@ -17,7 +19,9 @@ namespace display
 struct	Tile
 {
   int	type;
-  int	number;
+  Vect <2, int > pos;
+  int	x;
+  int	y;
 };
 
 #endif // !TILE_HPP_

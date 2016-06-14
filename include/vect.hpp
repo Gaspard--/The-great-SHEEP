@@ -19,14 +19,22 @@ public:
   {
   }
 
-  Vect(Vect<dim, T>& other) : data(other.data)
+  Vect(const Vect<dim, T>& other)
   {
+    unsigned int	i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] = other.data[i];
+	i = i + 1;
+      }
   }
 
   template<class U>
-  Vect(Vect<dim, U>& other)
+  Vect(const Vect<dim, U>& other)
   {
-    int	i;
+    unsigned int	i;
 
     i = 0;
     while (i < dim)
@@ -39,7 +47,7 @@ public:
   template<unsigned int dim2, class U, class V>
   Vect(Vect<dim2, U>& other, Vect<dim - dim2, V>& other2)
   {
-    int	i;
+    unsigned int	i;
 
     i = 0;
     while (i < dim2)
@@ -54,9 +62,9 @@ public:
       }
   }
 
-  Vect(T t[dim]) : data(t)
-  {
-  }
+  // Vect(T t[dim]) : data(t)
+  // {
+  // }
 
   template<class... U, class V>
   Vect(V first, U... more) : Vect(more...)
