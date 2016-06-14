@@ -1,5 +1,5 @@
 
-fonction main->créer GAme et lance le jeu.
+fonction main -> créer Game et lance le jeu.
 class Game -> contient la mainloop & tous les elements du jeu.
 class Display -> Affichage. (calcul des corrdonnées d'affichages dans display)
 class World -> contient Terrain & EntityHandler
