@@ -8,6 +8,7 @@ class			Fixture
 public:
   Fixture(Vect<2u, double> *position, double *size);
   Vect<2u, double>	*position;
+  Vect<2u, double>	*speed;
   double		*size;
 };
 
