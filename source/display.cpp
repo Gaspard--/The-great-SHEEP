@@ -24,7 +24,8 @@ Display::Display(Game *cGame)
     {
       if (!textures[i])
 	{
-	  fprintf(stderr, "Failed to open a texture : (%s)\n", SDL_GetError());
+          std::cerr << "Failed to open a texture: (%s)\n"
+                    << SDL_GetError() << std::endl;
 	  exit(-1);
 	}
       i = i + 1;
