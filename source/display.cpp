@@ -1,4 +1,5 @@
 #include "top_header.hpp"
+#include "game.hpp"
 #include "display.hpp"
 #include "terrain.hpp"
 #include "tile.hpp"
@@ -6,49 +7,17 @@
 #include "character.hpp"
 #include "camera.hpp"
 
-Display::Display()
+Display::Display(Game *cGame)
 {
+  int		i;
 
-  if (SDL_Init(SDL_INIT_VIDEO))
-    {
-      fprintf(stderr, "Failed to initialise SDL : (%s)\n", SDL_GetError());
-      exit(-1);
-    }
-
-  // Create widnow
-  window = SDL_CreateWindow("The great SHEEP.",
-			     SDL_WINDOWPOS_UNDEFINED,
-			     SDL_WINDOWPOS_UNDEFINED,
-			     WINDOW_WIDTH,
-			     WINDOW_HEIGHT,
-			     SDL_WINDOW_SHOWN);
-  if (!window)
-    {
-      fprintf(stderr,"Failed to open a window : (%s)\n", SDL_GetError());
-      exit(-1);
-    }
-
-  // Create renderer
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-  if (!renderer)
-    {
-      fprintf(stderr,"Failed to create renderer : (%s)\n", SDL_GetError());
-      exit(-1);
-    }
+  game = cGame;
 
   // Load textures
-
-  textures[display::TEXTURE_BASIC_TILESET] = IMG_LoadTexture(renderer, "assets/basic_tileset.png");
-  textures[display::TEXTURE_BASIC_OBJECT_SET] =
-    IMG_LoadTexture(renderer, "assets/basic_object_set.png");
-  textures[display::TEXTURE_BASIC_CHARACTER_SET] =
-    IMG_LoadTexture(renderer, "assets/basic_character_set.png");
   textures[display::TEXTURE_TILE_GRASS] =
-    IMG_LoadTexture(renderer, "assets/tile_grass.png");
+    IMG_LoadTexture(game->renderer, "assets/tile_grass.png");
   textures[display::TEXTURE_TILE_WATER] =
-     IMG_LoadTexture(renderer, "assets/tile_water.png");
-
-  int i;
+     IMG_LoadTexture(game->renderer, "assets/tile_water.png");
 
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -72,20 +41,17 @@ Display::~Display()
       SDL_DestroyTexture(textures[i]);
       i = i + 1;
     }
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
 }
 
 void	Display::clearScreen(int r, int g, int b)
 {
-  SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(game->renderer, r, g, b, 255);
+  SDL_RenderClear(game->renderer);
 }
 
 void	Display::render()
 {
-  SDL_RenderPresent(renderer);
+  SDL_RenderPresent(game->renderer);
 }
 
 void	Display::displayTest()
@@ -147,6 +113,8 @@ void		Display::displayTiles(Terrain *terrain)
   int	x;
   int	y;
 
+  //code temporaire
+
   //size of each tile in tileset
   tileset.x = 0;
   tileset.w = 120;
@@ -184,10 +152,8 @@ void		Display::displayTiles(Terrain *terrain)
 
 	  tileset.y = elem.type * 60;
 
-	  SDL_RenderCopy(renderer, textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
+	  SDL_RenderCopy(game->renderer, textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
 	}
-
-      i = i + 1;
+      ++i;
     }
-
 }

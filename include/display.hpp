@@ -8,17 +8,13 @@
 
 class Camera;
 class Tile;
-class Object;
-class Character;
 class Terrain;
+class Game;
 
 namespace display
 {
   enum texture_names
     {
-      TEXTURE_BASIC_TILESET,
-      TEXTURE_BASIC_OBJECT_SET,
-      TEXTURE_BASIC_CHARACTER_SET,
       TEXTURE_TILE_GRASS,
       TEXTURE_TILE_WATER,
       TEXTURE_MAX
@@ -28,7 +24,7 @@ namespace display
 class Display
 {
 public:
-  Display();
+  Display(Game *game);
   ~Display();
 
   void	render();
@@ -47,8 +43,7 @@ public:
 
 
 private:
-  SDL_Window	*window;
-  SDL_Renderer	*renderer;
+  Game	*game;
   SDL_Texture	*textures[display::TEXTURE_MAX];
   Camera	camera;
 };
