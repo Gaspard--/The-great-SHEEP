@@ -10,21 +10,29 @@ class	Game;
 /*
 ** GameState class
 */
-
 class	GameState
 {
 public:
-  GameState(Game *game);
-  virtual ~GameState();
+  // Constructor/Destructor
+  virtual ~GameState() {}; // <= BUG ???
+  virtual void	init(Game *game) = 0;
+  virtual void	destroy() = 0;
 
-  virtual void	handleEvent();
-  virtual void	update();
-  virtual void	draw();
+  // Write your Event handler in this function
+  virtual void	handleEvent() = 0;
 
-  virtual void	pause();
-  virtual void	resume();
+  // Called before draw()
+  virtual void	update() = 0;
+
+  // Render in this function
+  virtual void	draw() = 0;
+
+  // Useless for now
+  virtual void	pause() = 0;
+  virtual void	resume() = 0;
 
 private:
+  // Main class
   Game		*game;
 };
 

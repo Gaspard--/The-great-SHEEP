@@ -1,6 +1,10 @@
 #include <SDL2/SDL.h>
 #include <vector>
+#include "top_header.hpp"
 #include "game.hpp"
+#include "gamestate.hpp"
+#include "menustate.hpp"
+#include "playstate.hpp"
 
 using namespace std;
 
@@ -9,20 +13,45 @@ using namespace std;
 //
 Game::Game()
 {
-  display = new Display();
-  terrain = new Terrain();
+  if (SDL_Init(SDL_INIT_VIDEO))
+    {
+      fprintf(stderr, "Failed to initialise SDL : (%s)\n", SDL_GetError());
+      exit(-1);
+    }
+
+  // Create widnow
+  window = SDL_CreateWindow("The great SHEEP.",
+			    SDL_WINDOWPOS_UNDEFINED,
+			    SDL_WINDOWPOS_UNDEFINED,
+			    WINDOW_WIDTH,
+			    WINDOW_HEIGHT,
+			    SDL_WINDOW_SHOWN);
+  if (!window)
+    {
+      fprintf(stderr,"Failed to open a window : (%s)\n", SDL_GetError());
+      exit(-1);
+    }
+
+  // Create renderer
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  if (!renderer)
+    {
+      fprintf(stderr,"Failed to create renderer : (%s)\n", SDL_GetError());
+      exit(-1);
+    }
   running = true;
+  this->changeState(new MenuState);
 }
 
 Game::~Game()
 {
-  delete terrain;
-  delete display;
   while (states.empty() != true)
     {
-      delete states.back();
-      states.pop_back();
+      this->popState();
     }
+  SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
+  SDL_Quit();
 }
 
 //
@@ -60,10 +89,12 @@ void	Game::changeState(GameState *newState)
 {
   if (states.empty() == false)
     {
+      states.back()->destroy();
       delete states.back();
       states.pop_back();
     }
   states.push_back(newState);
+  states.back()->init(this);
 }
 
 void	Game::pushState(GameState *newState)
@@ -73,12 +104,14 @@ void	Game::pushState(GameState *newState)
       states.back()->pause();
     }
   states.push_back(newState);
+  states.back()->init(this);
 }
 
 void	Game::popState()
 {
   if (states.empty() == false)
     {
+      states.back()->destroy();
       delete states.back();
       states.pop_back();
     }

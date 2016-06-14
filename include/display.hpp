@@ -7,6 +7,7 @@
 # include <vector>
 
 class Terrain;
+class Game;
 
 namespace display
 {
@@ -24,7 +25,7 @@ namespace display
 class Display
 {
 public:
-  Display();
+  Display(Game *game);
   ~Display();
 
   void	render();
@@ -34,8 +35,7 @@ public:
   void	displayCharacters(Terrain*);
 
 private:
-  SDL_Window	*window;
-  SDL_Renderer	*renderer;
+  Game	*game;
   SDL_Texture	*textures[display::TEXTURE_MAX];
 };
 

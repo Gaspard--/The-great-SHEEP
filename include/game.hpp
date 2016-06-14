@@ -2,12 +2,13 @@
 # define GAME_HPP_
 
 # include <vector>
-# include "gamestate.hpp"
 # include "display.hpp"
 # include "terrain.hpp"
+# include "gamestate.hpp"
 
 /*
-** Game class: contains main classes, handles gamestates
+** Game class: contains WINDOW / RENDERER
+** => handles gamestates
 */
 
 class	Game
@@ -32,14 +33,14 @@ public:
   // Leave the game
   void				quit();
 
+  SDL_Window			*window;
+  SDL_Renderer			*renderer;
+
 private:
   //States stack
   std::vector<GameState*>	states;
 
-  // main classes
-  Display			*display;
-  Terrain			*terrain;
-
+  // True when running, false when quitting
   bool				running;
 };
 

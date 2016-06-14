@@ -1,18 +1,22 @@
-#ifndef MENUSTATE_HPP_
-# define MENUSTATE_HPP_
+#ifndef PLAYSTATE_HPP_
+# define PLAYSTATE_HPP_
 
 # include "gamestate.hpp"
+
+// Forward declaration
+class Display;
+class Terrain;
 
 /*
 ** INHERITED FROM GAMESTATE!! => check gamestate.hpp for more details about
 ** the following functions
-** MenuState : Gamestate for the menu
+** PlayState : Gamestate for the menu
 */
-class MenuState: public GameState
+class PlayState: public GameState
 {
 public:
   // Constructor/Destructor
-  ~MenuState() {};
+  ~PlayState() {};
   void		init(Game *game);
   void		destroy();
 
@@ -26,10 +30,8 @@ public:
 private:
   // Main class
   Game		*game;
-
-  // Menustate's variables
-  SDL_Texture	*background;
-  SDL_Texture	*startButton;
+  Display	*display;
+  Terrain	*terrain;
 };
 
-#endif /* !MENUSTATE_HPP_ */
+#endif /* !PLAYSTATE_HPP_ */

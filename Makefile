@@ -10,6 +10,9 @@ NAME =		The-great-SHEEP
 
 SRC =		source/main.cpp \
 		source/display.cpp \
+		source/game.cpp \
+		source/menustate.cpp \
+		source/playstate.cpp \
 		source/terrain.cpp
 
 OBJ =		$(SRC:.cpp=.o)
