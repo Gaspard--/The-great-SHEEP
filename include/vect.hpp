@@ -1,16 +1,18 @@
 #ifndef VECT_HPP_
 # define VECT_HPP_
 
-# include <iostream>
-# include <array>
-
 template <unsigned int dim, class T>
 class Vect
 {
 public:
   T		data[dim];
 
-  T			operator[](unsigned int index)
+  T&		operator[](unsigned int index)
+  {
+    return (data[index]);
+  }
+
+  T const		operator[](unsigned int index) const
   {
     return (data[index]);
   }
@@ -72,7 +74,7 @@ public:
     data[dim - sizeof...(more) - 1] = static_cast<T>(first);
   }
 
-  Vect<dim, T>		operator+(const Vect<dim, T>& other)
+  Vect<dim, T>		operator+(Vect<dim, T> const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -86,7 +88,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T>		operator-(const Vect<dim, T>& other)
+  Vect<dim, T>		operator-(Vect<dim, T> const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -114,7 +116,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T>		operator*(const T& other)
+  Vect<dim, T>		operator*(T const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -128,7 +130,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T>		operator*(Vect<dim, T>& other)
+  Vect<dim, T>		operator*(Vect<dim, T> const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -142,7 +144,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T>		operator/(const T& other)
+  Vect<dim, T>		operator/(T const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -165,7 +167,7 @@ public:
     i = 0u;
     while (i < dim)
       {
-	result = result + data[i]
+	result = result + data[i];
 	i = i + 1u;
       }
     return (result);
@@ -173,7 +175,7 @@ public:
 
   T			scalar(Vect<dim, T>& other)
   {
-    return (*this * other);
+    return ((*this * other).sum());
   }
 };
 
