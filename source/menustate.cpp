@@ -46,7 +46,7 @@ void	MenuState::handleEvent()
 	  mouse.x >= rect.x && mouse.x < rect.x + rect.w &&
 	  mouse.y >= rect.y && mouse.y < rect.y + rect.h)
 	{
-	  game->changeState(new PlayState);
+	  game->changeState(new PlayState());
 	}
     }
 }
