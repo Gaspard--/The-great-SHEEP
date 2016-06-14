@@ -10,6 +10,11 @@ class Vect
 public:
   T		data[dim];
 
+  T			operator[](unsigned int index)
+  {
+    return (data[index]);
+  }
+
   Vect()
   {
   }
@@ -39,12 +44,12 @@ public:
     i = 0;
     while (i < dim2)
       {
-	data[i] = static_cast<T>(other.data[i]);
+	data[i] = static_cast<T>(other[i]);
 	i = i + 1;
       }
     while (i < dim)
       {
-	data[i] = static_cast<T>(other2.data[i - dim2]);
+	data[i] = static_cast<T>(other2[i - dim2]);
 	i = i + 1;
       }
   }
@@ -67,7 +72,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = other.data[i] + data[i];
+	result[i] = other[i] + data[i];
 	i = i + 1;
       }
     return (result);
@@ -81,7 +86,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = -other.data[i] + data[i];
+	result[i] = data[i] - other[i];
 	i = i + 1;
       }
     return (result);
@@ -95,7 +100,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = -data[i];
+	result[i] = -data[i];
 	i = i + 1;
       }
     return (result);
@@ -109,7 +114,21 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = data[i] * other;
+	result[i] = data[i] * other;
+	i = i + 1;
+      }
+    return (result);
+  }
+
+  Vect<dim, T>		operator*(Vect<dim, T>& other)
+  {
+    Vect<dim, T>	result;
+    unsigned int	i;
+
+    i = 0;
+    while (i < dim)
+      {
+	result[i] = data[i] * other[i];
 	i = i + 1;
       }
     return (result);
@@ -123,15 +142,30 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = data[i] / other;
+	result[i] = data[i] / other;
 	i = i + 1;
       }
     return (result);
   }
 
-  T			operator[](unsigned int index)
+  T			sum()
   {
-    return (data[index]);
+    unsigned int	i;
+    T			result;
+
+    result = 0u;
+    i = 0u;
+    while (i < dim)
+      {
+	result = result + data[i]
+	i = i + 1u;
+      }
+    return (result);
+  }
+
+  T			scalar(Vect<dim, T>& other)
+  {
+    return (*this * other);
   }
 };
 
