@@ -6,8 +6,9 @@
 class			Fixture
 {
 public:
-  double&		size;
-  Vect<2u, double>&	position;
+  Fixture(Vect<2u, double> *position, double *size);
+  Vect<2u, double>	*position;
+  double		*size;
 };
 
 #endif // FIXTURE_HPP_

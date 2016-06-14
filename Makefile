@@ -15,6 +15,8 @@ SRC =		source/main.cpp \
 		source/game.cpp \
 		source/menustate.cpp \
 		source/playstate.cpp \
+		source/renderable.cpp \
+		source/fixture.cpp \
 
 OBJ =		$(SRC:.cpp=.o)
 
