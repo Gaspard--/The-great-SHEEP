@@ -4,6 +4,7 @@
 #include "tile.hpp"
 #include "object.hpp"
 #include "character.hpp"
+#include "camera.hpp"
 
 Display::Display()
 {
@@ -36,15 +37,18 @@ Display::Display()
     }
 
   // Load textures
-  int		i;
 
-  textures[display::TEXTURE_COEUR] = IMG_LoadTexture(renderer, "assets/icon_heart.png");
-  textures[display::TEXTURE_POKEMON] = IMG_LoadTexture(renderer, "assets/pok.png");
   textures[display::TEXTURE_BASIC_TILESET] = IMG_LoadTexture(renderer, "assets/basic_tileset.png");
   textures[display::TEXTURE_BASIC_OBJECT_SET] =
     IMG_LoadTexture(renderer, "assets/basic_object_set.png");
   textures[display::TEXTURE_BASIC_CHARACTER_SET] =
     IMG_LoadTexture(renderer, "assets/basic_character_set.png");
+  textures[display::TEXTURE_TILE_GRASS] =
+    IMG_LoadTexture(renderer, "assets/tile_grass.png");
+  textures[display::TEXTURE_TILE_WATER] =
+     IMG_LoadTexture(renderer, "assets/tile_water.png");
+
+  int i;
 
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -84,94 +88,106 @@ void	Display::render()
   SDL_RenderPresent(renderer);
 }
 
+void	Display::displayTest()
+{
+}
+
+void	Display::tileScale(SDL_Rect& win)
+{
+  win.x *= 60;
+  win.y *= 30;
+}
+
+void	Display::moveCamera(int x, int y)
+{
+  camera.moveCamera(x, y);
+}
+
+void	Display::isometrize(SDL_Rect& win)
+{
+  int	tmp;
+
+  tmp = win.x;
+  win.x -= win.y;
+  win.y += tmp;
+}
+
+void	Display::fixBoard(SDL_Rect& win, const SDL_Rect& cam)
+{
+  win.x -= (cam.x - cam.y);
+  win.y += (-cam.y - cam.x);
+}
+
+void	Display::centerBoard(SDL_Rect& win)
+{
+  win.x += (WINDOW_WIDTH / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
+  if (TILE_HEIGHT > TILE_WIDTH)
+    win.y += WINDOW_HEIGHT / 2 - TILE_HEIGHT * 30 / 2;
+  else if (TILE_HEIGHT < TILE_WIDTH)
+    win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 30 / 2;
+  else
+    win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 60 / 2;
+}
+
+void	Display::movementShake(SDL_Rect& win, const SDL_Rect& cam)
+{
+  win.x += cam.x % 60;
+  win.y -= cam.y % 30;
+}
+
 void		Display::displayTiles(Terrain *terrain)
 {
+  Tile		elem;
+  SDL_Rect	cam;
+  SDL_Rect	cam2;
   SDL_Rect	tileset;
   SDL_Rect	win;
-  const Tile	*tiles;
-  int		size;
-  int		tile_width;
   int		i;
+  int		size;
+  int	x;
+  int	y;
 
   //size of each tile in tileset
   tileset.x = 0;
-  tileset.h = 30;
-  tileset.w = 30;
+  tileset.w = 120;
+  tileset.h = 60;
 
   //rect to be blit on window
-  win.h = 30;
-  win.w = 30;
+  win.w = 120;
+  win.h = 60;
 
-  tiles = terrain->getTiles();
-  size = terrain->getNumberTiles();
-  tile_width = TILE_WIDTH;
+  cam = camera.getAbstractCamera();
+  cam2 = camera.getWindowCamera();
+
+  size = cam.w * cam.h;
+
   i = 0;
   while (i < size)
     {
-      tileset.y = tiles[i].type * 30;
-      win.x = i % tile_width * 30;
-      win.y = i / tile_width * 30;
-      SDL_RenderCopy(renderer, textures[display::TEXTURE_BASIC_TILESET], &tileset, &win);
+      x = i % cam.w + cam.x;
+      y = i / cam.w + cam.y;
+
+      if (terrain->isTile(x ,y))
+	{
+
+	  elem = terrain->getTile(x, y);
+
+	  win.x = elem.x;
+	  win.y = elem.y;
+
+	  isometrize(win);
+	  fixBoard(win, cam);
+	  tileScale(win);
+	  centerBoard(win);
+
+	  //	  movementShake(win, cam2);
+
+	  tileset.y = elem.type * 60;
+
+	  SDL_RenderCopy(renderer, textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
+	}
+
       i = i + 1;
     }
-}
 
-void		Display::displayObjects(Terrain *terrain)
-{
-  SDL_Rect		tileset;
-  SDL_Rect		win;
-  const Object		*objects;
-  int			size;
-  int			i;
-
-  //size of each tile in tileset
-  tileset.x = 0;
-  tileset.h = 30;
-  tileset.w = 30;
-
-  //rect to be blit on window
-  win.h = 30;
-  win.w = 30;
-
-  objects = terrain->getObjects();
-  size = terrain->getNumberObjects();
-  i = 0;
-  while (i < size)
-    {
-      tileset.y = objects[i].type * 30;
-      win.x = objects[i].x * 30;
-      win.y = objects[i].y * 30;
-      SDL_RenderCopy(renderer, textures[display::TEXTURE_BASIC_OBJECT_SET], &tileset, &win);
-      i = i + 1;
-    }
-}
-
-void		Display::displayCharacters(Terrain *terrain)
-{
-  SDL_Rect		tileset;
-  SDL_Rect		win;
-  const Character	*characters;
-  int			size;
-  int			i;
-
-  //size of each tile in tileset
-  tileset.x = 0;
-  tileset.h = 30;
-  tileset.w = 30;
-
-  //rect to be blit on window
-  win.h = 30;
-  win.w = 30;
-
-  characters = terrain->getCharacters();
-  size = terrain->getNumberCharacters();
-  i = 0;
-  while (i < size)
-    {
-      tileset.y = characters[i].type * 30;
-      win.x = characters[i].x - 15;
-      win.y = characters[i].y - 15;
-      SDL_RenderCopy(renderer, textures[display::TEXTURE_BASIC_CHARACTER_SET], &tileset, &win);
-      i = i + 1;
-    }
 }
