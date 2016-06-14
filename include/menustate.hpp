@@ -28,7 +28,6 @@ private:
   Game		*game;
 
   // Menustate's variables
-  SDL_Texture	*background;
   SDL_Texture	*startButton;
 };
 

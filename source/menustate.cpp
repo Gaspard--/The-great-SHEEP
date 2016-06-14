@@ -10,13 +10,11 @@
 void	MenuState::init(Game *mGame)
 {
   game = mGame;
-  background = IMG_LoadTexture(game->renderer, "assets/pok.png");
   startButton = IMG_LoadTexture(game->renderer, "assets/startButton.png");
 }
 
 void	MenuState::destroy()
 {
-  SDL_DestroyTexture(background);
   SDL_DestroyTexture(startButton);
 }
 
@@ -72,7 +70,6 @@ void	MenuState::draw()
   start.h = h;
   SDL_SetRenderDrawColor(game->renderer, 255, 255, 255, 255);
   SDL_RenderClear(game->renderer);
-  SDL_RenderCopy(game->renderer, background, NULL, NULL);
   SDL_RenderCopy(game->renderer, startButton, NULL, &start);
   SDL_RenderPresent(game->renderer);
   SDL_Delay(20);
