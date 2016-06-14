@@ -70,7 +70,7 @@ void	MenuState::draw()
   start.y = (WINDOW_HEIGHT - h) / 2;
   start.w = w;
   start.h = h;
-  SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255);
+  SDL_SetRenderDrawColor(game->renderer, 255, 255, 255, 255);
   SDL_RenderClear(game->renderer);
   SDL_RenderCopy(game->renderer, background, NULL, NULL);
   SDL_RenderCopy(game->renderer, startButton, NULL, &start);

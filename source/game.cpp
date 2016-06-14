@@ -40,7 +40,7 @@ Game::Game()
       exit(-1);
     }
   running = true;
-  this->changeState(new PlayState);
+  this->changeState(new MenuState);
 }
 
 Game::~Game()
