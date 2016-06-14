@@ -1,12 +1,11 @@
 #include <SDL2/SDL.h>
 #include <vector>
+#include <iostream>
 #include "top_header.hpp"
 #include "game.hpp"
 #include "gamestate.hpp"
 #include "menustate.hpp"
 #include "playstate.hpp"
-
-using namespace std;
 
 //
 // Constructor/Destructor
@@ -15,7 +14,7 @@ Game::Game()
 {
   if (SDL_Init(SDL_INIT_VIDEO))
     {
-      fprintf(stderr, "Failed to initialise SDL : (%s)\n", SDL_GetError());
+      std::cerr << "Failed to initialise SDL : " << SDL_GetError() << std::endl;
       exit(-1);
     }
 
@@ -28,7 +27,7 @@ Game::Game()
 			    SDL_WINDOW_SHOWN);
   if (!window)
     {
-      fprintf(stderr,"Failed to open a window : (%s)\n", SDL_GetError());
+      std::cerr << "Failed to open a window : " << SDL_GetError() << std::endl;
       exit(-1);
     }
 
@@ -36,11 +35,11 @@ Game::Game()
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (!renderer)
     {
-      fprintf(stderr,"Failed to create renderer : (%s)\n", SDL_GetError());
+      std::cerr << "Failed to create renderer : " << SDL_GetError() << std::endl;
       exit(-1);
     }
   running = true;
-  this->changeState(new MenuState);
+  this->changeState(new MenuState());
 }
 
 Game::~Game()
@@ -87,7 +86,7 @@ void	Game::draw()
 //
 void	Game::changeState(GameState *newState)
 {
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->destroy();
       delete states.back();
