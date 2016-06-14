@@ -12,7 +12,7 @@ class Terrain;
 ** the following functions
 ** PlayState : Gamestate for the menu
 */
-class PlayState: public GameState
+class PlayState: public IGameState
 {
 public:
   // Constructor/Destructor

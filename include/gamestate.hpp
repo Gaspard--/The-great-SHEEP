@@ -10,11 +10,11 @@ class	Game;
 /*
 ** GameState class
 */
-class	GameState
+class	IGameState
 {
 public:
   // Constructor/Destructor
-  virtual ~GameState() {}; // <= BUG ???
+  virtual ~IGameState() {};
   virtual void	init(Game *game) = 0;
   virtual void	destroy() = 0;
 
@@ -30,10 +30,6 @@ public:
   // Useless for now
   virtual void	pause() = 0;
   virtual void	resume() = 0;
-
-private:
-  // Main class
-  Game		*game;
 };
 
 #endif /* !GAMESTATE_HPP_ */

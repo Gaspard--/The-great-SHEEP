@@ -8,10 +8,11 @@
 ** the following functions
 ** MenuState : Gamestate for the menu
 */
-class MenuState: public GameState
+class MenuState: public IGameState
 {
 public:
   // Constructor/Destructor
+  MenuState() {};
   ~MenuState() {};
   void		init(Game *game);
   void		destroy();

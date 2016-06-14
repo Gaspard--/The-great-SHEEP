@@ -53,11 +53,6 @@ void	MenuState::handleEvent()
 
 void	MenuState::update()
 {
-  // Do nothing
-}
-
-void	MenuState::draw()
-{
   SDL_Rect	start;
   int		w;
   int		h;
@@ -71,6 +66,10 @@ void	MenuState::draw()
   SDL_SetRenderDrawColor(game->renderer, 255, 255, 255, 255);
   SDL_RenderClear(game->renderer);
   SDL_RenderCopy(game->renderer, startButton, NULL, &start);
+}
+
+void	MenuState::draw()
+{
   SDL_RenderPresent(game->renderer);
   SDL_Delay(20);
 }

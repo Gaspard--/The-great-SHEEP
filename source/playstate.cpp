@@ -45,14 +45,13 @@ void	PlayState::handleEvent()
 
 void	PlayState::update()
 {
-  // Do nothing
+  display->clearScreen(0, 0, 0);
+  display->displayTiles(terrain);
 }
 
 void	PlayState::draw()
 {
-  display->clearScreen(0, 0, 0);
-  display->displayTiles(terrain);
-  display->render();
+  SDL_RenderPresent(game->renderer);
 }
 
 void	PlayState::pause()

@@ -9,14 +9,14 @@ LDFLAGS =	`sdl2-config --libs` -lSDL2_image
 NAME =		The-great-SHEEP
 
 SRC =		source/main.cpp \
-		source/display.cpp \
-		source/terrain.cpp \
 		source/camera.cpp \
+		source/display.cpp \
+		source/fixture.cpp \
 		source/game.cpp \
 		source/menustate.cpp \
 		source/playstate.cpp \
 		source/renderable.cpp \
-		source/fixture.cpp \
+		source/terrain.cpp \
 
 OBJ =		$(SRC:.cpp=.o)
 
