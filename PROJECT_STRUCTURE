@@ -1,12 +1,13 @@
 
 fonction main -> créer Game et lance le jeu.
-class Game -> contient la mainloop & tous les elements du jeu.
+class Game -> contient la mainloop et les gamestates & tous les elements du jeu.
+class GameState -> différents écrans de jeu ex : Menu/Jeu
 class Display -> Affichage. (calcul des corrdonnées d'affichages dans display)
 class World -> contient Terrain & EntityHandler
 class Terrain -> Information sur les tuiles.
 class EntityHandler -> contient les entitées.
 class Entity -> renvoi un certain nombre de renderable, un certain nombre de fixture, et des stats.
-structure RenderAble -> Info pour afficher une image. Contient une position et des dimension.
+structure Renderable -> Info pour afficher une image. Contient une position et des dimension.
 class Fixture contient une position et une taille.
 
 Display demande les tuiles à Terrain en fournisant les coordonées X,y.
