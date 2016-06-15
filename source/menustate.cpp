@@ -40,10 +40,9 @@ void	MenuState::handleEvent()
   rect.h = h;
   if (SDL_PollEvent(&event) != 0)
     {
-      if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-	{
-	  game->quit();
-	}
+      if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
+				     event.key.keysym.sym == SDLK_ESCAPE))
+	game->quit();
       mouse = event.button;
       if (mouse.button == SDL_BUTTON_LEFT &&
 	  mouse.x >= rect.x && mouse.x < rect.x + rect.w &&
@@ -73,7 +72,6 @@ void	MenuState::update()
 void	MenuState::draw()
 {
   SDL_RenderPresent(game->getRenderer());
-  SDL_Delay(20);
 }
 
 void	MenuState::pause()

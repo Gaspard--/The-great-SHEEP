@@ -31,16 +31,17 @@ void	PlayState::handleEvent()
 
   if (!SDL_PollEvent(&event))
     return;
-  if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
+  if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
+				 event.key.keysym.sym == SDLK_ESCAPE))
     game->quit();
   else if (event.key.keysym.sym == SDLK_UP)
-    display->moveCamera(0, -0.2);
+    display->moveCamera(-0.2, -0.2);
   else if (event.key.keysym.sym == SDLK_DOWN)
-    display->moveCamera(0, 0.2);
+    display->moveCamera(0.2, 0.2);
   else if (event.key.keysym.sym == SDLK_LEFT)
-    display->moveCamera(-0.2, 0);
+    display->moveCamera(-0.2, 0.2);
   else if (event.key.keysym.sym == SDLK_RIGHT)
-    display->moveCamera(0.2, 0);
+    display->moveCamera(0.2, -0.2);
   if (event.type == SDL_MOUSEBUTTONDOWN)
     {
       tmp = Vect<2u, double>(event.button.x, event.button.y);
@@ -83,7 +84,7 @@ void	PlayState::renderPerso()
 
   rect.w = size[0];
   rect.h = size[1];
-  rect.x = pos[0];
-  rect.y = pos[1];
+  rect.x = pos[0] - rect.w / 2;
+  rect.y = pos[1] - rect.h;
   SDL_RenderCopy(game->getRenderer(), renderable[0].texture, NULL, &rect);
 }

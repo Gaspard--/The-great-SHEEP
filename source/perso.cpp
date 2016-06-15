@@ -89,12 +89,15 @@ void		Perso::update()
 //
 void		Perso::moveTo(Vect<2u, double>& dest)
 {
-  if (position[0] == dest[0] && position[1] == dest[1])
-    return;
   moving = true;
   destination = dest;
   distance = sqrt(pow(destination[0] - position[0], 2) +
 		  pow(destination[1] - position[1], 2));
+  if (distance <= 0)
+    {
+      moving = false;
+      return;
+    }
   moveDir = Vect<2u, double>((destination[0] - position[0]) / distance,
 			     (destination[1] - position[1]) / distance);
   startPos = position;

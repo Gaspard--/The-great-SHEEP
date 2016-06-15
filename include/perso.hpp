@@ -7,7 +7,7 @@
 # define _TILE_WIDTH_ 60
 # define _TILE_HEIGHT_ 30
 
-# define PERSO_SPEED 10
+# define PERSO_SPEED 7
 
 /*
 ** Class Perso Derived from Entity: Main Perso

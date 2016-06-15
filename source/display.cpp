@@ -5,11 +5,9 @@
 #include "tile.hpp"
 #include "camera.hpp"
 
-Display::Display(Game *cGame)
+Display::Display(Game *game) : game(game)
 {
   int		i;
-
-  game = cGame;
 
   // Load textures
   textures[display::TEXTURE_TILE_GRASS] =
