@@ -4,9 +4,10 @@
 template <unsigned int dim, class T>
 class Vect
 {
-public:
+private:
   T		data[dim];
 
+public:
   T&		operator[](unsigned int index)
   {
     return (data[index]);
@@ -28,7 +29,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	data[i] = other.data[i];
+	data[i] = other[i];
 	i = i + 1;
       }
   }
@@ -41,7 +42,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	data[i] = static_cast<T>(other.data[i]);
+	data[i] = static_cast<T>(other[i]);
 	i = i + 1;
       }
   }

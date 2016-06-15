@@ -79,8 +79,8 @@ void	Display::fixBoard(SDL_Rect& win)
   int	y;
 
   cam = camera.getCamera();
-  x = cam.data[0] - TILE_WIDTH / 2;
-  y = cam.data[1] - TILE_HEIGHT / 2;
+  x = cam[0] - TILE_WIDTH / 2;
+  y = cam[1] - TILE_HEIGHT / 2;
   win.x -= (x - y);
   win.y -= (y + x);
 }
@@ -103,18 +103,18 @@ void			Display::smoothScrolling(SDL_Rect& win)
   double		tmp;
 
   cam = camera.getCamera();
-  rest.data[0] = cam.data[0] - (int)cam.data[0];
-  rest.data[1] = cam.data[1] - (int)cam.data[1];
+  rest[0] = cam[0] - (int)cam[0];
+  rest[1] = cam[1] - (int)cam[1];
   //isometrize
-  tmp = rest.data[0];
-  rest.data[0] -= rest.data[1];
-  rest.data[1] += tmp;
+  tmp = rest[0];
+  rest[0] -= rest[1];
+  rest[1] += tmp;
   //scale
-  rest.data[0] *= 60;
-  rest.data[1] *= 30;
+  rest[0] *= 60;
+  rest[1] *= 30;
   //translate
-  win.x -= rest.data[0];
-  win.y -= rest.data[1];
+  win.x -= rest[0];
+  win.y -= rest[1];
 }
 
 void		Display::affTile(const SDL_Rect& win, const Tile &tile)
@@ -171,8 +171,8 @@ void			Display::displayTiles(Terrain *terrain)
   SDL_Rect		rect;
 
   cam = camera.getCamera();
-  rect.x = cam.data[0] - TILE_WIDTH / 2;
-  rect.y = cam.data[1] - TILE_HEIGHT / 2;
+  rect.x = cam[0] - TILE_WIDTH / 2;
+  rect.y = cam[1] - TILE_HEIGHT / 2;
   rect.w = rect.x + TILE_WIDTH;
   rect.h = rect.y + TILE_HEIGHT;
   displayLine(terrain, rect);
