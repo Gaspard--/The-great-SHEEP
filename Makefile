@@ -41,7 +41,7 @@ re:		fclean all
 
 %.d:		%.cpp
 		$(shell echo -n $(dir $(@)) > $(@))
-		$(shell gcc $(<) -MM -Iinclude >> $(@))
+		$(shell gcc $(<) -MM $(CPPFLAGS) | sed s/.hpp/.hpp.gch/g >> $(@))
 		$(shell echo >> $(@))
 
 %.o:		%.cpp 
@@ -58,41 +58,41 @@ Makefile:	base.mk $(MK)
 
 .PHONY:		all clean fclean re
 
-source/main.o: source/main.cpp include/game.hpp include/display.hpp \
- include/camera.hpp include/vect.hpp include/terrain.hpp \
- include/gamestate.hpp include/display.hpp include/terrain.hpp \
- include/vect.hpp
+source/main.o: source/main.cpp include/game.hpp.gch include/display.hpp.gch \
+ include/camera.hpp.gch include/vect.hpp.gch include/terrain.hpp.gch \
+ include/gamestate.hpp.gch include/display.hpp.gch include/terrain.hpp.gch \
+ include/vect.hpp.gch
 
-source/display.o: source/display.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/vect.hpp \
- include/terrain.hpp include/gamestate.hpp include/display.hpp \
- include/terrain.hpp include/tile.hpp include/camera.hpp
+source/display.o: source/display.cpp include/top_header.hpp.gch include/game.hpp.gch \
+ include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
+ include/terrain.hpp.gch include/gamestate.hpp.gch include/display.hpp.gch \
+ include/terrain.hpp.gch include/tile.hpp.gch include/camera.hpp.gch
 
-source/terrain.o: source/terrain.cpp include/top_header.hpp include/terrain.hpp \
- include/vect.hpp include/tile.hpp
+source/terrain.o: source/terrain.cpp include/top_header.hpp.gch include/terrain.hpp.gch \
+ include/vect.hpp.gch include/tile.hpp.gch
 
-source/camera.o: source/camera.cpp include/top_header.hpp include/camera.hpp \
- include/vect.hpp
+source/camera.o: source/camera.cpp include/top_header.hpp.gch include/camera.hpp.gch \
+ include/vect.hpp.gch
 
-source/game.o: source/game.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/vect.hpp \
- include/terrain.hpp include/gamestate.hpp include/gamestate.hpp \
- include/menustate.hpp include/playstate.hpp
+source/game.o: source/game.cpp include/top_header.hpp.gch include/game.hpp.gch \
+ include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
+ include/terrain.hpp.gch include/gamestate.hpp.gch include/gamestate.hpp.gch \
+ include/menustate.hpp.gch include/playstate.hpp.gch
 
-source/menustate.o: source/menustate.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/vect.hpp \
- include/terrain.hpp include/gamestate.hpp include/menustate.hpp \
- include/playstate.hpp
+source/menustate.o: source/menustate.cpp include/top_header.hpp.gch include/game.hpp.gch \
+ include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
+ include/terrain.hpp.gch include/gamestate.hpp.gch include/menustate.hpp.gch \
+ include/playstate.hpp.gch
 
-source/playstate.o: source/playstate.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/vect.hpp \
- include/terrain.hpp include/gamestate.hpp include/playstate.hpp
+source/playstate.o: source/playstate.cpp include/top_header.hpp.gch include/game.hpp.gch \
+ include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
+ include/terrain.hpp.gch include/gamestate.hpp.gch include/playstate.hpp.gch
 
-source/renderable.o: source/renderable.cpp include/renderable.hpp \
- include/vect.hpp
+source/renderable.o: source/renderable.cpp include/renderable.hpp.gch \
+ include/vect.hpp.gch
 
-source/fixture.o: source/fixture.cpp include/fixture.hpp include/vect.hpp
+source/fixture.o: source/fixture.cpp include/fixture.hpp.gch include/vect.hpp.gch
 
-source/physics.o: source/physics.cpp include/physics.hpp include/vect.hpp \
- include/fixture.hpp
+source/physics.o: source/physics.cpp include/physics.hpp.gch include/vect.hpp.gch \
+ include/fixture.hpp.gch
 

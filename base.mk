@@ -41,7 +41,7 @@ re:		fclean all
 
 %.d:		%.cpp
 		$(shell echo -n $(dir $(@)) > $(@))
-		$(shell gcc $(<) -MM -Iinclude >> $(@))
+		$(shell gcc $(<) -MM $(CPPFLAGS) | sed s/.hpp/.hpp.gch/g >> $(@))
 		$(shell echo >> $(@))
 
 %.o:		%.cpp 
