@@ -18,7 +18,7 @@ Game::Game()
       exit(-1);
     }
 
-  // Create widnow
+  // Create window
   window = SDL_CreateWindow("The great SHEEP.",
 			    SDL_WINDOWPOS_UNDEFINED,
 			    SDL_WINDOWPOS_UNDEFINED,
