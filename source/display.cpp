@@ -13,9 +13,9 @@ Display::Display(Game *cGame)
 
   // Load textures
   textures[display::TEXTURE_TILE_GRASS] =
-    IMG_LoadTexture(game->renderer, "assets/tile_grass.png");
+    IMG_LoadTexture(game->getRenderer(), "assets/tile_grass.png");
   textures[display::TEXTURE_TILE_WATER] =
-     IMG_LoadTexture(game->renderer, "assets/tile_water.png");
+     IMG_LoadTexture(game->getRenderer(), "assets/tile_water.png");
 
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -43,13 +43,13 @@ Display::~Display()
 
 void	Display::clearScreen(int r, int g, int b)
 {
-  SDL_SetRenderDrawColor(game->renderer, r, g, b, 255);
-  SDL_RenderClear(game->renderer);
+  SDL_SetRenderDrawColor(game->getRenderer(), r, g, b, 255);
+  SDL_RenderClear(game->getRenderer());
 }
 
 void	Display::render()
 {
-  SDL_RenderPresent(game->renderer);
+  SDL_RenderPresent(game->getRenderer());
 }
 
 void	Display::tileScale(SDL_Rect& win)
@@ -87,13 +87,15 @@ void	Display::fixBoard(SDL_Rect& win)
 
 void	Display::centerBoard(SDL_Rect& win)
 {
-  win.x += (WINDOW_WIDTH / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
+  int windowWidth = game->getWindowWidth();
+  int windowHeight = game->getWindowHeight();
+  win.x += (windowWidth / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
   if (TILE_HEIGHT > TILE_WIDTH)
-    win.y += WINDOW_HEIGHT / 2 - TILE_HEIGHT * 30 / 2;
+    win.y += windowHeight / 2 - TILE_HEIGHT * 30 / 2;
   else if (TILE_HEIGHT < TILE_WIDTH)
-    win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 30 / 2;
+    win.y += windowHeight / 2 - TILE_WIDTH * 30 / 2;
   else
-    win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 60 / 2;
+    win.y += windowHeight / 2 - TILE_WIDTH * 60 / 2;
 }
 
 void			Display::smoothScrolling(SDL_Rect& win)
@@ -125,7 +127,9 @@ void		Display::affTile(const SDL_Rect& win, const Tile &tile)
   tileset.y = tile.type * 60;
   tileset.w = 120;
   tileset.h = 60;
-  SDL_RenderCopy(game->renderer, textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
+  SDL_RenderCopy(game->getRenderer(),
+                 textures[display::TEXTURE_TILE_GRASS],
+                 &tileset, &win);
 }
 
 void		Display::transformation(const Tile& tile)

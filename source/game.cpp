@@ -22,9 +22,9 @@ Game::Game()
   window = SDL_CreateWindow("The great SHEEP.",
 			    SDL_WINDOWPOS_UNDEFINED,
 			    SDL_WINDOWPOS_UNDEFINED,
-			    WINDOW_WIDTH,
-			    WINDOW_HEIGHT,
-			    SDL_WINDOW_SHOWN);
+			    1200,
+			    800,
+			    SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   if (!window)
     {
       std::cerr << "Failed to open a window : " << SDL_GetError() << std::endl;
