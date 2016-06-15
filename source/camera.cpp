@@ -1,48 +1,29 @@
 #include "top_header.hpp"
 #include "camera.hpp"
-#include <iostream>
 
 Camera::Camera()
 {
-  window_camera.x = 0;
-  window_camera.y = 0;
-  window_camera.w = WINDOW_WIDTH;
-  window_camera.h = WINDOW_HEIGHT;
-  calcAbstractCamera();
-  abstract_camera.w = TILE_WIDTH;
-  abstract_camera.h = TILE_HEIGHT;
+  lookat.data[0] = TILE_WIDTH / 2;
+  lookat.data[1] = TILE_HEIGHT / 2;
 }
 
 Camera::~Camera()
 {
 }
 
-void	Camera::calcAbstractCamera()
+const Vect<2, double>& Camera::getCamera()
 {
-  abstract_camera.x = window_camera.x / 60;
-  abstract_camera.y = window_camera.y / 30;
+  return (lookat);
 }
 
-const SDL_Rect& Camera::getAbstractCamera()
+void Camera::setCamera(double x, double y)
 {
-  return (abstract_camera);
+  lookat.data[0] = x;
+  lookat.data[1] = y;
 }
 
-const SDL_Rect& Camera::getWindowCamera()
+void Camera::moveCamera(double x, double y)
 {
-  return (window_camera);
-}
-
-void    Camera::setCamera(int x, int y)
-{
-  window_camera.x = x;
-  window_camera.y = y;
-  calcAbstractCamera();
-}
-
-void    Camera::moveCamera(int x, int y)
-{
-  window_camera.x += x;
-  window_camera.y += y;
-  calcAbstractCamera();
+  lookat.data[0] += x;
+  lookat.data[1] += y;
 }
