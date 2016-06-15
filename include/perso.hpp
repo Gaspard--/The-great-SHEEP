@@ -8,6 +8,7 @@
 //# define _TILE_HEIGHT_ 30
 
 # define PERSO_SPEED 7
+# define PERSO_NB_FRAME 9
 
 /*
 ** Class Perso Derived from Entity: Main Perso
@@ -42,11 +43,14 @@ public:
 
   // Move to given position
   // TODO : PATHFINDING WORLD MAP ARRAY
-  void				moveTo(Vect<2u, double>& dest);
+  void				moveTo(Vect<2u, double> dest);
 
   // Get bool
   bool				isMoving();
   bool				isSelected();
+
+  // Set bool
+  void				select();
 
 private:
   // What to render
@@ -60,8 +64,8 @@ private:
   double			distance;
   // (for now screen positons)
 
-  int				direction;
-
+  // TODO animated sprite
+  perso::Direction		direction;
 
   bool				moving;
   bool				selected;

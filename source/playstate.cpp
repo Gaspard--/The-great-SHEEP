@@ -27,7 +27,6 @@ PlayState::~PlayState()
 void	PlayState::handleEvent()
 {
   SDL_Event		event;
-  Vect<2u, double>	tmp;
 
   if (!SDL_PollEvent(&event))
     return;
@@ -43,10 +42,7 @@ void	PlayState::handleEvent()
   else if (event.key.keysym.sym == SDLK_RIGHT)
     display->moveCamera(0.12, -0.12);
   if (event.type == SDL_MOUSEBUTTONDOWN)
-    {
-      tmp = Vect<2u, double>(event.button.x, event.button.y);
-      perso->moveTo(tmp);
-    }
+    perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
 }
 
 void	PlayState::update()

@@ -64,6 +64,14 @@ bool				Perso::isSelected()
 }
 
 //
+// Setters
+//
+void		Perso::select()
+{
+  selected = true;
+}
+
+//
 // Update perso
 //
 void		Perso::update()
@@ -82,7 +90,7 @@ void		Perso::update()
 //
 // Move to Position
 //
-void		Perso::moveTo(Vect<2u, double>& dest)
+void		Perso::moveTo(Vect<2u, double> dest)
 {
   moving = true;
   destination = dest;
