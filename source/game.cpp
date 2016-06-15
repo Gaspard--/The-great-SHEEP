@@ -63,6 +63,7 @@ void	Game::mainLoop()
       this->handleEvent();
       this->update();
       this->draw();
+      SDL_Delay(10);
     }
 }
 

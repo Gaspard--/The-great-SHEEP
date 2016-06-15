@@ -32,14 +32,15 @@ void	PlayState::handleEvent()
 	  game->quit();
 	}
       else if (event.key.keysym.sym == SDLK_UP)
-      	display->moveCamera(0, -10);
+      	display->moveCamera(0, -0.2);
       else if (event.key.keysym.sym == SDLK_DOWN)
-      	display->moveCamera(0, 10);
+      	display->moveCamera(0, 0.2);
       else if (event.key.keysym.sym == SDLK_LEFT)
-      	display->moveCamera(-10, 0);
+      	display->moveCamera(-0.2, 0);
       else if (event.key.keysym.sym == SDLK_RIGHT)
-      	display->moveCamera(10, 0);
+      	display->moveCamera(0.2, 0);
     }
+
 }
 
 void	PlayState::update()

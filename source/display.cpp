@@ -3,8 +3,6 @@
 #include "display.hpp"
 #include "terrain.hpp"
 #include "tile.hpp"
-#include "object.hpp"
-#include "character.hpp"
 #include "camera.hpp"
 
 Display::Display(Game *cGame)
@@ -54,17 +52,13 @@ void	Display::render()
   SDL_RenderPresent(game->renderer);
 }
 
-void	Display::displayTest()
-{
-}
-
 void	Display::tileScale(SDL_Rect& win)
 {
   win.x *= 60;
   win.y *= 30;
 }
 
-void	Display::moveCamera(int x, int y)
+void	Display::moveCamera(double x, double y)
 {
   camera.moveCamera(x, y);
 }
@@ -78,10 +72,17 @@ void	Display::isometrize(SDL_Rect& win)
   win.y += tmp;
 }
 
-void	Display::fixBoard(SDL_Rect& win, const SDL_Rect& cam)
+void	Display::fixBoard(SDL_Rect& win)
 {
-  win.x -= (cam.x - cam.y);
-  win.y += (-cam.y - cam.x);
+  Vect <2, double> cam;
+  int	x;
+  int	y;
+
+  cam = camera.getCamera();
+  x = cam.data[0] - TILE_WIDTH / 2;
+  y = cam.data[1] - TILE_HEIGHT / 2;
+  win.x -= (x - y);
+  win.y -= (y + x);
 }
 
 void	Display::centerBoard(SDL_Rect& win)
@@ -95,65 +96,84 @@ void	Display::centerBoard(SDL_Rect& win)
     win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 60 / 2;
 }
 
-void	Display::movementShake(SDL_Rect& win, const SDL_Rect& cam)
+void			Display::smoothScrolling(SDL_Rect& win)
 {
-  win.x += cam.x % 60;
-  win.y -= cam.y % 30;
+  Vect <2, double>	cam;
+  Vect <2, double>	rest;
+  double		tmp;
+
+  cam = camera.getCamera();
+  rest.data[0] = cam.data[0] - (int)cam.data[0];
+  rest.data[1] = cam.data[1] - (int)cam.data[1];
+  //isometrize
+  tmp = rest.data[0];
+  rest.data[0] -= rest.data[1];
+  rest.data[1] += tmp;
+  //scale
+  rest.data[0] *= 60;
+  rest.data[1] *= 30;
+  //translate
+  win.x -= rest.data[0];
+  win.y -= rest.data[1];
 }
 
-void		Display::displayTiles(Terrain *terrain)
+void		Display::affTile(const SDL_Rect& win, const Tile &tile)
 {
-  Tile		elem;
-  SDL_Rect	cam;
-  SDL_Rect	cam2;
   SDL_Rect	tileset;
+
+  tileset.x = 0;
+  tileset.y = tile.type * 60;
+  tileset.w = 120;
+  tileset.h = 60;
+  SDL_RenderCopy(game->renderer, textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
+}
+
+void		Display::transformation(const Tile& tile)
+{
   SDL_Rect	win;
-  int		i;
-  int		size;
+
+  win.x = tile.x;
+  win.y = tile.y;
+  win.w = 120;
+  win.h = 60;
+  isometrize(win);
+  fixBoard(win);
+  tileScale(win);
+  centerBoard(win);
+  smoothScrolling(win);
+  affTile(win, tile);
+}
+
+void	Display::displayLine(Terrain *terrain, const SDL_Rect& rect)
+{
+  int	tmp;
   int	x;
   int	y;
 
-  //code temporaire
-
-  //size of each tile in tileset
-  tileset.x = 0;
-  tileset.w = 120;
-  tileset.h = 60;
-
-  //rect to be blit on window
-  win.w = 120;
-  win.h = 60;
-
-  cam = camera.getAbstractCamera();
-  cam2 = camera.getWindowCamera();
-
-  size = cam.w * cam.h;
-
-  i = 0;
-  while (i < size)
+  tmp = rect.x;
+  y = rect.y;
+  while (y < rect.h)
     {
-      x = i % cam.w + cam.x;
-      y = i / cam.w + cam.y;
-
-      if (terrain->isTile(x ,y))
+      x = tmp;
+      while (x < rect.w)
 	{
-
-	  elem = terrain->getTile(x, y);
-
-	  win.x = elem.x;
-	  win.y = elem.y;
-
-	  isometrize(win);
-	  fixBoard(win, cam);
-	  tileScale(win);
-	  centerBoard(win);
-
-	  //	  movementShake(win, cam2);
-
-	  tileset.y = elem.type * 60;
-
-	  SDL_RenderCopy(game->renderer, textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
+	  if (terrain->isTile(x ,y))
+	    transformation(terrain->getTile(x, y));
+	  ++x;
 	}
-      ++i;
+      ++y;
     }
+}
+
+void			Display::displayTiles(Terrain *terrain)
+{
+  Vect <2, double>	cam;
+  SDL_Rect		rect;
+
+  cam = camera.getCamera();
+  rect.x = cam.data[0] - TILE_WIDTH / 2;
+  rect.y = cam.data[1] - TILE_HEIGHT / 2;
+  rect.w = rect.x + TILE_WIDTH;
+  rect.h = rect.y + TILE_HEIGHT;
+  displayLine(terrain, rect);
 }

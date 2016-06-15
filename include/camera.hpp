@@ -3,6 +3,7 @@
 
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
+# include "vect.hpp"
 
 class	Camera
 {
@@ -10,15 +11,12 @@ public:
   Camera();
   ~Camera();
 
-  void	setCamera(int x, int y);
-  void	moveCamera(int x, int y);
-  const SDL_Rect& getAbstractCamera(void);
-  const SDL_Rect& getWindowCamera(void);
-  void	calcAbstractCamera();
+  void	setCamera(double x, double y);
+  void	moveCamera(double x, double y);
+  const Vect <2, double>& getCamera(void);
 
 private:
-  SDL_Rect abstract_camera;
-  SDL_Rect window_camera;
+  Vect<2, double> lookat;
 };
 
 #endif // !CAMERA_HPP_
