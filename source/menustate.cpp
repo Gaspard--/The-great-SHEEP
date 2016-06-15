@@ -10,7 +10,8 @@
 void	MenuState::init(Game *mGame)
 {
   game = mGame;
-  startButton = IMG_LoadTexture(game->renderer, "assets/startButton.png");
+  startButton = IMG_LoadTexture(game->getRenderer(),
+                                "assets/startButton.png");
 }
 
 void	MenuState::destroy()
@@ -31,8 +32,8 @@ void	MenuState::handleEvent()
 
   // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
-  rect.x = (WINDOW_WIDTH - w) / 2;
-  rect.y = (WINDOW_HEIGHT - h) / 2;
+  rect.x = (game->getWindowWidth() - w) / 2;
+  rect.y = (game->getWindowHeight() - h) / 2;
   rect.w = w;
   rect.h = h;
   if (SDL_PollEvent(&event) != 0)
@@ -64,14 +65,14 @@ void	MenuState::draw()
 
   // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
-  start.x = (WINDOW_WIDTH - w) / 2;
-  start.y = (WINDOW_HEIGHT - h) / 2;
+  start.x = (game->getWindowWidth() - w) / 2;
+  start.y = (game->getWindowHeight() - h) / 2;
   start.w = w;
   start.h = h;
-  SDL_SetRenderDrawColor(game->renderer, 255, 255, 255, 255);
-  SDL_RenderClear(game->renderer);
-  SDL_RenderCopy(game->renderer, startButton, NULL, &start);
-  SDL_RenderPresent(game->renderer);
+  SDL_SetRenderDrawColor(game->getRenderer(), 255, 255, 255, 255);
+  SDL_RenderClear(game->getRenderer());
+  SDL_RenderCopy(game->getRenderer(), startButton, NULL, &start);
+  SDL_RenderPresent(game->getRenderer());
   SDL_Delay(20);
 }
 

@@ -33,8 +33,24 @@ public:
   // Leave the game
   void				quit();
 
-  SDL_Window			*window;
-  SDL_Renderer			*renderer;
+  /* Returns a pointer to the renderer */
+  SDL_Renderer *getRenderer() {
+    return renderer;
+  }
+
+  Vect<2, int> getWindowSize() {
+    int x, y;
+    SDL_GetWindowSize(window, &x, &y);
+    return Vect<2, int>(x, y);
+  };
+
+  int getWindowWidth() {
+    return getWindowSize()[0];
+  }
+
+  int getWindowHeight() {
+    return getWindowSize()[1];
+  }
 
 private:
   //States stack
@@ -42,6 +58,9 @@ private:
 
   // True when running, false when quitting
   bool				running;
+
+  SDL_Window			*window;
+  SDL_Renderer			*renderer;
 };
 
 #endif /* !GAME_HPP_ */
