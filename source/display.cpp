@@ -4,6 +4,7 @@
 #include "terrain.hpp"
 #include "tile.hpp"
 #include "camera.hpp"
+#include <iostream>
 
 Display::Display(Game *cGame)
 {
