@@ -39,9 +39,9 @@ void	PlayState::handleEvent()
   else if (event.key.keysym.sym == SDLK_DOWN)
     display->moveCamera(0.2, 0.2);
   else if (event.key.keysym.sym == SDLK_LEFT)
-    display->moveCamera(-0.2, 0.2);
+    display->moveCamera(-0.12, 0.12);
   else if (event.key.keysym.sym == SDLK_RIGHT)
-    display->moveCamera(0.2, -0.2);
+    display->moveCamera(0.12, -0.12);
   if (event.type == SDL_MOUSEBUTTONDOWN)
     {
       tmp = Vect<2u, double>(event.button.x, event.button.y);
@@ -78,13 +78,10 @@ void	PlayState::resume()
 void	PlayState::renderPerso()
 {
   SDL_Rect	rect;
-  std::vector<Renderable>	renderable = perso->getRenderable();
-  Vect<2u, double>		size = (*renderable.back().dimensions);
-  Vect<2u, double>		pos = perso->getPosition();
 
-  rect.w = size[0];
-  rect.h = size[1];
-  rect.x = pos[0] - rect.w / 2;
-  rect.y = pos[1] - rect.h;
-  SDL_RenderCopy(game->getRenderer(), renderable[0].texture, NULL, &rect);
+  rect.w = perso->getRenderable().back().dimensions[0];
+  rect.h = perso->getRenderable().back().dimensions[1];
+  rect.x = perso->getPosition()[0] - rect.w / 2;
+  rect.y = perso->getPosition()[1] - rect.h;
+  SDL_RenderCopy(game->getRenderer(), perso->getRenderable()[0].texture, NULL, &rect);
 }

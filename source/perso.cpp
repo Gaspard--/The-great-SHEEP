@@ -23,10 +23,7 @@ Perso::Perso(SDL_Renderer *renderer)
   SDL_QueryTexture(texture, NULL, NULL, &x, &y);
 
   // Add renderable
-  Vect<2u, double>	*pos = new Vect<2u, double>((double)x, (double)y);
-  Vect<2u, double>	*dim = new Vect<2u, double>((double)x, (double)y);
-
-  this->renderable.push_back(Renderable(pos, dim, texture));
+  this->renderable.push_back(Renderable(Vect<2u, double>(x, y), Vect<2u, double>(x, y), texture));
 
   // Set booleans
   moving = false;
@@ -40,8 +37,6 @@ Perso::Perso(SDL_Renderer *renderer)
 
 Perso::~Perso()
 {
-  delete renderable[0].position;
-  delete renderable[0].dimensions;
   SDL_DestroyTexture(renderable[0].texture);
 }
 

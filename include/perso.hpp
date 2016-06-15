@@ -4,8 +4,8 @@
 # include "entity.hpp"
 
 // TMP
-# define _TILE_WIDTH_ 60
-# define _TILE_HEIGHT_ 30
+//# define _TILE_WIDTH_ 60
+//# define _TILE_HEIGHT_ 30
 
 # define PERSO_SPEED 7
 
@@ -61,6 +61,7 @@ private:
   // (for now screen positons)
 
   int				direction;
+
 
   bool				moving;
   bool				selected;
