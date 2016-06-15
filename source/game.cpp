@@ -18,7 +18,7 @@ Game::Game()
       exit(-1);
     }
 
-  // Create widnow
+  // Create window
   window = SDL_CreateWindow("The great SHEEP.",
 			    SDL_WINDOWPOS_UNDEFINED,
 			    SDL_WINDOWPOS_UNDEFINED,
@@ -63,6 +63,7 @@ void	Game::mainLoop()
       this->handleEvent();
       this->update();
       this->draw();
+      SDL_Delay(10);
     }
 }
 
@@ -98,7 +99,7 @@ void	Game::changeState(GameState *newState)
 
 void	Game::pushState(GameState *newState)
 {
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->pause();
     }
@@ -108,13 +109,13 @@ void	Game::pushState(GameState *newState)
 
 void	Game::popState()
 {
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->destroy();
       delete states.back();
       states.pop_back();
     }
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->resume();
     }

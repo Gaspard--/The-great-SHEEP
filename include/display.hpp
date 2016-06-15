@@ -3,7 +3,6 @@
 
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
-# include <vector>
 # include "camera.hpp"
 
 class Camera;
@@ -29,18 +28,16 @@ public:
 
   void	render();
   void	clearScreen(int r, int g, int b);
-  void	displayTiles(Terrain *terrain);
-  void	isometrize(SDL_Rect&);
+  void	moveCamera(double x, double y);
+  void	displayLine(Terrain *terrain, const SDL_Rect&);
+  void	affTile(const SDL_Rect&, const Tile&);
+  void	transformation(const Tile&);
+  void	smoothScrolling(SDL_Rect&);
   void	tileScale(SDL_Rect&);
   void	centerBoard(SDL_Rect&);
-  void	fixBoard(SDL_Rect&, const SDL_Rect&);
-
-  void	movementShake(SDL_Rect&, const SDL_Rect&);
-
-  void	displayTest();
-
-  void	moveCamera(int x, int y);
-
+  void	fixBoard(SDL_Rect&);
+  void	isometrize(SDL_Rect&);
+  void	displayTiles(Terrain *terrain);
 
 private:
   Game	*game;

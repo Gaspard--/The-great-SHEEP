@@ -33,3 +33,6 @@
 
 # Executables
 The-great-SHEEP
+
+# makefile shit
+*.d

@@ -28,18 +28,24 @@ void	PlayState::handleEvent()
 
   if (SDL_PollEvent(&event) != 0)
     {
-      if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-	{
-	  game->quit();
-	}
-      else if (event.key.keysym.sym == SDLK_UP)
-      	display->moveCamera(0, -10);
-      else if (event.key.keysym.sym == SDLK_DOWN)
-      	display->moveCamera(0, 10);
-      else if (event.key.keysym.sym == SDLK_LEFT)
-      	display->moveCamera(-10, 0);
-      else if (event.key.keysym.sym == SDLK_RIGHT)
-      	display->moveCamera(10, 0);
+      switch (event.type)
+        {
+        case SDL_QUIT: case SDLK_ESCAPE:
+          game->quit();
+          break;
+        case SDLK_UP:
+          display->moveCamera(0, -0.2);
+          break;
+        case SDLK_DOWN:
+          display->moveCamera(0, 0.2);
+          break;
+        case SDLK_LEFT:
+          display->moveCamera(-0.2, 0);
+          break;
+        case SDLK_RIGHT:
+          display->moveCamera(0.2, 0);
+          break;
+        }
     }
 }
 

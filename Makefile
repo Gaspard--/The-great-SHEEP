@@ -22,7 +22,7 @@ SRC :=		source/main.cpp \
 		source/fixture.cpp \
 		source/physics.cpp \
 
-MK :=		$(SRC:.cpp=.mk)
+MK :=		$(SRC:.cpp=.d)
 
 OBJ :=		$(SRC:.cpp=.o)
 
@@ -39,7 +39,7 @@ fclean:		clean
 
 re:		fclean all
 
-%.mk:		%.cpp
+%.d:		%.cpp
 		$(shell echo -n $(dir $(@)) > $(@))
 		$(shell gcc $(<) -MM -Iinclude >> $(@))
 		$(shell echo >> $(@))
@@ -51,44 +51,42 @@ re:		fclean all
 		$(CPPC) $< $(HPPFLAGS)
 
 %.hpp:
-		echo "hello"
 
 Makefile:	base.mk $(MK)
-		$(shell cat base.mk > Makefile)
+		$(shell cp base.mk Makefile)
 		$(shell cat $(MK) >> Makefile)
 
 .PHONY:		all clean fclean re
 
 source/main.o: source/main.cpp include/game.hpp include/display.hpp \
- include/camera.hpp include/terrain.hpp include/vect.hpp \
+ include/camera.hpp include/vect.hpp include/terrain.hpp \
  include/gamestate.hpp include/display.hpp include/terrain.hpp \
  include/vect.hpp
 
 source/display.o: source/display.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/terrain.hpp \
- include/vect.hpp include/gamestate.hpp include/display.hpp \
- include/terrain.hpp include/tile.hpp include/object.hpp \
- include/character.hpp include/camera.hpp
+ include/display.hpp include/camera.hpp include/vect.hpp \
+ include/terrain.hpp include/gamestate.hpp include/display.hpp \
+ include/terrain.hpp include/tile.hpp include/camera.hpp
 
 source/terrain.o: source/terrain.cpp include/top_header.hpp include/terrain.hpp \
- include/vect.hpp include/tile.hpp include/object.hpp \
- include/character.hpp
+ include/vect.hpp include/tile.hpp
 
-source/camera.o: source/camera.cpp include/top_header.hpp include/camera.hpp
+source/camera.o: source/camera.cpp include/top_header.hpp include/camera.hpp \
+ include/vect.hpp
 
 source/game.o: source/game.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/terrain.hpp \
- include/vect.hpp include/gamestate.hpp include/gamestate.hpp \
+ include/display.hpp include/camera.hpp include/vect.hpp \
+ include/terrain.hpp include/gamestate.hpp include/gamestate.hpp \
  include/menustate.hpp include/playstate.hpp
 
 source/menustate.o: source/menustate.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/terrain.hpp \
- include/vect.hpp include/gamestate.hpp include/menustate.hpp \
+ include/display.hpp include/camera.hpp include/vect.hpp \
+ include/terrain.hpp include/gamestate.hpp include/menustate.hpp \
  include/playstate.hpp
 
 source/playstate.o: source/playstate.cpp include/top_header.hpp include/game.hpp \
- include/display.hpp include/camera.hpp include/terrain.hpp \
- include/vect.hpp include/gamestate.hpp include/playstate.hpp
+ include/display.hpp include/camera.hpp include/vect.hpp \
+ include/terrain.hpp include/gamestate.hpp include/playstate.hpp
 
 source/renderable.o: source/renderable.cpp include/renderable.hpp \
  include/vect.hpp
