@@ -118,6 +118,19 @@ void	Game::popState()
 }
 
 //
+// Getters
+//
+SDL_Window	*Game::getWindow()
+{
+  return (window);
+}
+
+SDL_Renderer	*Game::getRenderer()
+{
+  return (renderer);
+}
+
+//
 // Leave the game
 //
 void	Game::quit()

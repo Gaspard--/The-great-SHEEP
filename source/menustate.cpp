@@ -9,7 +9,7 @@
 
 MenuState::MenuState(Game *game) : game(game)
 {
-  startButton = IMG_LoadTexture(game->renderer, "assets/startButton.png");
+  startButton = IMG_LoadTexture(game->getRenderer(), "assets/startButton.png");
   if (!startButton)
     {
       std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
@@ -65,14 +65,14 @@ void	MenuState::update()
   start.y = (WINDOW_HEIGHT - h) / 2;
   start.w = w;
   start.h = h;
-  SDL_SetRenderDrawColor(game->renderer, 255, 255, 255, 255);
-  SDL_RenderClear(game->renderer);
-  SDL_RenderCopy(game->renderer, startButton, NULL, &start);
+  SDL_SetRenderDrawColor(game->getRenderer(), 255, 255, 255, 255);
+  SDL_RenderClear(game->getRenderer());
+  SDL_RenderCopy(game->getRenderer(), startButton, NULL, &start);
 }
 
 void	MenuState::draw()
 {
-  SDL_RenderPresent(game->renderer);
+  SDL_RenderPresent(game->getRenderer());
   SDL_Delay(20);
 }
 

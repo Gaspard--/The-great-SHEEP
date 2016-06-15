@@ -7,6 +7,8 @@
 # define _TILE_WIDTH_ 60
 # define _TILE_HEIGHT_ 30
 
+# define PERSO_SPEED 10
+
 /*
 ** Class Perso Derived from Entity: Main Perso
 */
@@ -53,9 +55,13 @@ private:
   // TODO : Perso's position/destination on WORLD MAP
   Vect<2u, double>		position;
   Vect<2u, double>		destination;
+  Vect<2u, double>		moveDir;
+  Vect<2u, double>		startPos;
+  double			distance;
   // (for now screen positons)
 
   int				direction;
+
   bool				moving;
   bool				selected;
 };

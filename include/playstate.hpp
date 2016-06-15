@@ -6,6 +6,7 @@
 // Forward declaration
 class Display;
 class Terrain;
+class Perso;
 
 /*
 ** INHERITED FROM GAMESTATE!! => check gamestate.hpp for more details about
@@ -27,10 +28,14 @@ public:
   void		resume();
 
 private:
+  // Render perso
+  void		renderPerso();
+
   // Main class
   Game		*game;
   Display	*display;
   Terrain	*terrain;
+  Perso		*perso;
 };
 
 #endif /* !PLAYSTATE_HPP_ */

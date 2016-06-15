@@ -33,12 +33,15 @@ public:
   // Leave the game
   void				quit();
 
-  SDL_Window			*window;
-  SDL_Renderer			*renderer;
+  SDL_Window			*getWindow();
+  SDL_Renderer			*getRenderer();
 
 private:
   //States stack
   std::vector<GameState*>	states;
+
+  SDL_Window			*window;
+  SDL_Renderer			*renderer;
 
   // True when running, false when quitting
   bool				running;
