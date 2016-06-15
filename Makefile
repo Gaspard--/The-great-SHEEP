@@ -2,7 +2,10 @@ CPPC :=		g++
 
 RM :=		rm -rf
 
-CPPFLAGS :=	`sdl2-config --cflags` -W -Wall -Wextra -Iinclude/ -std=c++11 -g
+CPPFLAGS :=	`sdl2-config --cflags` -W -Wall -Wextra -Iinclude/ -std=c++11
+CPPFLAGS +=	-Winvalid-pch
+
+HPPFLAGS :=	-std=c++11
 
 LDFLAGS :=	`sdl2-config --libs` -lSDL2_image
 
@@ -18,10 +21,8 @@ SRC :=		source/main.cpp \
 		source/renderable.cpp \
 		source/fixture.cpp \
 		source/physics.cpp \
-		include/vect.hpp
 
 OBJ :=		$(SRC:.cpp=.o)
-OBJ :=		$(OBJ:.hpp=.gch)
 
 all:		$(NAME)
 
@@ -29,7 +30,7 @@ $(NAME):	$(OBJ)
 		$(CPPC) $(OBJ) -o $(NAME) $(LDFLAGS)
 
 clean:
-		$(RM) $(OBJ)
+		$(RM) $(OBJ) $(MK)
 
 fclean:		clean
 		$(RM) $(NAME)
@@ -37,6 +38,17 @@ fclean:		clean
 re:		fclean all
 
 %.o:		%.cpp
-		$(CPPC) -c -o $@ $^ $(CPPFLAGS)
+		$(CPPC) -c $< -o $@ $(CPPFLAGS)
+
+
+%.hpp.gch:	%.hpp
+		$(CPPC) $< $(HPPFLAGS)
+
+%.hpp:
 
 .PHONY:		all clean fclean re
+
+$(shell echo > pointo.mk)
+$(foreach var, $(SRC), $(shell (echo -n $(dir $(var));g++ -Iinclude -MM $(var); echo -e "\t"g++ -c '$$<' -o '$$@'  $(CPPFLAGS); echo ) >> pointo.mk))
+include pointo.mk
+
