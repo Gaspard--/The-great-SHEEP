@@ -99,7 +99,7 @@ void	Game::changeState(GameState *newState)
 
 void	Game::pushState(GameState *newState)
 {
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->pause();
     }
@@ -109,13 +109,13 @@ void	Game::pushState(GameState *newState)
 
 void	Game::popState()
 {
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->destroy();
       delete states.back();
       states.pop_back();
     }
-  if (states.empty() == false)
+  if (!states.empty())
     {
       states.back()->resume();
     }
