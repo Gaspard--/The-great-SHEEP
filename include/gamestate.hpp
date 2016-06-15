@@ -8,15 +8,13 @@
 class	Game;
 
 /*
-** GameState class
+** GameState class : Interface/Abstract class
 */
-class	IGameState
+class	GameState
 {
 public:
   // Constructor/Destructor
-  virtual ~IGameState() {};
-  virtual void	init(Game *game) = 0;
-  virtual void	destroy() = 0;
+  virtual ~GameState() {};
 
   // Write your Event handler in this function
   virtual void	handleEvent() = 0;

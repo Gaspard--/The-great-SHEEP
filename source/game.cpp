@@ -39,7 +39,7 @@ Game::Game()
       exit(-1);
     }
   running = true;
-  this->changeState(new MenuState());
+  this->changeState(new MenuState(this));
 }
 
 Game::~Game()
@@ -84,33 +84,29 @@ void	Game::draw()
 //
 // Handling game states methods
 //
-void	Game::changeState(IGameState *newState)
+void	Game::changeState(GameState *newState)
 {
   if (!states.empty())
     {
-      states.back()->destroy();
       delete states.back();
       states.pop_back();
     }
   states.push_back(newState);
-  states.back()->init(this);
 }
 
-void	Game::pushState(IGameState *newState)
+void	Game::pushState(GameState *newState)
 {
   if (states.empty() == false)
     {
       states.back()->pause();
     }
   states.push_back(newState);
-  states.back()->init(this);
 }
 
 void	Game::popState()
 {
   if (states.empty() == false)
     {
-      states.back()->destroy();
       delete states.back();
       states.pop_back();
     }

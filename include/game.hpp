@@ -26,8 +26,8 @@ public:
   void				draw();
 
   // Game States
-  void				changeState(IGameState *state);
-  void				pushState(IGameState *state);
+  void				changeState(GameState *state);
+  void				pushState(GameState *state);
   void				popState();
 
   // Leave the game
@@ -38,7 +38,7 @@ public:
 
 private:
   //States stack
-  std::vector<IGameState*>	states;
+  std::vector<GameState*>	states;
 
   // True when running, false when quitting
   bool				running;

@@ -12,13 +12,12 @@ class Terrain;
 ** the following functions
 ** PlayState : Gamestate for the menu
 */
-class PlayState: public IGameState
+class PlayState: public GameState
 {
 public:
   // Constructor/Destructor
-  ~PlayState() {};
-  void		init(Game *game);
-  void		destroy();
+  PlayState(Game *game);
+  ~PlayState();
 
   // Gamestate flow
   void		handleEvent();

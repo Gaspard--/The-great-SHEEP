@@ -10,13 +10,25 @@
 /*
 ** Class Perso Derived from Entity: Main Perso
 */
+
+namespace perso
+{
+  enum Direction
+    {
+      DIR_LEFT,
+      DIR_RIGHT,
+      DIR_UP,
+      DIR_DOWN,
+      DIR_MAX
+    };
+}
+
 class Perso: public Entity
 {
 public:
   // Constructor/Destructor
-  ~Perso() {};
-  void				init();
-  void				destroy();
+  Perso(SDL_Renderer *renderer);
+  ~Perso();
 
   std::vector<Renderable>	getRenderable();
   Vect<2u, double>		getPosition();
@@ -27,6 +39,7 @@ public:
   void				update();
 
   // Move to given position
+  // TODO : PATHFINDING WORLD MAP ARRAY
   void				moveTo(Vect<2u, double>& dest);
 
   // Get bool
@@ -37,10 +50,12 @@ private:
   // What to render
   std::vector<Renderable>	renderable;
 
-  // Perso's position/destination on WORLD MAP
+  // TODO : Perso's position/destination on WORLD MAP
   Vect<2u, double>		position;
   Vect<2u, double>		destination;
+  // (for now screen positons)
 
+  int				direction;
   bool				moving;
   bool				selected;
 };

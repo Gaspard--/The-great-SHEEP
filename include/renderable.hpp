@@ -10,6 +10,7 @@ public:
   Renderable(Vect<2u, double> *position,
 	     Vect<2u, double> *dimensions,
 	     SDL_Texture *texture);
+
   Vect<2u, double>	*position;
   Vect<2u, double>	*dimensions;
   SDL_Texture		*texture;

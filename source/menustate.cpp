@@ -7,13 +7,17 @@
 // Constructor/Destructor
 //
 
-void	MenuState::init(Game *mGame)
+MenuState::MenuState(Game *game) : game(game)
 {
-  game = mGame;
   startButton = IMG_LoadTexture(game->renderer, "assets/startButton.png");
+  if (!startButton)
+    {
+      std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
+      exit(-1);
+    }
 }
 
-void	MenuState::destroy()
+MenuState::~MenuState()
 {
   SDL_DestroyTexture(startButton);
 }
@@ -29,7 +33,6 @@ void	MenuState::handleEvent()
   int			w;
   int			h;
 
-  // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
   rect.x = (WINDOW_WIDTH - w) / 2;
   rect.y = (WINDOW_HEIGHT - h) / 2;
@@ -46,7 +49,7 @@ void	MenuState::handleEvent()
 	  mouse.x >= rect.x && mouse.x < rect.x + rect.w &&
 	  mouse.y >= rect.y && mouse.y < rect.y + rect.h)
 	{
-	  game->changeState(new PlayState());
+	  game->changeState(new PlayState(game));
 	}
     }
 }
@@ -57,7 +60,6 @@ void	MenuState::update()
   int		w;
   int		h;
 
-  // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
   start.x = (WINDOW_WIDTH - w) / 2;
   start.y = (WINDOW_HEIGHT - h) / 2;

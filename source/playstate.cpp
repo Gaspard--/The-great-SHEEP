@@ -6,14 +6,13 @@
 // Constructor/Destructor
 //
 
-void	PlayState::init(Game *mGame)
+PlayState::PlayState(Game *game) : game(game)
 {
-  game = mGame;
   display = new Display(game);
   terrain = new Terrain();
 }
 
-void	PlayState::destroy()
+PlayState::~PlayState()
 {
   delete terrain;
   delete display;
