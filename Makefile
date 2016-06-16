@@ -71,8 +71,8 @@ source/display.o: source/display.cpp include/top_header.hpp.gch include/game.hpp
 source/terrain.o: source/terrain.cpp include/top_header.hpp.gch include/terrain.hpp.gch \
  include/vect.hpp.gch include/tile.hpp.gch
 
-source/camera.o: source/camera.cpp include/top_header.hpp.gch include/camera.hpp.gch \
- include/vect.hpp.gch
+source/camera.o: source/camera.cpp include/top_header.hpp include/camera.hpp \
+ include/vect.hpp
 
 source/game.o: source/game.cpp include/top_header.hpp.gch include/game.hpp.gch \
  include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
@@ -88,11 +88,11 @@ source/playstate.o: source/playstate.cpp include/top_header.hpp.gch include/game
  include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
  include/terrain.hpp.gch include/gamestate.hpp.gch include/playstate.hpp.gch
 
-source/renderable.o: source/renderable.cpp include/renderable.hpp.gch \
- include/vect.hpp.gch
+source/renderable.o: source/renderable.cpp include/renderable.hpp \
+ include/vect.hpp
 
-source/fixture.o: source/fixture.cpp include/fixture.hpp.gch include/vect.hpp.gch
+source/fixture.o: source/fixture.cpp include/fixture.hpp include/vect.hpp
 
-source/physics.o: source/physics.cpp include/physics.hpp.gch include/vect.hpp.gch \
- include/fixture.hpp.gch
+source/physics.o: source/physics.cpp include/physics.hpp include/vect.hpp \
+ include/fixture.hpp
 

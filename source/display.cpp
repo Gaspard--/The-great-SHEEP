@@ -65,6 +65,32 @@ void	Display::moveCamera(double x, double y)
   camera.moveCamera(x, y);
 }
 
+const Vect <2, double>& Display::getCamera()
+{
+  return (camera.getCamera());
+}
+
+const Vect <2, double> Display::getIngameCursor()
+{
+  Vect <2, double>	cursor;
+  double		tmp;
+  int			x;
+  int			y;
+
+  SDL_GetMouseState(&x, &y);
+  //vector cursor/camera
+  cursor[0] = x - game->getWindowWidth() / 2;
+  cursor[1] = y - game->getWindowHeight() / 2;
+  //deisometrize
+  tmp = cursor[0];
+  cursor[0] += cursor[1];
+  cursor[1] -= tmp;
+  //scale
+  cursor[0] /= 60;
+  cursor[1] /= 30;
+  return (cursor);
+}
+
 void	Display::isometrize(SDL_Rect& win)
 {
   int	tmp;
@@ -91,6 +117,7 @@ void	Display::centerBoard(SDL_Rect& win)
 {
   int windowWidth = game->getWindowWidth();
   int windowHeight = game->getWindowHeight();
+
   win.x += (windowWidth / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
   if (TILE_HEIGHT > TILE_WIDTH)
     win.y += windowHeight / 2 - TILE_HEIGHT * 30 / 2;

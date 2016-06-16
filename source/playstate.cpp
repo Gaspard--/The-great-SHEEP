@@ -2,6 +2,8 @@
 #include "game.hpp"
 #include "playstate.hpp"
 
+#include <iostream>
+
 //
 // Constructor/Destructor
 //

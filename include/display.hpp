@@ -39,6 +39,9 @@ public:
   void	isometrize(SDL_Rect&);
   void	displayTiles(Terrain *terrain);
 
+  const Vect <2, double>& getCamera();
+  const Vect <2, double> getIngameCursor();
+
 private:
   Game	*game;
   SDL_Texture	*textures[display::TEXTURE_MAX];
