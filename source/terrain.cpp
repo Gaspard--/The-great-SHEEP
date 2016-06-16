@@ -1,12 +1,13 @@
+#include <iostream>
 #include "top_header.hpp"
 #include "terrain.hpp"
 #include "tile.hpp"
 
 Terrain::Terrain()
 {
-  world_dimension.data[0] = 500;
-  world_dimension.data[1] = 500;
-  tiles.reserve(world_dimension.data[0] * world_dimension.data[1]);
+  world_dimension[0] = 500;
+  world_dimension[1] = 500;
+  tiles.reserve(world_dimension[0] * world_dimension[1]);
   orderTiles();
 }
 
@@ -20,26 +21,24 @@ void	Terrain::orderTiles(void)
   int	size;
   int	i;
 
-  size = world_dimension.data[0] * world_dimension.data[1];
+  size = world_dimension[0] * world_dimension[1];
   i = 0;
   while (i < size)
     {
       tiles[i].type = rand() % 5;
-      tiles[i].x = i % world_dimension.data[0];
-      tiles[i].y = i / world_dimension.data[0];
+      tiles[i].x = i % world_dimension[0];
+      tiles[i].y = i / world_dimension[0];
       i = i + 1;
     }
 }
 
 bool	Terrain::isTile(int x, int y)
 {
-  if (x < 0 || x > world_dimension.data[0]
-      || y < 0 || y > world_dimension.data[1])
-    return (0);
-  return (1);
+  return ((x >= 0 && x < world_dimension[0])
+	  || (y >= 0 && y < world_dimension[1]));
 }
 
 const Tile&	Terrain::getTile(int x, int y)
 {
-  return (tiles[y * world_dimension.data[0] + x]);
+  return (tiles[y * world_dimension[0] + x]);
 }

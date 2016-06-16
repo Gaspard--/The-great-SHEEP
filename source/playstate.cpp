@@ -3,6 +3,8 @@
 #include "playstate.hpp"
 #include "perso.hpp"
 
+#include <iostream>
+
 //
 // Constructor/Destructor
 //
@@ -11,7 +13,7 @@ PlayState::PlayState(Game *game) : game(game)
 {
   display = new Display(game);
   terrain = new Terrain();
-  perso = new Perso(game->getRenderer());
+  perso = new Perso(game);
 }
 
 PlayState::~PlayState()
@@ -28,21 +30,36 @@ void	PlayState::handleEvent()
 {
   SDL_Event		event;
 
-  if (!SDL_PollEvent(&event))
-    return;
-  if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
-				 event.key.keysym.sym == SDLK_ESCAPE))
-    game->quit();
-  else if (event.key.keysym.sym == SDLK_UP)
-    display->moveCamera(-0.2, -0.2);
-  else if (event.key.keysym.sym == SDLK_DOWN)
-    display->moveCamera(0.2, 0.2);
-  else if (event.key.keysym.sym == SDLK_LEFT)
-    display->moveCamera(-0.12, 0.12);
-  else if (event.key.keysym.sym == SDLK_RIGHT)
-    display->moveCamera(0.12, -0.12);
-  if (event.type == SDL_MOUSEBUTTONDOWN)
-    perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
+  if (SDL_PollEvent(&event) != 0)
+    {
+      switch (event.type)
+        {
+        case SDL_QUIT:
+          game->quit();
+          break;
+	case SDL_MOUSEBUTTONDOWN:
+	perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
+	break;
+	}
+      switch (event.key.keysym.sym)
+        {
+        case SDLK_ESCAPE:
+          game->quit();
+          break;
+        case SDLK_UP:
+          display->moveCamera(-0.2, -0.2);
+          break;
+        case SDLK_DOWN:
+          display->moveCamera(0.2, 0.2);
+          break;
+        case SDLK_LEFT:
+          display->moveCamera(-0.12, 0.12);
+          break;
+        case SDLK_RIGHT:
+          display->moveCamera(0.12, -0.12);
+          break;
+        }
+    }
 }
 
 void	PlayState::update()

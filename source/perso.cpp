@@ -1,20 +1,22 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <math.h>
+#include <iostream>
 #include "top_header.hpp"
+#include "game.hpp"
 #include "perso.hpp"
 
 //
 // Constructor/Destructor
 //
-Perso::Perso(SDL_Renderer *renderer)
+Perso::Perso(Game *game)
 {
   SDL_Texture	*texture;
   int	x;
   int	y;
 
   // Load perso.png
-  texture = IMG_LoadTexture(renderer, "assets/perso.png");
+  texture = IMG_LoadTexture(game->getRenderer(), "assets/perso.png");
   if (!texture)
     {
       std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
@@ -23,14 +25,14 @@ Perso::Perso(SDL_Renderer *renderer)
   SDL_QueryTexture(texture, NULL, NULL, &x, &y);
 
   // Add renderable
-  this->renderable.push_back(Renderable(Vect<2u, double>(x, y), Vect<2u, double>(x, y), texture));
+  this->renderable.push_back(Renderable(Vect<2, double>(x, y), Vect<2, double>(x, y), texture));
 
   // Set booleans
   moving = false;
   selected = true;
 
   // Set perso position
-  position = Vect<2u, double>(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0);
+  position = Vect<2, double>(game->getWindowWidth() / 2.0, game->getWindowHeight() / 2.0);
   destination = 0;
   direction = perso::DIR_MAX;
 }

@@ -1,14 +1,22 @@
 #ifndef VECT_HPP_
 # define VECT_HPP_
 
-# include <iostream>
-# include <array>
-
 template <unsigned int dim, class T>
 class Vect
 {
-public:
+private:
   T		data[dim];
+
+public:
+  T&		operator[](unsigned int index)
+  {
+    return (data[index]);
+  }
+
+  T const		operator[](unsigned int index) const
+  {
+    return (data[index]);
+  }
 
   Vect()
   {
@@ -21,7 +29,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	data[i] = other.data[i];
+	data[i] = other[i];
 	i = i + 1;
       }
   }
@@ -34,7 +42,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	data[i] = static_cast<T>(other.data[i]);
+	data[i] = static_cast<T>(other[i]);
 	i = i + 1;
       }
   }
@@ -47,12 +55,12 @@ public:
     i = 0;
     while (i < dim2)
       {
-	data[i] = static_cast<T>(other.data[i]);
+	data[i] = static_cast<T>(other[i]);
 	i = i + 1;
       }
     while (i < dim)
       {
-	data[i] = static_cast<T>(other2.data[i - dim2]);
+	data[i] = static_cast<T>(other2[i - dim2]);
 	i = i + 1;
       }
   }
@@ -67,7 +75,7 @@ public:
     data[dim - sizeof...(more) - 1] = static_cast<T>(first);
   }
 
-  Vect<dim, T>		operator+(const Vect<dim, T>& other)
+  Vect<dim, T>		operator+(Vect<dim, T> const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -75,13 +83,13 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = other.data[i] + data[i];
+	result[i] = other[i] + data[i];
 	i = i + 1;
       }
     return (result);
   }
 
-  Vect<dim, T>		operator-(const Vect<dim, T>& other)
+  Vect<dim, T>		operator-(Vect<dim, T> const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -89,7 +97,7 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = -other.data[i] + data[i];
+	result[i] = data[i] - other[i];
 	i = i + 1;
       }
     return (result);
@@ -103,13 +111,13 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = -data[i];
+	result[i] = -data[i];
 	i = i + 1;
       }
     return (result);
   }
 
-  Vect<dim, T>		operator*(const T& other)
+  Vect<dim, T>		operator*(T const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -117,13 +125,13 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = data[i] * other;
+	result[i] = data[i] * other;
 	i = i + 1;
       }
     return (result);
   }
 
-  Vect<dim, T>		operator/(const T& other)
+  Vect<dim, T>		operator*(Vect<dim, T> const& other)
   {
     Vect<dim, T>	result;
     unsigned int	i;
@@ -131,15 +139,44 @@ public:
     i = 0;
     while (i < dim)
       {
-	result.data[i] = data[i] / other;
+	result[i] = data[i] * other[i];
 	i = i + 1;
       }
     return (result);
   }
 
-  T			operator[](unsigned int index)
+  Vect<dim, T>		operator/(T const& other)
   {
-    return (data[index]);
+    Vect<dim, T>	result;
+    unsigned int	i;
+
+    i = 0;
+    while (i < dim)
+      {
+	result[i] = data[i] / other;
+	i = i + 1;
+      }
+    return (result);
+  }
+
+  T			sum()
+  {
+    unsigned int	i;
+    T			result;
+
+    result = 0u;
+    i = 0u;
+    while (i < dim)
+      {
+	result = result + data[i];
+	i = i + 1u;
+      }
+    return (result);
+  }
+
+  T			scalar(Vect<dim, T>& other)
+  {
+    return ((*this * other).sum());
   }
 };
 

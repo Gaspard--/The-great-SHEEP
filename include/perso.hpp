@@ -3,12 +3,11 @@
 
 # include "entity.hpp"
 
-// TMP
-//# define _TILE_WIDTH_ 60
-//# define _TILE_HEIGHT_ 30
-
 # define PERSO_SPEED 7
 # define PERSO_NB_FRAME 9
+
+// Forward declaration
+class Game;
 
 /*
 ** Class Perso Derived from Entity: Main Perso
@@ -30,7 +29,7 @@ class Perso: public Entity
 {
 public:
   // Constructor/Destructor
-  Perso(SDL_Renderer *renderer);
+  Perso(Game *game);
   ~Perso();
 
   std::vector<Renderable>	getRenderable();
@@ -53,6 +52,7 @@ public:
   void				select();
 
 private:
+  Game				*game;
   // What to render
   std::vector<Renderable>	renderable;
 

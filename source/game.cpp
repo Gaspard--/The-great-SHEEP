@@ -14,7 +14,7 @@ Game::Game()
 {
   if (SDL_Init(SDL_INIT_VIDEO))
     {
-      std::cerr << "Failed to initialise SDL : " << SDL_GetError() << std::endl;
+      std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
       exit(-1);
     }
 
@@ -22,12 +22,12 @@ Game::Game()
   window = SDL_CreateWindow("The great SHEEP.",
 			    SDL_WINDOWPOS_UNDEFINED,
 			    SDL_WINDOWPOS_UNDEFINED,
-			    WINDOW_WIDTH,
-			    WINDOW_HEIGHT,
-			    SDL_WINDOW_SHOWN);
+			    1200,
+			    800,
+			    SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   if (!window)
     {
-      std::cerr << "Failed to open a window : " << SDL_GetError() << std::endl;
+      std::cerr << "Failed to open a window: " << SDL_GetError() << std::endl;
       exit(-1);
     }
 
@@ -35,7 +35,7 @@ Game::Game()
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
   if (!renderer)
     {
-      std::cerr << "Failed to create renderer : " << SDL_GetError() << std::endl;
+      std::cerr << "Failed to create renderer: " << SDL_GetError() << std::endl;
       exit(-1);
     }
   running = true;
@@ -115,19 +115,6 @@ void	Game::popState()
     {
       states.back()->resume();
     }
-}
-
-//
-// Getters
-//
-SDL_Window	*Game::getWindow()
-{
-  return (window);
-}
-
-SDL_Renderer	*Game::getRenderer()
-{
-  return (renderer);
 }
 
 //

@@ -4,6 +4,7 @@
 #include "terrain.hpp"
 #include "tile.hpp"
 #include "camera.hpp"
+#include <iostream>
 
 Display::Display(Game *game) : game(game)
 {
@@ -20,7 +21,8 @@ Display::Display(Game *game) : game(game)
     {
       if (!textures[i])
 	{
-	  fprintf(stderr, "Failed to open a texture : (%s)\n", SDL_GetError());
+          std::cerr << "Failed to open a texture: (%s)\n"
+                    << SDL_GetError() << std::endl;
 	  exit(-1);
 	}
       i = i + 1;
@@ -61,6 +63,32 @@ void	Display::moveCamera(double x, double y)
   camera.moveCamera(x, y);
 }
 
+const Vect <2, double>& Display::getCamera()
+{
+  return (camera.getCamera());
+}
+
+const Vect <2, double> Display::getIngameCursor()
+{
+  Vect <2, double>	cursor;
+  double		tmp;
+  int			x;
+  int			y;
+
+  SDL_GetMouseState(&x, &y);
+  //vector cursor/camera
+  cursor[0] = x - game->getWindowWidth() / 2;
+  cursor[1] = y - game->getWindowHeight() / 2;
+  //deisometrize
+  tmp = cursor[0];
+  cursor[0] += cursor[1];
+  cursor[1] -= tmp;
+  //scale
+  cursor[0] /= 60;
+  cursor[1] /= 30;
+  return (cursor);
+}
+
 void	Display::isometrize(SDL_Rect& win)
 {
   int	tmp;
@@ -77,21 +105,24 @@ void	Display::fixBoard(SDL_Rect& win)
   int	y;
 
   cam = camera.getCamera();
-  x = cam.data[0] - TILE_WIDTH / 2;
-  y = cam.data[1] - TILE_HEIGHT / 2;
+  x = cam[0] - TILE_WIDTH / 2;
+  y = cam[1] - TILE_HEIGHT / 2;
   win.x -= (x - y);
   win.y -= (y + x);
 }
 
 void	Display::centerBoard(SDL_Rect& win)
 {
-  win.x += (WINDOW_WIDTH / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
+  int windowWidth = game->getWindowWidth();
+  int windowHeight = game->getWindowHeight();
+
+  win.x += (windowWidth / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
   if (TILE_HEIGHT > TILE_WIDTH)
-    win.y += WINDOW_HEIGHT / 2 - TILE_HEIGHT * 30 / 2;
+    win.y += windowHeight / 2 - TILE_HEIGHT * 30 / 2;
   else if (TILE_HEIGHT < TILE_WIDTH)
-    win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 30 / 2;
+    win.y += windowHeight / 2 - TILE_WIDTH * 30 / 2;
   else
-    win.y += WINDOW_HEIGHT / 2 - TILE_WIDTH * 60 / 2;
+    win.y += windowHeight / 2 - TILE_WIDTH * 60 / 2;
 }
 
 void			Display::smoothScrolling(SDL_Rect& win)
@@ -101,18 +132,18 @@ void			Display::smoothScrolling(SDL_Rect& win)
   double		tmp;
 
   cam = camera.getCamera();
-  rest.data[0] = cam.data[0] - (int)cam.data[0];
-  rest.data[1] = cam.data[1] - (int)cam.data[1];
+  rest[0] = cam[0] - (int)cam[0];
+  rest[1] = cam[1] - (int)cam[1];
   //isometrize
-  tmp = rest.data[0];
-  rest.data[0] -= rest.data[1];
-  rest.data[1] += tmp;
+  tmp = rest[0];
+  rest[0] -= rest[1];
+  rest[1] += tmp;
   //scale
-  rest.data[0] *= 60;
-  rest.data[1] *= 30;
+  rest[0] *= 60;
+  rest[1] *= 30;
   //translate
-  win.x -= rest.data[0];
-  win.y -= rest.data[1];
+  win.x -= rest[0];
+  win.y -= rest[1];
 }
 
 void		Display::affTile(const SDL_Rect& win, const Tile &tile)
@@ -123,7 +154,9 @@ void		Display::affTile(const SDL_Rect& win, const Tile &tile)
   tileset.y = tile.type * 60;
   tileset.w = 120;
   tileset.h = 60;
-  SDL_RenderCopy(game->getRenderer(), textures[display::TEXTURE_TILE_GRASS], &tileset, &win);
+  SDL_RenderCopy(game->getRenderer(),
+                 textures[display::TEXTURE_TILE_GRASS],
+                 &tileset, &win);
 }
 
 void		Display::transformation(const Tile& tile)
@@ -169,8 +202,8 @@ void			Display::displayTiles(Terrain *terrain)
   SDL_Rect		rect;
 
   cam = camera.getCamera();
-  rect.x = cam.data[0] - TILE_WIDTH / 2;
-  rect.y = cam.data[1] - TILE_HEIGHT / 2;
+  rect.x = cam[0] - TILE_WIDTH / 2;
+  rect.y = cam[1] - TILE_HEIGHT / 2;
   rect.w = rect.x + TILE_WIDTH;
   rect.h = rect.y + TILE_HEIGHT;
   displayLine(terrain, rect);
