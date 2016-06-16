@@ -3,6 +3,7 @@
 #
 SRCDIR :=	./source
 INCDIR :=	./include
+ECHO ?=		/bin/echo
 
 #
 # compilation options
@@ -43,15 +44,13 @@ all:		$(NAME)
 %.hpp.gch:	%.hpp Makefile
 		$(CXX) $(CXXFLAGS) $< -o $@
 
-obj_gen = 	$(shell echo -n $(dir $1) >> targets.mk); \
+obj_gen = 	$(shell $(ECHO) -n $(dir $1) >> targets.mk); \
 		$(shell g++ -I $(INCDIR) -MM $1 | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
-		$(shell echo $2 >> targets.mk) \
-		$(shell echo >> targets.mk);
+		$(shell $(ECHO) -e $2 >> targets.mk)
 
-# The '\t' is substitued by the 'echo' built-in called in `obj_gen`
-RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@'
+RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@\n'
 
-$(shell echo -n > targets.mk)
+$(shell $(ECHO) -n > targets.mk)
 $(foreach var, $(SRC), $(call obj_gen, $(var), $(RULE_CONTENT)))
 include targets.mk
 
