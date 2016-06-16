@@ -7,14 +7,14 @@
 // Constructor/Destructor
 //
 
-void	MenuState::init(Game *mGame)
+void MenuState::init(Game *mGame)
 {
   game = mGame;
   startButton = IMG_LoadTexture(game->getRenderer(),
                                 "assets/startButton.png");
 }
 
-void	MenuState::destroy()
+void MenuState::destroy(void)
 {
   SDL_DestroyTexture(startButton);
 }
@@ -22,7 +22,7 @@ void	MenuState::destroy()
 //
 // Game flow methods
 //
-void	MenuState::handleEvent()
+void MenuState::handleEvent(void)
 {
   SDL_Event		event;
   SDL_Rect		rect;
@@ -52,16 +52,16 @@ void	MenuState::handleEvent()
     }
 }
 
-void	MenuState::update()
+void MenuState::update(void)
 {
   // Do nothing
 }
 
-void	MenuState::draw()
+void MenuState::draw(void)
 {
-  SDL_Rect	start;
-  int		w;
-  int		h;
+  SDL_Rect start;
+  int w;
+  int h;
 
   // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
@@ -76,12 +76,12 @@ void	MenuState::draw()
   SDL_Delay(20);
 }
 
-void	MenuState::pause()
+void MenuState::pause(void)
 {
   // Do nothing
 }
 
-void	MenuState::resume()
+void MenuState::resume(void)
 {
   // Do nothing
 }

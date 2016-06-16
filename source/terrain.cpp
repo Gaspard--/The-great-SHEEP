@@ -1,9 +1,8 @@
-#include <iostream>
 #include "top_header.hpp"
 #include "terrain.hpp"
 #include "tile.hpp"
 
-Terrain::Terrain()
+Terrain::Terrain(void)
 {
   world_dimension[0] = 500;
   world_dimension[1] = 500;
@@ -11,15 +10,15 @@ Terrain::Terrain()
   orderTiles();
 }
 
-Terrain::~Terrain()
+Terrain::~Terrain(void)
 {
   tiles.clear();
 }
 
-void	Terrain::orderTiles(void)
+void Terrain::orderTiles(void)
 {
-  int	size;
-  int	i;
+  int size;
+  int i;
 
   size = world_dimension[0] * world_dimension[1];
   i = 0;
@@ -32,13 +31,13 @@ void	Terrain::orderTiles(void)
     }
 }
 
-bool	Terrain::isTile(int x, int y)
+bool Terrain::isTile(int x, int y) const
 {
   return ((x >= 0 && x < world_dimension[0])
 	  || (y >= 0 && y < world_dimension[1]));
 }
 
-const Tile&	Terrain::getTile(int x, int y)
+Tile const &Terrain::getTile(int x, int y) const
 {
   return (tiles[y * world_dimension[0] + x]);
 }

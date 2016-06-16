@@ -1,6 +1,8 @@
 #ifndef PLAYSTATE_HPP_
 # define PLAYSTATE_HPP_
 
+# include <iostream>
+
 # include "gamestate.hpp"
 
 // Forward declaration
@@ -12,26 +14,26 @@ class Terrain;
 ** the following functions
 ** PlayState : Gamestate for the menu
 */
-class PlayState: public GameState
+class PlayState: public IGameState
 {
 public:
   // Constructor/Destructor
-  ~PlayState() {};
-  void		init(Game *game);
-  void		destroy();
+  ~PlayState(void) {}
+  void init(Game *game);
+  void destroy(void);
 
   // Gamestate flow
-  void		handleEvent();
-  void		update();
-  void		draw();
-  void		pause();
-  void		resume();
+  void handleEvent(void);
+  void update(void);
+  void draw(void);
+  void pause(void);
+  void resume(void);
 
 private:
   // Main class
-  Game		*game;
-  Display	*display;
-  Terrain	*terrain;
+  Game *game;
+  Display *display;
+  Terrain *terrain;
 };
 
 #endif /* !PLAYSTATE_HPP_ */
