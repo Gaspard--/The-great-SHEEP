@@ -3,7 +3,7 @@
 #
 SRCDIR :=	./source
 INCDIR :=	./include
-ECHO ?=		/bin/echo
+ECHO ?=		/bin/printf
 
 #
 # compilation options
@@ -44,13 +44,13 @@ all:		$(NAME)
 %.hpp.gch:	%.hpp Makefile
 		$(CXX) $(CXXFLAGS) $< -o $@
 
-obj_gen = 	$(shell $(ECHO) -n $(dir $1) >> targets.mk); \
+obj_gen = 	$(shell $(ECHO) $(dir $1) >> targets.mk); \
 		$(shell g++ -I $(INCDIR) -MM $1 | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
-		$(shell $(ECHO) -e $2 >> targets.mk)
+		$(shell $(ECHO) $2 >> targets.mk)
 
-RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@\n'
+RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@\n\n'
 
-$(shell $(ECHO) -n > targets.mk)
+$(shell $(ECHO) > targets.mk)
 $(foreach var, $(SRC), $(call obj_gen, $(var), $(RULE_CONTENT)))
 include targets.mk
 
