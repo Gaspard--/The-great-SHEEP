@@ -5,35 +5,34 @@
 # include <SDL2/SDL.h>
 
 // Forward declaration
-class	Game;
+class Game;
 
 /*
-** GameState class
+** IGameState interface
 */
-class	GameState
+class IGameState
 {
 public:
   // Constructor/Destructor
-  virtual ~GameState() {}; // <= BUG ???
-  virtual void	init(Game *game) = 0;
-  virtual void	destroy() = 0;
+  virtual ~IGameState(void) {}; // <= BUG ???
+  virtual void init(Game *game) = 0;
+  virtual void destroy(void) = 0;
 
   // Write your Event handler in this function
-  virtual void	handleEvent() = 0;
+  virtual void handleEvent(void) = 0;
 
   // Called before draw()
-  virtual void	update() = 0;
+  virtual void update(void) = 0;
 
   // Render in this function
-  virtual void	draw() = 0;
+  virtual void draw(void) = 0;
 
   // Useless for now
-  virtual void	pause() = 0;
-  virtual void	resume() = 0;
+  virtual void pause(void) = 0;
+  virtual void resume(void) = 0;
 
 private:
-  // Main class
-  Game		*game;
+  Game *game;
 };
 
 #endif /* !GAMESTATE_HPP_ */

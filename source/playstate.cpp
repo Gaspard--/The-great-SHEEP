@@ -2,20 +2,18 @@
 #include "game.hpp"
 #include "playstate.hpp"
 
-#include <iostream>
-
 //
 // Constructor/Destructor
 //
 
-void	PlayState::init(Game *mGame)
+void PlayState::init(Game *mGame)
 {
   game = mGame;
   display = new Display(game);
   terrain = new Terrain();
 }
 
-void	PlayState::destroy()
+void PlayState::destroy(void)
 {
   delete terrain;
   delete display;
@@ -24,9 +22,9 @@ void	PlayState::destroy()
 //
 // Game flow methods
 //
-void	PlayState::handleEvent()
+void PlayState::handleEvent(void)
 {
-  SDL_Event		event;
+  SDL_Event event;
 
   if (SDL_PollEvent(&event) != 0)
     {
@@ -57,24 +55,24 @@ void	PlayState::handleEvent()
     }
 }
 
-void	PlayState::update()
+void PlayState::update(void)
 {
   // Do nothing
 }
 
-void	PlayState::draw()
+void PlayState::draw(void)
 {
   display->clearScreen(0, 0, 0);
   display->displayTiles(terrain);
   display->render();
 }
 
-void	PlayState::pause()
+void PlayState::pause(void)
 {
   // Do nothing
 }
 
-void	PlayState::resume()
+void PlayState::resume(void)
 {
   // Do nothing
 }

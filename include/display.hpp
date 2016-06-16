@@ -3,9 +3,10 @@
 
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
+# include <iostream>
+
 # include "camera.hpp"
 
-class Camera;
 class Tile;
 class Terrain;
 class Game;
@@ -24,28 +25,28 @@ class Display
 {
 public:
   Display(Game *game);
-  ~Display();
+  ~Display(void);
 
-  void	render();
-  void	clearScreen(int r, int g, int b);
-  void	moveCamera(double x, double y);
-  void	displayLine(Terrain *terrain, const SDL_Rect&);
-  void	affTile(const SDL_Rect&, const Tile&);
-  void	transformation(const Tile&);
-  void	smoothScrolling(SDL_Rect&);
-  void	tileScale(SDL_Rect&);
-  void	centerBoard(SDL_Rect&);
-  void	fixBoard(SDL_Rect&);
-  void	isometrize(SDL_Rect&);
-  void	displayTiles(Terrain *terrain);
+  void render(void);
+  void clearScreen(int r, int g, int b);
+  void moveCamera(double x, double y);
+  void displayLine(Terrain *terrain, SDL_Rect const &);
+  void affTile(SDL_Rect const &, Tile const &);
+  void transformation(Tile const &);
+  void smoothScrolling(SDL_Rect&) const;
+  void tileScale(SDL_Rect&) const;
+  void centerBoard(SDL_Rect&) const;
+  void fixBoard(SDL_Rect&) const;
+  void isometrize(SDL_Rect&) const;
+  void displayTiles(Terrain *terrain);
 
-  const Vect <2, double>& getCamera();
-  const Vect <2, double> getIngameCursor();
+  const Vect <2, double>& getCamera() const;
+  const Vect <2, double> getIngameCursor() const;
 
 private:
-  Game	*game;
-  SDL_Texture	*textures[display::TEXTURE_MAX];
-  Camera	camera;
+  Game *game;
+  SDL_Texture *textures[display::TEXTURE_MAX];
+  Camera camera;
 };
 
 #endif

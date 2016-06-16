@@ -1,5 +1,3 @@
-#include <cmath>
-#include <iostream>
 #include "physics.hpp"
 #include "fixture.hpp"
 
