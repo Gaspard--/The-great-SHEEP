@@ -80,13 +80,13 @@ Vect <2, double> const Display::getIngameCursor() const
   //vector cursor/camera
   cursor[0] = x - game->getWindowWidth() / 2;
   cursor[1] = y - game->getWindowHeight() / 2;
-  //deisometrize
-  tmp = cursor[0];
+  //scale;
+  cursor[0] /= 120;
+  cursor[1] /= 60;
+  //deiso
+  tmp =  cursor[0];
   cursor[0] += cursor[1];
   cursor[1] -= tmp;
-  //scale
-  cursor[0] /= 60;
-  cursor[1] /= 30;
   return (cursor);
 }
 
