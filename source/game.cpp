@@ -1,6 +1,3 @@
-#include <SDL2/SDL.h>
-#include <vector>
-#include <iostream>
 #include "top_header.hpp"
 #include "game.hpp"
 #include "gamestate.hpp"
@@ -10,7 +7,7 @@
 //
 // Constructor/Destructor
 //
-Game::Game()
+Game::Game(void)
 {
   if (SDL_Init(SDL_INIT_VIDEO))
     {
@@ -42,7 +39,7 @@ Game::Game()
   this->changeState(new MenuState(this));
 }
 
-Game::~Game()
+Game::~Game(void)
 {
   while (states.empty() != true)
     {
@@ -56,7 +53,7 @@ Game::~Game()
 //
 // Game flow methods
 //
-void	Game::mainLoop()
+void Game::mainLoop(void)
 {
   while (running == true)
     {
@@ -67,17 +64,17 @@ void	Game::mainLoop()
     }
 }
 
-void	Game::handleEvent()
+void Game::handleEvent(void)
 {
   states.back()->handleEvent();
 }
 
-void	Game::update()
+void Game::update(void)
 {
   states.back()->update();
 }
 
-void	Game::draw()
+void Game::draw(void)
 {
   states.back()->draw();
 }
@@ -85,7 +82,7 @@ void	Game::draw()
 //
 // Handling game states methods
 //
-void	Game::changeState(GameState *newState)
+void Game::changeState(IGameState *newState)
 {
   if (!states.empty())
     {
@@ -95,7 +92,7 @@ void	Game::changeState(GameState *newState)
   states.push_back(newState);
 }
 
-void	Game::pushState(GameState *newState)
+void Game::pushState(IGameState *newState)
 {
   if (!states.empty())
     {
@@ -104,7 +101,7 @@ void	Game::pushState(GameState *newState)
   states.push_back(newState);
 }
 
-void	Game::popState()
+void Game::popState(void)
 {
   if (!states.empty())
     {
@@ -120,7 +117,7 @@ void	Game::popState()
 //
 // Leave the game
 //
-void	Game::quit()
+void Game::quit(void)
 {
   running = false;
 }

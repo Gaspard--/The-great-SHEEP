@@ -7,15 +7,11 @@
 class Entity
 {
 public:
-  virtual ~Entity() {};
-
-  //  virtual std::vector<Fixture>	getFixtures() = 0; TODO
-  virtual std::vector<Renderable>	getRenderable() = 0;
-  virtual void				update() = 0;
-  //  virtual void			getStats() = 0; TODO
-
-private:
-  std::vector<Renderable>		renderable;
+  virtual ~Entity(void) {};
+  //  virtual std::vector<Fixture> getFixtures(void) = 0; TODO
+  virtual std::vector<Renderable> &getRenderable(void) = 0;
+  virtual void update(void) = 0;
+  //  virtual void getStats(void) = 0; TODO
 };
 
 #endif // !ENTITY_HPP_

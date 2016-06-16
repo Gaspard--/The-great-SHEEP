@@ -3,17 +3,18 @@
 
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
+
 # include "vect.hpp"
 
-class	Camera
+class Camera
 {
 public:
-  Camera();
-  ~Camera();
+  Camera(void);
+  ~Camera(void);
 
   void	setCamera(double x, double y);
   void	moveCamera(double x, double y);
-  const Vect <2, double>& getCamera(void);
+  Vect <2, double> const &getCamera(void) const;
 
 private:
   Vect<2, double> lookat;

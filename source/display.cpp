@@ -4,11 +4,10 @@
 #include "terrain.hpp"
 #include "tile.hpp"
 #include "camera.hpp"
-#include <iostream>
 
 Display::Display(Game *game) : game(game)
 {
-  int		i;
+  int i;
 
   // Load textures
   textures[display::TEXTURE_TILE_GRASS] =
@@ -29,9 +28,9 @@ Display::Display(Game *game) : game(game)
     }
 }
 
-Display::~Display()
+Display::~Display(void)
 {
-  int		i;
+  int i;
 
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -41,34 +40,34 @@ Display::~Display()
     }
 }
 
-void	Display::clearScreen(int r, int g, int b)
+void Display::clearScreen(int r, int g, int b)
 {
   SDL_SetRenderDrawColor(game->getRenderer(), r, g, b, 255);
   SDL_RenderClear(game->getRenderer());
 }
 
-void	Display::render()
+void Display::render(void)
 {
   SDL_RenderPresent(game->getRenderer());
 }
 
-void	Display::tileScale(SDL_Rect& win)
+void Display::tileScale(SDL_Rect& win) const
 {
   win.x *= 60;
   win.y *= 30;
 }
 
-void	Display::moveCamera(double x, double y)
+void Display::moveCamera(double x, double y)
 {
   camera.moveCamera(x, y);
 }
 
-const Vect <2, double>& Display::getCamera()
+Vect <2, double> const &Display::getCamera() const
 {
   return (camera.getCamera());
 }
 
-const Vect <2, double> Display::getIngameCursor()
+Vect <2, double> const Display::getIngameCursor() const
 {
   Vect <2, double>	cursor;
   double		tmp;
@@ -89,20 +88,20 @@ const Vect <2, double> Display::getIngameCursor()
   return (cursor);
 }
 
-void	Display::isometrize(SDL_Rect& win)
+void Display::isometrize(SDL_Rect& win) const
 {
-  int	tmp;
+  int tmp;
 
   tmp = win.x;
   win.x -= win.y;
   win.y += tmp;
 }
 
-void	Display::fixBoard(SDL_Rect& win)
+void Display::fixBoard(SDL_Rect& win) const
 {
   Vect <2, double> cam;
-  int	x;
-  int	y;
+  int x;
+  int y;
 
   cam = camera.getCamera();
   x = cam[0] - TILE_WIDTH / 2;
@@ -111,7 +110,7 @@ void	Display::fixBoard(SDL_Rect& win)
   win.y -= (y + x);
 }
 
-void	Display::centerBoard(SDL_Rect& win)
+void Display::centerBoard(SDL_Rect& win) const
 {
   int windowWidth = game->getWindowWidth();
   int windowHeight = game->getWindowHeight();
@@ -125,11 +124,11 @@ void	Display::centerBoard(SDL_Rect& win)
     win.y += windowHeight / 2 - TILE_WIDTH * 60 / 2;
 }
 
-void			Display::smoothScrolling(SDL_Rect& win)
+void Display::smoothScrolling(SDL_Rect& win) const
 {
-  Vect <2, double>	cam;
-  Vect <2, double>	rest;
-  double		tmp;
+  Vect <2, double> cam;
+  Vect <2, double> rest;
+  double tmp;
 
   cam = camera.getCamera();
   rest[0] = cam[0] - (int)cam[0];
@@ -146,9 +145,9 @@ void			Display::smoothScrolling(SDL_Rect& win)
   win.y -= rest[1];
 }
 
-void		Display::affTile(const SDL_Rect& win, const Tile &tile)
+void Display::affTile(SDL_Rect const &win, Tile const &tile)
 {
-  SDL_Rect	tileset;
+  SDL_Rect tileset;
 
   tileset.x = 0;
   tileset.y = tile.type * 60;
@@ -159,9 +158,9 @@ void		Display::affTile(const SDL_Rect& win, const Tile &tile)
                  &tileset, &win);
 }
 
-void		Display::transformation(const Tile& tile)
+void Display::transformation(Tile const &tile)
 {
-  SDL_Rect	win;
+  SDL_Rect win;
 
   win.x = tile.x;
   win.y = tile.y;
@@ -175,11 +174,11 @@ void		Display::transformation(const Tile& tile)
   affTile(win, tile);
 }
 
-void	Display::displayLine(Terrain *terrain, const SDL_Rect& rect)
+void Display::displayLine(Terrain *terrain, SDL_Rect const &rect)
 {
-  int	tmp;
-  int	x;
-  int	y;
+  int tmp;
+  int x;
+  int y;
 
   tmp = rect.x;
   y = rect.y;
@@ -196,10 +195,10 @@ void	Display::displayLine(Terrain *terrain, const SDL_Rect& rect)
     }
 }
 
-void			Display::displayTiles(Terrain *terrain)
+void Display::displayTiles(Terrain *terrain)
 {
-  Vect <2, double>	cam;
-  SDL_Rect		rect;
+  Vect <2, double> cam;
+  SDL_Rect rect;
 
   cam = camera.getCamera();
   rect.x = cam[0] - TILE_WIDTH / 2;

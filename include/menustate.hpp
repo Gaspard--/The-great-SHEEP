@@ -8,7 +8,7 @@
 ** the following functions
 ** MenuState : Gamestate for the menu
 */
-class MenuState: public GameState
+class MenuState: public IGameState
 {
 public:
   // Constructor/Destructor
@@ -16,18 +16,18 @@ public:
   ~MenuState();
 
   // Gamestate flow
-  void		handleEvent();
-  void		update();
-  void		draw();
-  void		pause();
-  void		resume();
+  void handleEvent(void);
+  void update(void);
+  void draw(void);
+  void pause(void);
+  void resume(void);
 
 private:
   // Main class
-  Game		*game;
+  Game *game;
 
   // Menustate's variables
-  SDL_Texture	*startButton;
+  SDL_Texture *startButton;
 };
 
 #endif /* !MENUSTATE_HPP_ */

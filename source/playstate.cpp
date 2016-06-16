@@ -3,8 +3,6 @@
 #include "playstate.hpp"
 #include "perso.hpp"
 
-#include <iostream>
-
 //
 // Constructor/Destructor
 //
@@ -26,9 +24,9 @@ PlayState::~PlayState()
 //
 // Game flow methods
 //
-void	PlayState::handleEvent()
+void PlayState::handleEvent(void)
 {
-  SDL_Event		event;
+  SDL_Event event;
 
   if (SDL_PollEvent(&event) != 0)
     {
@@ -41,6 +39,8 @@ void	PlayState::handleEvent()
 	perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
 	break;
 	}
+      if (event.type != SDL_KEYDOWN)
+	return;
       switch (event.key.keysym.sym)
         {
         case SDLK_ESCAPE:
@@ -62,7 +62,7 @@ void	PlayState::handleEvent()
     }
 }
 
-void	PlayState::update()
+void PlayState::update(void)
 {
   // Display tiles
   display->clearScreen(0, 0, 0);
@@ -73,17 +73,17 @@ void	PlayState::update()
   this->renderPerso();
 }
 
-void	PlayState::draw()
+void PlayState::draw(void)
 {
   SDL_RenderPresent(game->getRenderer());
 }
 
-void	PlayState::pause()
+void PlayState::pause(void)
 {
   // Do nothing
 }
 
-void	PlayState::resume()
+void PlayState::resume(void)
 {
   // Do nothing
 }
@@ -92,8 +92,8 @@ void	PlayState::renderPerso()
 {
   SDL_Rect	rect;
 
-  rect.w = perso->getRenderable().back().dimensions[0];
-  rect.h = perso->getRenderable().back().dimensions[1];
+  rect.w = (*perso->getRenderable().back().dimensions)[0];
+  rect.h = (*perso->getRenderable().back().dimensions)[1];
   rect.x = perso->getPosition()[0] - rect.w / 2;
   rect.y = perso->getPosition()[1] - rect.h;
   SDL_RenderCopy(game->getRenderer(), perso->getRenderable()[0].texture, NULL, &rect);

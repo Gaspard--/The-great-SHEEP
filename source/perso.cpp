@@ -25,7 +25,7 @@ Perso::Perso(Game *game)
   SDL_QueryTexture(texture, NULL, NULL, &x, &y);
 
   // Add renderable
-  this->renderable.push_back(Renderable(Vect<2, double>(x, y), Vect<2, double>(x, y), texture));
+  this->renderable.push_back(Renderable(new Vect<2, double>(x, y), new Vect<2, double>(x, y), texture));
 
   // Set booleans
   moving = false;
@@ -45,7 +45,7 @@ Perso::~Perso()
 //
 // Getters
 //
-std::vector<Renderable>		Perso::getRenderable()
+std::vector<Renderable>&	Perso::getRenderable()
 {
   return (renderable);
 }

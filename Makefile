@@ -1,104 +1,77 @@
-CPPC :=		g++
+#
+# paths
+#
+SRCDIR :=	./source
+INCDIR :=	./include
 
-RM :=		rm -rf
+#
+# compilation options
+#
+CXX :=		g++
+CXXFLAGS :=	`sdl2-config --cflags` -I $(INCDIR) -W -Wall -Wextra -std=c++11 -g -Winvalid-pch
 
-CPPFLAGS :=	`sdl2-config --cflags` -W -Wall -Wextra -Iinclude/ -std=c++11
-CPPFLAGS +=	-Winvalid-pch
+#
+# link options
+#
+LINKER :=	$(CXX)
+LDFLAGS :=	`sdl2-config --libs`
+LDLIBS :=	-l SDL2_image
 
-HPPFLAGS :=	-std=c++11
-
-LDFLAGS :=	`sdl2-config --libs` -lSDL2_image
-
+#
+# binary options
+#
 NAME :=		The-great-SHEEP
 
-SRC :=		source/main.cpp \
-		source/display.cpp \
-		source/terrain.cpp \
-		source/camera.cpp \
-		source/game.cpp \
-		source/menustate.cpp \
-		source/playstate.cpp \
-		source/renderable.cpp \
-		source/fixture.cpp \
-		source/physics.cpp \
-
-MK :=		$(SRC:.cpp=.d)
-
+SRC :=		main.cpp \
+		display.cpp \
+		terrain.cpp \
+		camera.cpp \
+		game.cpp \
+		menustate.cpp \
+		playstate.cpp \
+		perso.cpp \
+		renderable.cpp \
+		fixture.cpp
+SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
+PCH :=		$(wildcard $(INCDIR)/*.gch)
 
+#
+# build rules
+#
 all:		$(NAME)
 
+%.hpp.gch:	%.hpp Makefile
+		$(CXX) $(CXXFLAGS) $< -o $@
+
+obj_gen = 	$(shell echo -n $(dir $1) >> targets.mk); \
+		$(shell g++ -I $(INCDIR) -MM $1 | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
+		$(shell echo -e $2 >> targets.mk)
+RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@'
+
+$(shell echo -n > targets.mk)
+$(foreach var, $(SRC), $(call obj_gen, $(var), $(RULE_CONTENT)))
+include targets.mk
+
 $(NAME):	$(OBJ)
-		$(CPPC) $(OBJ) -o $(NAME) $(LDFLAGS)
+		$(LINKER) -o $@ $(OBJ) $(LDFLAGS) $(LDLIBS)
+
+#
+# clean rules
+#
+RM :=		rm -fv
 
 clean:
-		$(RM) $(OBJ)
+		$(RM) $(OBJ) $(PCH)
 
 fclean:		clean
 		$(RM) $(NAME)
 
 re:		fclean all
 
-%.d:		%.cpp
-		$(shell echo -n $(dir $(@)) > $(@))
-		$(shell gcc $(<) -MM $(CPPFLAGS) | sed s/.hpp/.hpp.gch/g >> $(@))
-		$(shell echo >> $(@))
-
-%.o:		%.cpp 
-		$(CPPC) -c $(<) -o $(@) $(CPPFLAGS)
-
-%.hpp.gch:	%.hpp
-		$(CPPC) $< $(HPPFLAGS)
-
-%.hpp:
-
-Makefile:	base.mk $(MK)
-		$(shell cp base.mk Makefile)
-		$(shell cat $(MK) >> Makefile)
-
+#
+# special rules
+#
 .PHONY:		all clean fclean re
 
-source/main.o: source/main.cpp include/game.hpp.gch include/display.hpp.gch \
- include/camera.hpp.gch include/vect.hpp.gch include/terrain.hpp.gch \
- include/gamestate.hpp.gch include/display.hpp.gch include/terrain.hpp.gch \
- include/vect.hpp.gch
-
-source/display.o: source/display.cpp include/top_header.hpp.gch include/game.hpp.gch \
- include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
- include/terrain.hpp.gch include/gamestate.hpp.gch include/display.hpp.gch \
- include/terrain.hpp.gch include/tile.hpp.gch include/camera.hpp.gch
-
-source/terrain.o: source/terrain.cpp include/top_header.hpp.gch include/terrain.hpp.gch \
- include/vect.hpp.gch include/tile.hpp.gch
-
-source/camera.o: source/camera.cpp include/top_header.hpp.gch include/camera.hpp.gch \
- include/vect.hpp.gch
-
-source/game.o: source/game.cpp include/top_header.hpp.gch include/game.hpp.gch \
- include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
- include/terrain.hpp.gch include/gamestate.hpp.gch include/gamestate.hpp.gch \
- include/menustate.hpp.gch include/playstate.hpp.gch
-
-source/menustate.o: source/menustate.cpp include/top_header.hpp.gch include/game.hpp.gch \
- include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
- include/terrain.hpp.gch include/gamestate.hpp.gch include/menustate.hpp.gch \
- include/playstate.hpp.gch
-
-source/playstate.o: source/playstate.cpp include/top_header.hpp.gch include/game.hpp.gch \
- include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
- include/terrain.hpp.gch include/gamestate.hpp.gch include/playstate.hpp.gch \
- include/perso.hpp.gch include/entity.hpp.gch include/renderable.hpp.gch
-
-source/perso.o: source/perso.cpp include/top_header.hpp.gch include/game.hpp.gch \
- include/display.hpp.gch include/camera.hpp.gch include/vect.hpp.gch \
- include/terrain.hpp.gch include/gamestate.hpp.gch include/perso.hpp.gch \
- include/entity.hpp.gch include/renderable.hpp.gch
-
-source/renderable.o: source/renderable.cpp include/renderable.hpp.gch \
- include/vect.hpp.gch
-
-source/fixture.o: source/fixture.cpp include/fixture.hpp.gch include/vect.hpp.gch
-
-source/physics.o: source/physics.cpp include/physics.hpp.gch include/vect.hpp.gch \
- include/fixture.hpp.gch
-
+.SILENT:	clean fclean

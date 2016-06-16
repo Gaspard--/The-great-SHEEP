@@ -1,17 +1,17 @@
 #include "top_header.hpp"
 #include "camera.hpp"
 
-Camera::Camera()
+Camera::Camera(void)
 {
   lookat[0] = TILE_WIDTH / 2;
   lookat[1] = TILE_HEIGHT / 2;
 }
 
-Camera::~Camera()
+Camera::~Camera(void)
 {
 }
 
-const Vect<2, double>& Camera::getCamera()
+Vect<2, double> const &Camera::getCamera(void) const
 {
   return (lookat);
 }

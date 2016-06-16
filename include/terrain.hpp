@@ -2,20 +2,22 @@
 # define TERRAIN_HPP_
 
 # include <vector>
+# include <iostream>
 # include <cstdlib>
+
 # include "vect.hpp"
 
-class	Tile;
+class Tile;
 
-class	Terrain
+class Terrain
 {
 public:
-  Terrain();
-  ~Terrain();
+  Terrain(void);
+  ~Terrain(void);
 
-  bool	isTile(int x, int y);
-  const Tile&	getTile(int x, int y);
-  void	orderTiles(void);
+  bool isTile(int x, int y) const;
+  Tile const &getTile(int x, int y) const;
+  void orderTiles(void);
 
 private:
   std::vector<Tile> tiles;

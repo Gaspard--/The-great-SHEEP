@@ -18,6 +18,7 @@ SRC :=		source/main.cpp \
 		source/game.cpp \
 		source/menustate.cpp \
 		source/playstate.cpp \
+		source/perso.cpp \
 		source/renderable.cpp \
 		source/fixture.cpp \
 		source/physics.cpp \
@@ -44,7 +45,7 @@ re:		fclean all
 		$(shell gcc $(<) -MM $(CPPFLAGS) | sed s/.hpp/.hpp.gch/g >> $(@))
 		$(shell echo >> $(@))
 
-%.o:		%.cpp 
+%.o:		%.cpp
 		$(CPPC) -c $(<) -o $(@) $(CPPFLAGS)
 
 %.hpp.gch:	%.hpp
@@ -57,4 +58,3 @@ Makefile:	base.mk $(MK)
 		$(shell cat $(MK) >> Makefile)
 
 .PHONY:		all clean fclean re
-

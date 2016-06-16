@@ -1,14 +1,12 @@
-#include <SDL2/SDL.h>
 #include "game.hpp"
 #include "display.hpp"
 #include "terrain.hpp"
 #include "vect.hpp"
 
-int		main()
+int main()
 {
-  Game		*game = new Game();
+  Game game;
 
-  game->mainLoop();
-  delete game;
+  game.mainLoop();
   return (0);
 }

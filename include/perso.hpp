@@ -32,7 +32,7 @@ public:
   Perso(Game *game);
   ~Perso();
 
-  std::vector<Renderable>	getRenderable();
+  std::vector<Renderable>&	getRenderable();
   Vect<2u, double>		getPosition();
   //  void			getStats(); TODO
   //  std::vector<Fixture>	getFixtures(); TODO

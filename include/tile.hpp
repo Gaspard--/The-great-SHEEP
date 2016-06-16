@@ -16,12 +16,12 @@ namespace display
       };
 };
 
-struct	Tile
+struct Tile
 {
-  int	type;
+  int type;
   Vect <2, int > pos;
-  int	x;
-  int	y;
+  int x;
+  int y;
 };
 
 #endif // !TILE_HPP_

@@ -26,7 +26,7 @@ MenuState::~MenuState()
 //
 // Game flow methods
 //
-void	MenuState::handleEvent()
+void MenuState::handleEvent(void)
 {
   SDL_Event		event;
   SDL_Rect		rect;
@@ -54,7 +54,7 @@ void	MenuState::handleEvent()
     }
 }
 
-void	MenuState::update()
+void MenuState::update(void)
 {
   SDL_Rect	start;
   int		w;
@@ -75,12 +75,12 @@ void	MenuState::draw()
   SDL_RenderPresent(game->getRenderer());
 }
 
-void	MenuState::pause()
+void MenuState::pause(void)
 {
   // Do nothing
 }
 
-void	MenuState::resume()
+void MenuState::resume(void)
 {
   // Do nothing
 }
