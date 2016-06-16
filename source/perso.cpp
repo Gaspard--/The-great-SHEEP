@@ -45,22 +45,22 @@ Perso::~Perso()
 //
 // Getters
 //
-std::vector<Renderable>&	Perso::getRenderable()
+std::vector<Renderable> const &	Perso::getRenderable() const
 {
   return (renderable);
 }
 
-Vect<2u, double>		Perso::getPosition()
+Vect<2, double>			Perso::getPosition() const
 {
   return (position);
 }
 
-bool				Perso::isMoving()
+bool				Perso::isMoving() const
 {
   return (moving);
 }
 
-bool				Perso::isSelected()
+bool				Perso::isSelected() const
 {
   return (selected);
 }
@@ -80,7 +80,7 @@ void		Perso::update()
 {
   if (!selected || !moving)
     return;
-  position = Vect<2u, double>(position[0] + moveDir[0] * PERSO_SPEED,
+  position = Vect<2, double>(position[0] + moveDir[0] * PERSO_SPEED,
 			      position[1] + moveDir[1] * PERSO_SPEED);
   if (sqrt(pow(position[0] - startPos[0], 2) + pow(position[1] - startPos[1], 2)) >= distance)
     {
@@ -92,7 +92,7 @@ void		Perso::update()
 //
 // Move to Position
 //
-void		Perso::moveTo(Vect<2u, double> dest)
+void		Perso::moveTo(Vect<2, double> dest)
 {
   moving = true;
   destination = dest;
@@ -103,7 +103,7 @@ void		Perso::moveTo(Vect<2u, double> dest)
       moving = false;
       return;
     }
-  moveDir = Vect<2u, double>((destination[0] - position[0]) / distance,
+  moveDir = Vect<2, double>((destination[0] - position[0]) / distance,
 			     (destination[1] - position[1]) / distance);
   startPos = position;
 }

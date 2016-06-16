@@ -36,8 +36,10 @@ void PlayState::handleEvent(void)
           game->quit();
           break;
 	case SDL_MOUSEBUTTONDOWN:
-	perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
-	break;
+	  Vect<2, double> tmp = display->getIngameCursor();
+	  printf("click pos: %f %f\n", tmp[0], tmp[1]);
+	  perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
+	  break;
 	}
       if (event.type != SDL_KEYDOWN)
 	return;
@@ -58,6 +60,10 @@ void PlayState::handleEvent(void)
         case SDLK_RIGHT:
           display->moveCamera(0.12, -0.12);
           break;
+	case SDLK_p:
+	  Vect<2, double> tmp = display->getCamera();
+	  printf("cam pos: %f %f\n", tmp[0], tmp[1]);
+	  break;
         }
     }
 }

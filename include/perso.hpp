@@ -32,8 +32,8 @@ public:
   Perso(Game *game);
   ~Perso();
 
-  std::vector<Renderable>&	getRenderable();
-  Vect<2u, double>		getPosition();
+  std::vector<Renderable>const&	getRenderable() const;
+  Vect<2u, double>		getPosition() const;
   //  void			getStats(); TODO
   //  std::vector<Fixture>	getFixtures(); TODO
 
@@ -45,8 +45,8 @@ public:
   void				moveTo(Vect<2u, double> dest);
 
   // Get bool
-  bool				isMoving();
-  bool				isSelected();
+  bool				isMoving() const;
+  bool				isSelected() const;
 
   // Set bool
   void				select();
@@ -57,10 +57,10 @@ private:
   std::vector<Renderable>	renderable;
 
   // TODO : Perso's position/destination on WORLD MAP
-  Vect<2u, double>		position;
-  Vect<2u, double>		destination;
-  Vect<2u, double>		moveDir;
-  Vect<2u, double>		startPos;
+  Vect<2, double>		position;
+  Vect<2, double>		destination;
+  Vect<2, double>		moveDir;
+  Vect<2, double>		startPos;
   double			distance;
   // (for now screen positons)
 
