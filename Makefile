@@ -48,6 +48,7 @@ obj_gen = 	$(shell echo -n $(dir $1) >> targets.mk); \
 		$(shell echo $2 >> targets.mk) \
 		$(shell echo >> targets.mk);
 
+# The '\t' is substitued by the 'echo' built-in called in `obj_gen`
 RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@'
 
 $(shell echo -n > targets.mk)
