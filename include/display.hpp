@@ -40,8 +40,8 @@ public:
   void isometrize(SDL_Rect&) const;
   void displayTiles(Terrain *terrain);
 
-  const Vect <2, double>& getCamera() const;
-  const Vect <2, double> getIngameCursor() const;
+  Vect <2, double> const &getCamera() const;
+  Vect <2, double> const getIngameCursor() const;
 
 private:
   Game *game;

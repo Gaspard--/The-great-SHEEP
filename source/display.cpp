@@ -64,12 +64,12 @@ void Display::moveCamera(double x, double y)
   camera.moveCamera(x, y);
 }
 
-const Vect <2, double>& Display::getCamera() const
+Vect <2, double> const &Display::getCamera() const
 {
   return (camera.getCamera());
 }
 
-const Vect <2, double> Display::getIngameCursor() const
+Vect <2, double> const Display::getIngameCursor() const
 {
   Vect <2, double>	cursor;
   double		tmp;

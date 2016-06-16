@@ -11,7 +11,7 @@ Camera::~Camera(void)
 {
 }
 
-const Vect<2, double>& Camera::getCamera(void) const
+Vect<2, double> const &Camera::getCamera(void) const
 {
   return (lookat);
 }
