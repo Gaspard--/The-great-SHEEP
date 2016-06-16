@@ -45,7 +45,9 @@ all:		$(NAME)
 
 obj_gen = 	$(shell echo -n $(dir $1) >> targets.mk); \
 		$(shell g++ -I $(INCDIR) -MM $1 | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
-		$(shell echo -e $2 >> targets.mk)
+		$(shell echo $2 >> targets.mk) \
+		$(shell echo >> targets.mk);
+
 RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@'
 
 $(shell echo -n > targets.mk)
