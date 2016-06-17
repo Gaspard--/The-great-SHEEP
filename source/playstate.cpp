@@ -37,7 +37,7 @@ void PlayState::handleEvent(void)
           break;
 	case SDL_MOUSEBUTTONDOWN:
 	  Vect<2, double> tmp = display->getIngameCursor();
-	  printf("click pos: %f %f\n", tmp[0], tmp[1]);
+	  printf("click pos: x %f, y %f\n", tmp[0], tmp[1]);
 	  perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
 	  break;
 	}
@@ -62,7 +62,7 @@ void PlayState::handleEvent(void)
           break;
 	case SDLK_p:
 	  Vect<2, double> tmp = display->getCamera();
-	  printf("cam pos: %f %f\n", tmp[0], tmp[1]);
+	  printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
 	  break;
         }
     }
