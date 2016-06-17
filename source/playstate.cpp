@@ -32,13 +32,13 @@ void PlayState::handleEvent(void)
         {
         case SDL_QUIT:
           game->quit();
-          break;
+	  return ;
 	}
       switch (event.key.keysym.sym)
         {
         case SDLK_ESCAPE:
           game->quit();
-          break;
+          return ;
         case SDLK_UP:
           display->moveCamera(0, -0.2);
           break;
