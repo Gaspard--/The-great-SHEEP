@@ -28,7 +28,7 @@ void PlayState::handleEvent(void)
 
   if (SDL_PollEvent(&event) != 0)
     {
-      switch (event.key.keysym.sym)
+      switch (event.type)
         {
         case SDL_QUIT:
           game->quit();
