@@ -89,7 +89,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T> operator-(Vect<dim, T> const &other)
+  Vect<dim, T> operator-(Vect<dim, T> const &other) const
   {
     Vect<dim, T> result;
     unsigned int i;
@@ -103,7 +103,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T> operator-(void)
+  Vect<dim, T> operator-(void) const
   {
     Vect<dim, T> result;
     unsigned int i;
@@ -117,7 +117,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T> operator*(T const& other)
+  Vect<dim, T> operator*(T const& other) const
   {
     Vect<dim, T> result;
     unsigned int i;
@@ -131,7 +131,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T> operator*(Vect<dim, T> const& other)
+  Vect<dim, T> operator*(Vect<dim, T> const& other) const
   {
     Vect<dim, T> result;
     unsigned int i;
@@ -145,7 +145,7 @@ public:
     return (result);
   }
 
-  Vect<dim, T> operator/(T const& other)
+  Vect<dim, T> operator/(T const& other) const
   {
     Vect<dim, T>	result;
     unsigned int	i;

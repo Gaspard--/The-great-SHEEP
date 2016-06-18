@@ -34,7 +34,7 @@ void Terrain::orderTiles(void)
 bool Terrain::isTile(int x, int y) const
 {
   return ((x >= 0 && x < world_dimension[0])
-	  || (y >= 0 && y < world_dimension[1]));
+	  && (y >= 0 && y < world_dimension[1]));
 }
 
 Tile const &Terrain::getTile(int x, int y) const

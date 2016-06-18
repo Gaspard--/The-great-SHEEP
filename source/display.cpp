@@ -127,11 +127,11 @@ void Display::isometrize(SDL_Rect& win) const
 
 void Display::fixBoard(SDL_Rect& win) const
 {
-  Vect <2, double> cam;
+  Vect <2u, int> cam;
   int x;
   int y;
 
-  cam = camera.getCamera();
+  cam = camera.getFlooredCamera();
   x = cam[0] - TILE_WIDTH / 2;
   y = cam[1] - TILE_HEIGHT / 2;
   win.x -= (x - y);
@@ -154,13 +154,10 @@ void Display::centerBoard(SDL_Rect& win) const
 
 void Display::smoothScrolling(SDL_Rect& win) const
 {
-  Vect <2, double> cam;
   Vect <2, double> rest;
   double tmp;
 
-  cam = camera.getCamera();
-  rest[0] = cam[0] - (int)cam[0] + (cam[0] < 0 && (int)cam[0] != 0);
-  rest[1] = cam[1] - (int)cam[1] + (cam[1] < 0 && (int)cam[1] != 0);
+  rest = camera.getCamera() - Vect<2u, double>(camera.getFlooredCamera());
   //isometrize
   tmp = rest[0];
   rest[0] -= rest[1];
@@ -169,8 +166,8 @@ void Display::smoothScrolling(SDL_Rect& win) const
   rest[0] *= 60;
   rest[1] *= 30;
   //translate
-  win.x -= rest[0];
-  win.y -= rest[1];
+  win.x -= (int)rest[0];
+  win.y -= (int)rest[1];
 }
 
 void Display::affTile(SDL_Rect const &win, Tile const &tile)
@@ -225,10 +222,10 @@ void Display::displayLine(Terrain *terrain, SDL_Rect const &rect)
 
 void Display::displayTiles(Terrain *terrain)
 {
-  Vect <2, double> cam;
+  Vect<2u, int> cam;
   SDL_Rect rect;
 
-  cam = camera.getCamera();
+  cam = camera.getFlooredCamera();
   rect.x = cam[0] - TILE_WIDTH / 2;
   rect.y = cam[1] - TILE_HEIGHT / 2;
   rect.w = rect.x + TILE_WIDTH;

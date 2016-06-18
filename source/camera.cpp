@@ -11,7 +11,13 @@ Camera::~Camera(void)
 {
 }
 
-Vect<2, double> const &Camera::getCamera(void) const
+Vect<2u, int> const Camera::getFlooredCamera(void) const
+{
+  return (Vect<2u, int>(lookat) + Vect<2u, int>(lookat[0] < 0 && (int)lookat[0] != lookat[0],
+						lookat[1] < 0 && (int)lookat[1] != lookat[1]));
+}
+
+Vect<2u, double> const &Camera::getCamera(void) const
 {
   return (lookat);
 }

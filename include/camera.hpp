@@ -14,8 +14,8 @@ public:
 
   void	setCamera(double x, double y);
   void	moveCamera(double x, double y);
-  Vect <2, double> const &getCamera(void) const;
-
+  Vect<2u, double> const &getCamera(void) const;
+  Vect<2u, int> const getFlooredCamera(void) const;
 private:
   Vect<2, double> lookat;
 };
