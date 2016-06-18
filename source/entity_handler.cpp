@@ -13,7 +13,7 @@ void EntityHandler::update()
   i = 0;
   while (i < entities.size())
     {
-      entities[i]->update(playState);
+      entities[i]->update();
       i = i + 1;
     }
 }

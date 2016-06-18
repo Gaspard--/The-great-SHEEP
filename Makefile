@@ -33,6 +33,8 @@ SRC :=		main.cpp \
 		fixture.cpp \
 		entity_handler.cpp \
 		logic.cpp \
+		entity.cpp \
+		monster.cpp \
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)

@@ -9,10 +9,12 @@ class PlayState;
 
 class Entity
 {
+private:
+  PlayState *playState;
 public:
-  virtual ~Entity(void) {};
-  virtual void update(PlayState *playState) = 0;
-  //  virtual void getStats(void) = 0; TODO
+  Entity(PlayState *playState);
+  virtual ~Entity(void);
+  virtual void update(void) = 0;
 };
 
 #endif // !ENTITY_HPP_

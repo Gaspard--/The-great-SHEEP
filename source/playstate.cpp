@@ -21,6 +21,8 @@ void PlayState::destroy(void)
 {
   delete terrain;
   delete display;
+  delete logic;
+  delete entityHandler;
 }
 
 //
