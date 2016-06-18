@@ -29,6 +29,7 @@ SRC :=		main.cpp \
 		game.cpp \
 		menustate.cpp \
 		playstate.cpp \
+		perso.cpp \
 		renderable.cpp \
 		fixture.cpp
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))

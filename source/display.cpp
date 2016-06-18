@@ -5,17 +5,15 @@
 #include "tile.hpp"
 #include "camera.hpp"
 
-Display::Display(Game *cGame)
+Display::Display(Game *game) : game(game)
 {
   int i;
-
-  game = cGame;
 
   // Load textures
   textures[display::TEXTURE_TILE_GRASS] =
     IMG_LoadTexture(game->getRenderer(), "assets/tile_grass.png");
   textures[display::TEXTURE_TILE_WATER] =
-     IMG_LoadTexture(game->getRenderer(), "assets/tile_water.png");
+    IMG_LoadTexture(game->getRenderer(), "assets/tile_water.png");
 
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -87,6 +85,10 @@ Vect <2, double> const Display::getIngameCursor() const
   tmp =  cursor[0];
   cursor[0] += cursor[1];
   cursor[1] -= tmp;
+
+  // Absolute position
+  cursor[0] += getCamera()[0];
+  cursor[1] += getCamera()[1];
   return (cursor);
 }
 

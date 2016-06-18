@@ -36,7 +36,7 @@ Game::Game(void)
       exit(-1);
     }
   running = true;
-  this->changeState(new MenuState());
+  this->changeState(new MenuState(this));
 }
 
 Game::~Game(void)
@@ -86,12 +86,10 @@ void Game::changeState(IGameState *newState)
 {
   if (!states.empty())
     {
-      states.back()->destroy();
       delete states.back();
       states.pop_back();
     }
   states.push_back(newState);
-  states.back()->init(this);
 }
 
 void Game::pushState(IGameState *newState)
@@ -101,14 +99,12 @@ void Game::pushState(IGameState *newState)
       states.back()->pause();
     }
   states.push_back(newState);
-  states.back()->init(this);
 }
 
 void Game::popState(void)
 {
   if (!states.empty())
     {
-      states.back()->destroy();
       delete states.back();
       states.pop_back();
     }

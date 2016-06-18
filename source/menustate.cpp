@@ -1,3 +1,4 @@
+#include <iostream>
 #include "top_header.hpp"
 #include "game.hpp"
 #include "menustate.hpp"
@@ -7,14 +8,17 @@
 // Constructor/Destructor
 //
 
-void MenuState::init(Game *mGame)
+MenuState::MenuState(Game *game) : game(game)
 {
-  game = mGame;
-  startButton = IMG_LoadTexture(game->getRenderer(),
-                                "assets/startButton.png");
+  startButton = IMG_LoadTexture(game->getRenderer(), "assets/startButton.png");
+  if (!startButton)
+    {
+      std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
+      exit(-1);
+    }
 }
 
-void MenuState::destroy(void)
+MenuState::~MenuState()
 {
   SDL_DestroyTexture(startButton);
 }
@@ -30,7 +34,6 @@ void MenuState::handleEvent(void)
   int			w;
   int			h;
 
-  // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
   rect.x = (game->getWindowWidth() - w) / 2;
   rect.y = (game->getWindowHeight() - h) / 2;
@@ -38,32 +41,25 @@ void MenuState::handleEvent(void)
   rect.h = h;
   if (SDL_PollEvent(&event) != 0)
     {
-      if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
-	{
-	  game->quit();
-	}
+      if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
+				     event.key.keysym.sym == SDLK_ESCAPE))
+	game->quit();
       mouse = event.button;
       if (mouse.button == SDL_BUTTON_LEFT &&
 	  mouse.x >= rect.x && mouse.x < rect.x + rect.w &&
 	  mouse.y >= rect.y && mouse.y < rect.y + rect.h)
 	{
-	  game->changeState(new PlayState());
+	  game->changeState(new PlayState(game));
 	}
     }
 }
 
 void MenuState::update(void)
 {
-  // Do nothing
-}
+  SDL_Rect	start;
+  int		w;
+  int		h;
 
-void MenuState::draw(void)
-{
-  SDL_Rect start;
-  int w;
-  int h;
-
-  // Code en dur bien dégueulasse :D
   SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
   start.x = (game->getWindowWidth() - w) / 2;
   start.y = (game->getWindowHeight() - h) / 2;
@@ -72,8 +68,11 @@ void MenuState::draw(void)
   SDL_SetRenderDrawColor(game->getRenderer(), 255, 255, 255, 255);
   SDL_RenderClear(game->getRenderer());
   SDL_RenderCopy(game->getRenderer(), startButton, NULL, &start);
+}
+
+void	MenuState::draw()
+{
   SDL_RenderPresent(game->getRenderer());
-  SDL_Delay(20);
 }
 
 void MenuState::pause(void)
