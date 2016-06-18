@@ -44,7 +44,6 @@ public:
   void				update();
 
   // Move to given position
-  // TODO : PATHFINDING WORLD MAP ARRAY
   void				moveTo(Vect<2u, double> dest);
   void				renderPerso();
 
@@ -67,15 +66,13 @@ private:
   Vect<2, double>		speed;
   double			distance;
 
-  // TODO animated sprite
-  perso::Direction		direction;
-
   // sprites
   SDL_Texture			*textures[perso::DIR_MAX];
   SDL_Texture			*left;
   SDL_Texture			*right;
   int				frame;
   SDL_Rect			sprites[PERSO_NB_FRAME];
+  perso::Direction		direction;
 
   bool				moving;
   bool				selected;
