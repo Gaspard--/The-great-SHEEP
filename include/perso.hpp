@@ -3,11 +3,12 @@
 
 # include "entity.hpp"
 
-# define PERSO_SPEED 7
+# define PERSO_SPEED 4
 # define PERSO_NB_FRAME 9
 
 // Forward declaration
 class Game;
+class Display;
 
 /*
 ** Class Perso Derived from Entity: Main Perso
@@ -29,7 +30,7 @@ class Perso: public Entity
 {
 public:
   // Constructor/Destructor
-  Perso(Game *game);
+  Perso(Game *game, Display *display);
   ~Perso();
 
   std::vector<Renderable>const&	getRenderable() const;
@@ -53,6 +54,7 @@ public:
 
 private:
   Game				*game;
+  Display			*display;
   // What to render
   std::vector<Renderable>	renderable;
 
@@ -60,9 +62,13 @@ private:
   Vect<2, double>		position;
   Vect<2, double>		destination;
   Vect<2, double>		moveDir;
-  Vect<2, double>		startPos;
-  double			distance;
   // (for now screen positons)
+
+  Vect<2, double>		worldPos;
+  Vect<2, double>		worldDest;
+  Vect<2, double>		speed;
+
+  double			distance;
 
   // TODO animated sprite
   perso::Direction		direction;

@@ -11,7 +11,7 @@ PlayState::PlayState(Game *game) : game(game)
 {
   display = new Display(game);
   terrain = new Terrain();
-  perso = new Perso(game);
+  perso = new Perso(game, display);
 }
 
 PlayState::~PlayState()
@@ -34,11 +34,13 @@ void PlayState::handleEvent(void)
         {
         case SDL_QUIT:
           game->quit();
-          break;
+          return;
 	case SDL_MOUSEBUTTONDOWN:
 	  Vect<2, double> tmp = display->getIngameCursor();
-	  printf("click pos: x %f, y %f\n", tmp[0], tmp[1]);
-	  perso->moveTo(Vect<2u, double>(event.button.x, event.button.y));
+	  Vect<2, double> camPos = display->getCamera();
+	  camPos[0] += tmp[0];
+	  camPos[1] += tmp[1];
+	  perso->moveTo(camPos);
 	  break;
 	}
       if (event.type != SDL_KEYDOWN)
@@ -47,7 +49,7 @@ void PlayState::handleEvent(void)
         {
         case SDLK_ESCAPE:
           game->quit();
-          break;
+          return ;
         case SDLK_UP:
           display->moveCamera(-0.2, -0.2);
           break;
@@ -100,7 +102,7 @@ void	PlayState::renderPerso()
 
   rect.w = (*perso->getRenderable().back().dimensions)[0];
   rect.h = (*perso->getRenderable().back().dimensions)[1];
-  rect.x = perso->getPosition()[0] - rect.w / 2;
-  rect.y = perso->getPosition()[1] - rect.h;
+  rect.x = game->getWindowWidth() / 2 - rect.w / 2;
+  rect.y = game->getWindowHeight() / 2 - rect.h;
   SDL_RenderCopy(game->getRenderer(), perso->getRenderable()[0].texture, NULL, &rect);
 }

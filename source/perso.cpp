@@ -9,7 +9,7 @@
 //
 // Constructor/Destructor
 //
-Perso::Perso(Game *game)
+Perso::Perso(Game *game, Display *display) : game(game), display(display), worldPos(display->getCamera())
 {
   SDL_Texture	*texture;
   int	x;
@@ -34,6 +34,8 @@ Perso::Perso(Game *game)
   // Set perso position
   position = Vect<2, double>(game->getWindowWidth() / 2.0, game->getWindowHeight() / 2.0);
   destination = 0;
+
+  worldDest = 0;
   direction = perso::DIR_MAX;
 }
 
@@ -73,6 +75,8 @@ void		Perso::select()
   selected = true;
 }
 
+#include <iostream>
+
 //
 // Update perso
 //
@@ -80,11 +84,19 @@ void		Perso::update()
 {
   if (!selected || !moving)
     return;
-  position = Vect<2, double>(position[0] + moveDir[0] * PERSO_SPEED,
-			      position[1] + moveDir[1] * PERSO_SPEED);
-  if (sqrt(pow(position[0] - startPos[0], 2) + pow(position[1] - startPos[1], 2)) >= distance)
+  distance -= PERSO_SPEED / 100.0f;
+  // position = Vect<2, double>(position[0] + moveDir[0] * PERSO_SPEED,
+  // 			     position[1] + moveDir[1] * PERSO_SPEED);
+  // if (distance <= 0)
+  //   {
+  //     position = destination;
+  //     moving = false;
+  //   }
+  worldPos[0] += speed[0] * PERSO_SPEED / 100;
+  worldPos[1] += speed[1] * PERSO_SPEED / 100;
+  display->moveCamera(speed[0] * PERSO_SPEED / 100, speed[1] * PERSO_SPEED / 100);
+  if (distance <= 0)
     {
-      position = destination;
       moving = false;
     }
 }
@@ -95,15 +107,19 @@ void		Perso::update()
 void		Perso::moveTo(Vect<2, double> dest)
 {
   moving = true;
-  destination = dest;
-  distance = sqrt(pow(destination[0] - position[0], 2) +
-		  pow(destination[1] - position[1], 2));
+  worldDest = dest;
+  distance = sqrt(pow(worldDest[0] - worldPos[0], 2) +
+  		  pow(worldDest[1] - worldPos[1], 2));
+  // destination = dest;
+  // distance = sqrt(pow(destination[0] - position[0], 2) +
+  // 		  pow(destination[1] - position[1], 2));
   if (distance <= 0)
     {
       moving = false;
       return;
     }
-  moveDir = Vect<2, double>((destination[0] - position[0]) / distance,
-			     (destination[1] - position[1]) / distance);
-  startPos = position;
+  speed = Vect<2, double>((worldDest[0] - worldPos[0]) / distance,
+			  (worldDest[1] - worldPos[1]) / distance);
+  // moveDir = Vect<2, double>((destination[0] - position[0]) / distance,
+  // 			     (destination[1] - position[1]) / distance);
 }
