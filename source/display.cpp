@@ -52,16 +52,14 @@ void Display::displayRenderable(Renderable *renderable)
   SDL_Rect      rect;
   Vect<2u, double> tmp;
 
-  rect.w = (*renderable->dimensions)[0] * 60;
-  rect.h = (*renderable->dimensions)[1] * 60;
+  rect.w = static_cast<int>((*renderable->dimensions)[0] * 60.0);
+  rect.h = static_cast<int>((*renderable->dimensions)[1] * 60.0);
   tmp = (*renderable->position);
-  std::cout << "perso at : " << tmp[0] << ", " << tmp[1] << std::endl;
   tmp = (tmp  - getCamera());
   tmp = tmp + Vect<2u, double>(-tmp[1], tmp[0]);
   tmp = tmp  * Vect<2u, double>(60, 30);
-  rect.x = tmp[0] + (game->getWindowWidth() - rect.w) / 2;
-  rect.y = tmp[1] + game->getWindowHeight() / 2 - rect.h;
-  std::cout << "drawng at : " << rect.x << ", " << rect.y << std::endl;
+  rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
+  rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
   SDL_RenderCopy(game->getRenderer(), renderable->texture, renderable->srcRect, &rect);
 }
 
@@ -106,8 +104,7 @@ Vect <2, double> const Display::getIngameCursor() const
   cursor[0] = x - game->getWindowWidth() / 2;
   cursor[1] = y - game->getWindowHeight() / 2;
   //scale;
-  cursor[0] /= 120;
-  cursor[1] /= 60;
+  cursor = cursor * Vect<2, double>(1.0 / 120.0, 1.0 / 60.0);
   //deiso
   tmp =  cursor[0];
   cursor[0] += cursor[1];
@@ -162,8 +159,8 @@ void Display::smoothScrolling(SDL_Rect& win) const
   double tmp;
 
   cam = camera.getCamera();
-  rest[0] = cam[0] - (int)cam[0];
-  rest[1] = cam[1] - (int)cam[1];
+  rest[0] = cam[0] - (int)cam[0] + (cam[0] < 0 && (int)cam[0] != 0);
+  rest[1] = cam[1] - (int)cam[1] + (cam[1] < 0 && (int)cam[1] != 0);
   //isometrize
   tmp = rest[0];
   rest[0] -= rest[1];

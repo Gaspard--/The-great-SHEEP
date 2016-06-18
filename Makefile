@@ -8,7 +8,7 @@ INCDIR :=	./include
 # compilation options
 #
 CXX :=		g++
-CXXFLAGS :=	`sdl2-config --cflags` -I $(INCDIR) -W -Wall -Wextra -std=c++11 -g -Winvalid-pch
+CXXFLAGS :=	`sdl2-config --cflags` -I $(INCDIR) -W -Wall -Wextra -std=c++11 -g -Winvalid-pch -Wconversion
 
 #
 # link options
