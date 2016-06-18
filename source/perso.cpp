@@ -9,38 +9,39 @@
 //
 // Constructor/Destructor
 //
-Perso::Perso(Game *game, Display *display) : game(game), display(display), worldPos(display->getCamera())
+Perso::Perso(Game *game, Display *display) : game(game), display(display), position(display->getCamera())
 {
-  SDL_Texture	*texture;
-  int	x;
-  int	y;
 
   // Load perso.png
-  texture = IMG_LoadTexture(game->getRenderer(), "assets/perso.png");
-  if (!texture)
+  idle = IMG_LoadTexture(game->getRenderer(), "assets/perso.png");
+  if (!idle)
     {
       std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
       exit(-1);
     }
-  SDL_QueryTexture(texture, NULL, NULL, &x, &y);
+  int	x;
+  int	y;
+  SDL_QueryTexture(idle, NULL, NULL, &x, &y);
 
   // Add renderable
-  this->renderable.push_back(Renderable(new Vect<2, double>(x, y), new Vect<2, double>(x, y), texture));
+  this->renderable.push_back(Renderable(new Vect<2, double>(x, y), new Vect<2, double>(x, y), idle));
 
   // Set booleans
   moving = false;
   selected = true;
 
   // Set perso position
-  position = Vect<2, double>(game->getWindowWidth() / 2.0, game->getWindowHeight() / 2.0);
   destination = 0;
-
-  worldDest = 0;
   direction = perso::DIR_MAX;
+
+  // Set sprites
+  frame = 0;
 }
 
 Perso::~Perso()
 {
+  delete renderable.back().dimensions;
+  delete renderable.back().position;
   SDL_DestroyTexture(renderable[0].texture);
 }
 
@@ -75,8 +76,6 @@ void		Perso::select()
   selected = true;
 }
 
-#include <iostream>
-
 //
 // Update perso
 //
@@ -84,17 +83,10 @@ void		Perso::update()
 {
   if (!selected || !moving)
     return;
-  distance -= PERSO_SPEED / 100.0f;
-  // position = Vect<2, double>(position[0] + moveDir[0] * PERSO_SPEED,
-  // 			     position[1] + moveDir[1] * PERSO_SPEED);
-  // if (distance <= 0)
-  //   {
-  //     position = destination;
-  //     moving = false;
-  //   }
-  worldPos[0] += speed[0] * PERSO_SPEED / 100;
-  worldPos[1] += speed[1] * PERSO_SPEED / 100;
-  display->moveCamera(speed[0] * PERSO_SPEED / 100, speed[1] * PERSO_SPEED / 100);
+  distance -= PERSO_SPEED;
+  position[0] += speed[0] * PERSO_SPEED;
+  position[1] += speed[1] * PERSO_SPEED;
+  display->moveCamera(speed[0] * PERSO_SPEED, speed[1] * PERSO_SPEED);
   if (distance <= 0)
     {
       moving = false;
@@ -106,20 +98,23 @@ void		Perso::update()
 //
 void		Perso::moveTo(Vect<2, double> dest)
 {
+  frame = 0;
   moving = true;
-  worldDest = dest;
-  distance = sqrt(pow(worldDest[0] - worldPos[0], 2) +
-  		  pow(worldDest[1] - worldPos[1], 2));
-  // destination = dest;
-  // distance = sqrt(pow(destination[0] - position[0], 2) +
-  // 		  pow(destination[1] - position[1], 2));
+  destination = dest;
+  distance = sqrt(pow(destination[0] - position[0], 2) +
+  		  pow(destination[1] - position[1], 2));
   if (distance <= 0)
     {
+      delete renderable.back().dimensions;
+      delete renderable.back().position;
+      renderable.clear();
+      int	x;
+      int	y;
+      SDL_QueryTexture(idle, NULL, NULL, &x, &y);
+      this->renderable.push_back(Renderable(new Vect<2, double>(x, y), new Vect<2, double>(x, y), idle));
       moving = false;
       return;
     }
-  speed = Vect<2, double>((worldDest[0] - worldPos[0]) / distance,
-			  (worldDest[1] - worldPos[1]) / distance);
-  // moveDir = Vect<2, double>((destination[0] - position[0]) / distance,
-  // 			     (destination[1] - position[1]) / distance);
+  speed = Vect<2, double>((destination[0] - position[0]) / distance,
+			  (destination[1] - position[1]) / distance);
 }

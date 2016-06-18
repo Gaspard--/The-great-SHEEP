@@ -3,7 +3,7 @@
 
 # include "entity.hpp"
 
-# define PERSO_SPEED 4
+# define PERSO_SPEED 0.04
 # define PERSO_NB_FRAME 9
 
 // Forward declaration
@@ -58,20 +58,18 @@ private:
   // What to render
   std::vector<Renderable>	renderable;
 
-  // TODO : Perso's position/destination on WORLD MAP
+  // Perso movement
   Vect<2, double>		position;
   Vect<2, double>		destination;
-  Vect<2, double>		moveDir;
-  // (for now screen positons)
-
-  Vect<2, double>		worldPos;
-  Vect<2, double>		worldDest;
   Vect<2, double>		speed;
-
   double			distance;
 
   // TODO animated sprite
   perso::Direction		direction;
+
+  // sprites
+  SDL_Texture			*idle;
+  int				frame;
 
   bool				moving;
   bool				selected;
