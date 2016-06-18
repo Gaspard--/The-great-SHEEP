@@ -8,6 +8,7 @@
 // Forward declaration
 class Display;
 class Terrain;
+class Perso;
 
 /*
 ** INHERITED FROM GAMESTATE!! => check gamestate.hpp for more details about
@@ -18,9 +19,8 @@ class PlayState: public IGameState
 {
 public:
   // Constructor/Destructor
-  ~PlayState(void) {}
-  void init(Game *game);
-  void destroy(void);
+  PlayState(Game *game);
+  ~PlayState();
 
   // Gamestate flow
   void handleEvent(void);
@@ -31,9 +31,10 @@ public:
 
 private:
   // Main class
-  Game *game;
-  Display *display;
-  Terrain *terrain;
+  Game		*game;
+  Display	*display;
+  Terrain	*terrain;
+  Perso		*perso;
 };
 
 #endif /* !PLAYSTATE_HPP_ */

@@ -1,22 +1,24 @@
 #include "top_header.hpp"
 #include "game.hpp"
 #include "playstate.hpp"
+#include "perso.hpp"
 
 //
 // Constructor/Destructor
 //
 
-void PlayState::init(Game *mGame)
+PlayState::PlayState(Game *game) : game(game)
 {
-  game = mGame;
   display = new Display(game);
   terrain = new Terrain();
+  perso = new Perso(game, display);
 }
 
-void PlayState::destroy(void)
+PlayState::~PlayState()
 {
   delete terrain;
   delete display;
+  delete perso;
 }
 
 //
@@ -28,17 +30,22 @@ void PlayState::handleEvent(void)
 
   if (SDL_PollEvent(&event) != 0)
     {
-      switch (event.key.keysym.sym)
+      switch (event.type)
         {
         case SDL_QUIT:
           game->quit();
-          break;
+          return;
+	case SDL_MOUSEBUTTONDOWN:
+	  perso->moveTo(display->getIngameCursor());
+	  break;
 	}
+      if (event.type != SDL_KEYDOWN)
+	return;
       switch (event.key.keysym.sym)
         {
         case SDLK_ESCAPE:
           game->quit();
-          break;
+          return ;
         case SDLK_UP:
           display->moveCamera(0, -0.2);
           break;
@@ -51,20 +58,28 @@ void PlayState::handleEvent(void)
         case SDLK_RIGHT:
           display->moveCamera(0.2, 0);
           break;
+	case SDLK_p:
+	  Vect<2, double> tmp = display->getCamera();
+	  printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
+	  break;
         }
     }
 }
 
 void PlayState::update(void)
 {
-  // Do nothing
+  // Display tiles
+  display->clearScreen(0, 0, 0);
+  display->displayTiles(terrain);
+
+  // Display perso
+  perso->update();
+  perso->renderPerso();
 }
 
 void PlayState::draw(void)
 {
-  display->clearScreen(0, 0, 0);
-  display->displayTiles(terrain);
-  display->render();
+  SDL_RenderPresent(game->getRenderer());
 }
 
 void PlayState::pause(void)
