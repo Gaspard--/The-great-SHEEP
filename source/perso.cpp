@@ -7,27 +7,41 @@
 #include "perso.hpp"
 #include "playstate.hpp"
 
+static SDL_Texture *loadTexture(Game *game, const std::string &name)
+{
+  std::string file_path("assets/" + name + ".png");
+  return IMG_LoadTexture(game->getRenderer(), file_path.c_str());
+}
+
 //
 // Constructor/Destructor
 //
 Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   : Entity(playState), position(startPosition)
 {
-
-  // Load perso.png
-  textures[perso::DIR_IDLE] = IMG_LoadTexture(game->getRenderer(), "assets/perso.png");
-  textures[perso::DIR_RIGHT] = IMG_LoadTexture(game->getRenderer(), "assets/right.png");
-  textures[perso::DIR_LEFT] = IMG_LoadTexture(game->getRenderer(), "assets/left.png");
-  if (!textures[perso::DIR_IDLE] || !textures[perso::DIR_RIGHT] || !textures[perso::DIR_LEFT])
+  SDL_Texture *newTextures[directionCount] =
     {
-      std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
-      exit(-1);
+      loadTexture(game, "perso"),
+      loadTexture(game, "right"),
+      loadTexture(game, "left"),
+    };
+
+  for (SDL_Texture *tex : newTextures)
+    {
+      if (!tex)
+        {
+          // TODO: Ugh.
+          std::cerr << "Failed to load image: " << SDL_GetError() << std::endl;
+          exit(-1);
+        }
     }
+
+  std::copy(newTextures, newTextures + directionCount, textures);
 
   // Add renderable
   renderable = new Renderable(&position,
 			      new Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT),
-			      textures[perso::DIR_IDLE]);
+			      getTexture(Direction::IDLE));
   renderable->srcRect = NULL;
   playState->getDisplay()->addRenderable(renderable);
 
@@ -37,7 +51,7 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
 
   // Set perso position
   destination = 0;
-  direction = perso::DIR_MAX;
+  direction = Direction::MAX;
 
   // Set sprites
   frame = 0;
@@ -55,17 +69,11 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
 
 Perso::~Perso()
 {
-  int	i;
-
   playState->getDisplay()->removeRenderable(renderable);
   delete renderable->dimensions;
   delete renderable;
-  i = perso::DIR_IDLE;
-  while (i < perso::DIR_MAX)
-    {
-      SDL_DestroyTexture(textures[i]);
-      i = i + 1;
-    }
+  for (SDL_Texture *texture : textures)
+    SDL_DestroyTexture(texture);
 }
 
 //
@@ -114,7 +122,7 @@ void		Perso::update()
     {
       *renderable->dimensions = Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT);
       // Set IDLE sprite
-      renderable->texture = textures[perso::DIR_IDLE];
+      renderable->texture = getTexture(Direction::IDLE);
       moving = false;
     }
   if (moving)
@@ -132,12 +140,12 @@ void		Perso::moveTo(Vect<2, double> dest)
   moving = true;
   destination = dest;
   if (destination[0] >= position[0])
-    direction = perso::DIR_RIGHT;
+    direction = Direction::RIGHT;
   else
-    direction = perso::DIR_LEFT;
+    direction = Direction::LEFT;
 
   // Set sprite accordingly to direction
-  renderable->texture = textures[direction];
+  renderable->texture = getTexture(direction);
   distance = sqrt(pow(destination[0] - position[0], 2) +
   		  pow(destination[1] - position[1], 2));
   if (distance <= 0)

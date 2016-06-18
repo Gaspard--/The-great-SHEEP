@@ -1,6 +1,7 @@
 #ifndef PERSO_HPP_
 # define PERSO_HPP_
 
+# include <cassert>
 # include <SDL2/SDL.h>
 # include "entity.hpp"
 # include "vect.hpp"
@@ -27,20 +28,21 @@ class Display;
 ** Class Perso Derived from Entity: Main Perso
 */
 
-namespace perso
-{
-  enum Direction
-    {
-      DIR_IDLE		= 0,
-      DIR_LEFT		= 1,
-      DIR_RIGHT		= 2,
-      DIR_MAX		= 3
-    };
-}
-
 class Perso : public Entity
 {
+public:
+  enum class Direction
+  {
+    IDLE,
+    LEFT,
+    RIGHT,
+    MAX,
+  };
+
+  static const int directionCount = static_cast<int>(Direction::MAX);
+
 private:
+
   Renderable			*renderable;
 
   // Perso movement
@@ -50,13 +52,22 @@ private:
   double			distance;
 
   // sprites
-  SDL_Texture			*textures[perso::DIR_MAX];
+  SDL_Texture			*textures[directionCount];
   int				frame;
   SDL_Rect			sprites[PERSO_NB_FRAME];
-  perso::Direction		direction;
+  Direction                     direction;
 
   bool				moving;
   bool				selected;
+
+  SDL_Texture *getTexture(Direction direction) {
+    return textures[static_cast<int>(direction)];
+  }
+
+  void setTexture(Direction direction, SDL_Texture *texture) {
+    assert(texture);
+    textures[static_cast<int>(direction)] = texture;
+  }
 
 public:
   // Constructor/Destructor
