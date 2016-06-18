@@ -74,7 +74,7 @@ void PlayState::update(void)
 
   // Display perso
   perso->update();
-  this->renderPerso();
+  perso->renderPerso();
 }
 
 void PlayState::draw(void)
@@ -90,15 +90,4 @@ void PlayState::pause(void)
 void PlayState::resume(void)
 {
   // Do nothing
-}
-
-void	PlayState::renderPerso()
-{
-  SDL_Rect	rect;
-
-  rect.w = (*perso->getRenderable().back().dimensions)[0];
-  rect.h = (*perso->getRenderable().back().dimensions)[1];
-  rect.x = game->getWindowWidth() / 2 - rect.w / 2;
-  rect.y = game->getWindowHeight() / 2 - rect.h;
-  SDL_RenderCopy(game->getRenderer(), perso->getRenderable()[0].texture, NULL, &rect);
 }

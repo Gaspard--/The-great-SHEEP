@@ -3,8 +3,11 @@
 
 # include "entity.hpp"
 
-# define PERSO_SPEED 0.04
+# define PERSO_SPEED 0.03
+# define PERSO_FRAME_SPEED 10
 # define PERSO_NB_FRAME 9
+# define PERSO_WIDTH 60
+# define PERSO_HEIGHT 100
 
 // Forward declaration
 class Game;
@@ -18,11 +21,10 @@ namespace perso
 {
   enum Direction
     {
-      DIR_LEFT,
-      DIR_RIGHT,
-      DIR_UP,
-      DIR_DOWN,
-      DIR_MAX
+      DIR_IDLE		= 0,
+      DIR_LEFT		= 1,
+      DIR_RIGHT		= 2,
+      DIR_MAX		= 3
     };
 }
 
@@ -44,6 +46,7 @@ public:
   // Move to given position
   // TODO : PATHFINDING WORLD MAP ARRAY
   void				moveTo(Vect<2u, double> dest);
+  void				renderPerso();
 
   // Get bool
   bool				isMoving() const;
@@ -68,8 +71,11 @@ private:
   perso::Direction		direction;
 
   // sprites
-  SDL_Texture			*idle;
+  SDL_Texture			*textures[perso::DIR_MAX];
+  SDL_Texture			*left;
+  SDL_Texture			*right;
   int				frame;
+  SDL_Rect			sprites[PERSO_NB_FRAME];
 
   bool				moving;
   bool				selected;

@@ -30,9 +30,6 @@ public:
   void resume(void);
 
 private:
-  // Render perso
-  void		renderPerso();
-
   // Main class
   Game		*game;
   Display	*display;
