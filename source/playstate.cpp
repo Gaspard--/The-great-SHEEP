@@ -47,16 +47,16 @@ void PlayState::handleEvent(void)
           game->quit();
           return ;
         case SDLK_UP:
-          display->moveCamera(-0.2, -0.2);
+          display->moveCamera(0, -0.2);
           break;
         case SDLK_DOWN:
-          display->moveCamera(0.2, 0.2);
+          display->moveCamera(0, 0.2);
           break;
         case SDLK_LEFT:
-          display->moveCamera(-0.12, 0.12);
+          display->moveCamera(-0.2, 0);
           break;
         case SDLK_RIGHT:
-          display->moveCamera(0.12, -0.12);
+          display->moveCamera(0.2, 0);
           break;
 	case SDLK_p:
 	  Vect<2, double> tmp = display->getCamera();
