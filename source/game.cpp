@@ -82,7 +82,7 @@ void Game::draw(void)
 //
 // Handling game states methods
 //
-void Game::changeState(IGameState *newState)
+void Game::changeState(GameState *newState)
 {
   if (!states.empty())
     {
@@ -92,7 +92,7 @@ void Game::changeState(IGameState *newState)
   states.push_back(newState);
 }
 
-void Game::pushState(IGameState *newState)
+void Game::pushState(GameState *newState)
 {
   if (!states.empty())
     {

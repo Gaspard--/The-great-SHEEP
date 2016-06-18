@@ -17,16 +17,15 @@ class Perso;
 ** the following functions
 ** PlayState : Gamestate for the actual game!
 */
-class PlayState: public IGameState
+class PlayState: public GameState
 {
 private:
   // Main class
-  Game *game;
   Display *display;
   Terrain *terrain;
   EntityHandler *entityHandler;
   Logic *logic;
-  Perso		*perso;
+  Perso *perso;
 
 public:
   // Constructor/Destructor
