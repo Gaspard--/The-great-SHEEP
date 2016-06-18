@@ -8,7 +8,7 @@
 // Constructor/Destructor
 //
 
-MenuState::MenuState(Game *game) : game(game)
+MenuState::MenuState(Game *game) : GameState(game)
 {
   startButton = IMG_LoadTexture(game->getRenderer(), "assets/startButton.png");
   if (!startButton)

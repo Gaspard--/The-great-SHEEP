@@ -9,7 +9,7 @@
 // Constructor/Destructor
 //
 
-PlayState::PlayState(Game *game) : game(game)
+PlayState::PlayState(Game *game) : GameState(game)
 {
   display = new Display(game);
   terrain = new Terrain();

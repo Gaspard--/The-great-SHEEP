@@ -8,7 +8,7 @@
 ** the following functions
 ** MenuState : Gamestate for the menu
 */
-class MenuState: public IGameState
+class MenuState: public GameState
 {
 public:
   // Constructor/Destructor
@@ -23,9 +23,6 @@ public:
   void resume(void);
 
 private:
-  // Main class
-  Game *game;
-
   // Menustate's variables
   SDL_Texture *startButton;
 };

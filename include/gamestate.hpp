@@ -8,17 +8,13 @@
 class Game;
 
 /*
-<<<<<<< HEAD
-** GameState class : Interface/Abstract class
-=======
-** IGameState interface
->>>>>>> 087326ebc024f21e2bca1fe6720d803a725cfd0d
+** GameState abstract class
 */
-class IGameState
+class GameState
 {
 public:
-  // Constructor/Destructor
-  virtual ~IGameState() {};
+  GameState(Game *game_) : game(game_) {};
+  virtual ~GameState() {};
 
   // Write your Event handler in this function
   virtual void handleEvent(void) = 0;
@@ -33,8 +29,7 @@ public:
   virtual void pause(void) = 0;
   virtual void resume(void) = 0;
 
-private:
-  Game *game;
+  Game *const game;
 };
 
 #endif /* !GAMESTATE_HPP_ */
