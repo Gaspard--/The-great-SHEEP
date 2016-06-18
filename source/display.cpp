@@ -170,12 +170,12 @@ void Display::smoothScrolling(SDL_Rect& win) const
   win.y -= (int)rest[1];
 }
 
-void Display::affTile(SDL_Rect const &win, Tile const &tile)
+void Display::displayTile(SDL_Rect const &win, Tile const &tile)
 {
   SDL_Rect tileset;
 
   tileset.x = 0;
-  tileset.y = tile.type * 60;
+  tileset.y = static_cast<int>(tile.type) * 60;
   tileset.w = 120;
   tileset.h = 60;
   SDL_RenderCopy(game->getRenderer(),
@@ -196,7 +196,7 @@ void Display::transformation(Tile const &tile)
   tileScale(win);
   centerBoard(win);
   smoothScrolling(win);
-  affTile(win, tile);
+  displayTile(win, tile);
 }
 
 void Display::displayLine(Terrain *terrain, SDL_Rect const &rect)
@@ -241,7 +241,7 @@ void Display::addRenderable(Renderable *renderable)
 void Display::removeRenderable(Renderable *renderable)
 {
   unsigned int i;
-  
+
   i = 0;
   while (renderables[i] != renderable)
     {
