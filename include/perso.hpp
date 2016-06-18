@@ -3,9 +3,16 @@
 
 # include "entity.hpp"
 
-# define PERSO_SPEED 0.03
-# define PERSO_FRAME_SPEED 10
+// Perso movement speed
+# define PERSO_SPEED 0.04
+
+// Perso frame speed (lower is faster)
+# define PERSO_FRAME_SPEED 7
+
+// Perso frame number
 # define PERSO_NB_FRAME 9
+
+// Perso dimensions
 # define PERSO_WIDTH 60
 # define PERSO_HEIGHT 100
 
@@ -57,7 +64,7 @@ public:
 private:
   Game				*game;
   Display			*display;
-  // What to render
+
   std::vector<Renderable>	renderable;
 
   // Perso movement
@@ -68,8 +75,6 @@ private:
 
   // sprites
   SDL_Texture			*textures[perso::DIR_MAX];
-  SDL_Texture			*left;
-  SDL_Texture			*right;
   int				frame;
   SDL_Rect			sprites[PERSO_NB_FRAME];
   perso::Direction		direction;
