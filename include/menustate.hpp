@@ -12,9 +12,8 @@ class MenuState: public IGameState
 {
 public:
   // Constructor/Destructor
-  ~MenuState(void) {};
-  void init(Game *game);
-  void destroy(void);
+  MenuState(Game *game);
+  ~MenuState();
 
   // Gamestate flow
   void handleEvent(void);

@@ -17,5 +17,5 @@ void Logic::removeFixture(Fixture *fixture)
   i = 0;
   while (fixtures[i] != fixture)
     i = i + 1;
-  fixtures.erase(fixtures.begin() + 5);
+  fixtures.erase(fixtures.begin() + i);
 }

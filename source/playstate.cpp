@@ -3,22 +3,25 @@
 #include "playstate.hpp"
 #include "logic.hpp"
 #include "entity_handler.hpp"
+#include "perso.hpp"
 
 //
 // Constructor/Destructor
 //
 
-void PlayState::init(Game *game)
+PlayState::PlayState(Game *game) : game(game)
 {
-  this->game = game;
   display = new Display(game);
   terrain = new Terrain();
   logic = new Logic();
+  perso = new Perso(game, this, Vect<2, double>(0, 0));
   entityHandler = new EntityHandler(this);
 }
 
-void PlayState::destroy(void)
+PlayState::~PlayState()
 {
+  delete perso;
+  // entities shold all be deleted at this point
   delete terrain;
   delete display;
   delete logic;
@@ -38,8 +41,13 @@ void PlayState::handleEvent(void)
         {
         case SDL_QUIT:
           game->quit();
-	  return ;
+          return;
+	case SDL_MOUSEBUTTONDOWN:
+	  perso->moveTo(display->getIngameCursor());
+	  break;
 	}
+      if (event.type != SDL_KEYDOWN)
+	return;
       switch (event.key.keysym.sym)
         {
         case SDLK_ESCAPE:
@@ -57,20 +65,29 @@ void PlayState::handleEvent(void)
         case SDLK_RIGHT:
           display->moveCamera(0.2, 0);
           break;
+	case SDLK_p:
+	  Vect<2, double> tmp = display->getCamera();
+	  printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
+	  break;
         }
     }
 }
 
 void PlayState::update(void)
 {
-  // Do nothing
+  // Display tiles
+  display->clearScreen(0, 0, 0);
+  display->displayTiles(terrain);
+
+  // Display perso
+  perso->update();
+  //  perso->render(game);
 }
 
 void PlayState::draw(void)
 {
-  display->clearScreen(0, 0, 0);
-  display->displayTiles(terrain);
   display->render();
+  //  SDL_RenderPresent(game->getRenderer());
 }
 
 void PlayState::pause(void)
@@ -96,4 +113,9 @@ Terrain *PlayState::getTerrain()
 EntityHandler *PlayState::getEntityHandler()
 {
   return (entityHandler);
+}
+
+Display *PlayState::getDisplay()
+{
+  return (display);
 }

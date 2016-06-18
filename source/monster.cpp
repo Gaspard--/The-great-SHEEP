@@ -14,7 +14,7 @@ Monster::Monster(Vect<2u, double> nposition, PlayState *playState)
   dimensions = new Vect<2u, double>(*size, *size);
 
   fixture = new Fixture(this->position, speed, size);
-  renderable = new Renderable(position, dimensions);
+  renderable = new Renderable(position, dimensions, NULL);
   playState->getLogic()->addFixture(fixture);
   playState->getEntityHandler()->addEntity(this);
 }

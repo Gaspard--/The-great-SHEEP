@@ -6,16 +6,15 @@
 #include "camera.hpp"
 #include "renderable.hpp"
 
-Display::Display(Game *cGame) : renderables()
+Display::Display(Game *game) : game(game), renderables()
 {
   int i;
 
-  game = cGame;
   // Load textures
   textures[display::TEXTURE_TILE_GRASS] =
     IMG_LoadTexture(game->getRenderer(), "assets/tile_grass.png");
   textures[display::TEXTURE_TILE_WATER] =
-     IMG_LoadTexture(game->getRenderer(), "assets/tile_water.png");
+    IMG_LoadTexture(game->getRenderer(), "assets/tile_water.png");
 
   i = 0;
   while (i < display::TEXTURE_MAX)
@@ -48,8 +47,34 @@ void Display::clearScreen(int r, int g, int b)
   SDL_RenderClear(game->getRenderer());
 }
 
+void Display::displayRenderable(Renderable *renderable)
+{
+  SDL_Rect      rect;
+  Vect<2u, double> tmp;
+
+  rect.w = (*renderable->dimensions)[0] * 60;
+  rect.h = (*renderable->dimensions)[1] * 60;
+  tmp = (*renderable->position);
+  std::cout << "perso at : " << tmp[0] << ", " << tmp[1] << std::endl;
+  tmp = (tmp  - getCamera());
+  tmp = tmp + Vect<2u, double>(-tmp[1], tmp[0]);
+  tmp = tmp  * Vect<2u, double>(60, 30);
+  rect.x = tmp[0] + (game->getWindowWidth() - rect.w) / 2;
+  rect.y = tmp[1] + game->getWindowHeight() / 2 - rect.h;
+  std::cout << "drawng at : " << rect.x << ", " << rect.y << std::endl;
+  SDL_RenderCopy(game->getRenderer(), renderable->texture, renderable->srcRect, &rect);
+}
+
 void Display::render(void)
 {
+  unsigned int	i;
+
+  i = 0;
+  while (i < renderables.size())
+    {
+      displayRenderable(renderables[i]);
+      i = i + 1;
+    }
   SDL_RenderPresent(game->getRenderer());
 }
 
@@ -87,6 +112,10 @@ Vect <2, double> const Display::getIngameCursor() const
   tmp =  cursor[0];
   cursor[0] += cursor[1];
   cursor[1] -= tmp;
+
+  // Absolute position
+  cursor[0] += getCamera()[0];
+  cursor[1] += getCamera()[1];
   return (cursor);
 }
 
@@ -208,4 +237,21 @@ void Display::displayTiles(Terrain *terrain)
   rect.w = rect.x + TILE_WIDTH;
   rect.h = rect.y + TILE_HEIGHT;
   displayLine(terrain, rect);
+}
+
+void Display::addRenderable(Renderable *renderable)
+{
+  renderables.push_back(renderable);
+}
+
+void Display::removeRenderable(Renderable *renderable)
+{
+  unsigned int i;
+  
+  i = 0;
+  while (renderables[i] != renderable)
+    {
+      i = i + 1;
+    }
+  renderables.erase(renderables.begin() + i);
 }

@@ -10,6 +10,7 @@ class Display;
 class Terrain;
 class EntityHandler;
 class Logic;
+class Perso;
 
 /*
 ** INHERITED FROM GAMESTATE!! => check gamestate.hpp for more details about
@@ -25,12 +26,12 @@ private:
   Terrain *terrain;
   EntityHandler *entityHandler;
   Logic *logic;
+  Perso		*perso;
 
 public:
   // Constructor/Destructor
-  ~PlayState(void) {}
-  void init(Game *game);
-  void destroy(void);
+  PlayState(Game *game);
+  ~PlayState();
 
   // Gamestate flow
   void handleEvent(void);
@@ -39,10 +40,12 @@ public:
   void pause(void);
   void resume(void);
 
+
   // getters
   Logic *getLogic();
   Terrain *getTerrain();
   EntityHandler *getEntityHandler();
+  Display *getDisplay();
 };
 
 #endif /* !PLAYSTATE_HPP_ */

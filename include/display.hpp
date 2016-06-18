@@ -41,6 +41,9 @@ public:
   void fixBoard(SDL_Rect&) const;
   void isometrize(SDL_Rect&) const;
   void displayTiles(Terrain *terrain);
+  void displayRenderable(Renderable *renderable);
+  void addRenderable(Renderable *renderable);
+  void removeRenderable(Renderable *renderable);
 
   Vect <2, double> const &getCamera() const;
   Vect <2, double> const getIngameCursor() const;
