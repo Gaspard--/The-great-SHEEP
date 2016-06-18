@@ -2,7 +2,8 @@
 #include "entity.hpp"
 #include "playstate.hpp"
 
-EntityHandler::EntityHandler(PlayState *playState) : playState(playState)
+EntityHandler::EntityHandler(PlayState *playState)
+  : entities(), playState(playState)
 {
 }
 
@@ -16,4 +17,19 @@ void EntityHandler::update()
       entities[i]->update();
       i = i + 1;
     }
+}
+
+void EntityHandler::addEntity(Entity *entity)
+{
+  entities.push_back(entity);
+}
+
+void EntityHandler::removeEntity(Entity *entity)
+{
+  unsigned int i;
+
+  i = 0;
+  while (entities[i] != entity)
+    i = i + 1;
+  entities.erase(entities.begin() + 5);
 }

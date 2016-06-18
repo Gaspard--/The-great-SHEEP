@@ -82,3 +82,18 @@ void PlayState::resume(void)
 {
   // Do nothing
 }
+
+Logic *PlayState::getLogic()
+{
+  return (logic);
+}
+
+Terrain *PlayState::getTerrain()
+{
+  return (terrain);
+}
+
+EntityHandler *PlayState::getEntityHandler()
+{
+  return (entityHandler);
+}

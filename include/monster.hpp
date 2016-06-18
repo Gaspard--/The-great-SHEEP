@@ -17,7 +17,7 @@ private:
   Vect<2u, double> *dimensions;
 public:
   Monster(Vect<2u, double> position, PlayState *playState);
-  ~Monster(void);
+  virtual ~Monster(void);
 
   void update(void);
 };

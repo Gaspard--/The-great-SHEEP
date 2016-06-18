@@ -9,7 +9,7 @@ class PlayState;
 
 class Entity
 {
-private:
+protected:
   PlayState *playState;
 public:
   Entity(PlayState *playState);

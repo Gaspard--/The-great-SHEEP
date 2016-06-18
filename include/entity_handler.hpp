@@ -14,6 +14,8 @@ private:
 public:
   EntityHandler(PlayState *playState);
   void	update();
+  void	addEntity(Entity *entity);
+  void  removeEntity(Entity *entity);
 };
 
 #endif // !ENTITY_HANDLER_HPP_

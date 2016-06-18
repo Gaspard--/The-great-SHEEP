@@ -18,6 +18,14 @@ class Logic;
 */
 class PlayState: public IGameState
 {
+private:
+  // Main class
+  Game *game;
+  Display *display;
+  Terrain *terrain;
+  EntityHandler *entityHandler;
+  Logic *logic;
+
 public:
   // Constructor/Destructor
   ~PlayState(void) {}
@@ -31,13 +39,10 @@ public:
   void pause(void);
   void resume(void);
 
-private:
-  // Main class
-  Game *game;
-  Display *display;
-  Terrain *terrain;
-  EntityHandler *entityHandler;
-  Logic *logic;
+  // getters
+  Logic *getLogic();
+  Terrain *getTerrain();
+  EntityHandler *getEntityHandler();
 };
 
 #endif /* !PLAYSTATE_HPP_ */
