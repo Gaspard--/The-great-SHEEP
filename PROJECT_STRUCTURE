@@ -2,18 +2,25 @@
 fonction main -> créer Game et lance le jeu.
 class Game -> contient la mainloop et les gamestates & tous les elements du jeu.
 class GameState -> différents écrans de jeu ex : Menu/Jeu
-class Display -> Affichage. (calcul des corrdonnées d'affichages dans display)
-class World -> contient Terrain & EntityHandler
-class Terrain -> Information sur les tuiles.
-class EntityHandler -> contient les entitées.
-class Entity -> renvoi un certain nombre de renderable, un certain nombre de fixture, et des stats.
-structure Renderable -> Info pour afficher une image. Contient une position et des dimension.
+
+class MenuState -> menu
+class PlayState -> jeu
+
+class Display -> Affichage. (calcul des corrdonnées d'affichages dans display) COntient une liste de renderable à afficher.
+class Renderable -> Info pour afficher une image. Contient une position et des dimension.
+
+class Logic -> simulation physique, contient une list de fixture à mettre à jour.
 class Fixture contient une position et une taille.
 
+class EntityHandler -> contient les entitées.
+class Entity -> Rajoute des renderable à Display et des fixture à Logic lors de sa création. Affecte les fixture et renderable qu'ell à créée (ainsi elle peu set la vitesse de ses fixtures pour aller dans une direction, mettre à jout la texture et la taille de ses renderables pour s'animer etc.) Contient aussi une fonction update pour se mettre à jour.
+
+class World -> contient Terrain & EntityHandler
+class Terrain -> Information sur les tuiles.
+
 Display demande les tuiles à Terrain en fournisant les coordonées X,y.
-Display demande les renderables liés aux entitées à EntityHandler d'une certaine rangée dans un certain interval.
+Display affiche ses renderable.
 Display contient la camera.
 
-Logic simule le jeu.
-Physic simule les collision en demandant les tuiles à Terrain et les fixture à EntityHandler.
-TerrainGenerator genère le terrain.
+Logic simule les colllision entre ses fixture et les collision entre ses fixture et le terrain.
+TerrainGenerator genère le terrain, en mettent à jour Terrain.

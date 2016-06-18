@@ -30,7 +30,10 @@ SRC :=		main.cpp \
 		menustate.cpp \
 		playstate.cpp \
 		renderable.cpp \
-		fixture.cpp
+		fixture.cpp \
+		entity_handler.cpp \
+		logic.cpp \
+
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
 PCH :=		$(wildcard $(INCDIR)/*.gch)

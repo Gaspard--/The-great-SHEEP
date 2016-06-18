@@ -4,13 +4,13 @@
 #include "terrain.hpp"
 #include "tile.hpp"
 #include "camera.hpp"
+#include "renderable.hpp"
 
-Display::Display(Game *cGame)
+Display::Display(Game *cGame) : renderables()
 {
   int i;
 
   game = cGame;
-
   // Load textures
   textures[display::TEXTURE_TILE_GRASS] =
     IMG_LoadTexture(game->getRenderer(), "assets/tile_grass.png");

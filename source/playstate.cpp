@@ -1,16 +1,20 @@
 #include "top_header.hpp"
 #include "game.hpp"
 #include "playstate.hpp"
+#include "logic.hpp"
+#include "entity_handler.hpp"
 
 //
 // Constructor/Destructor
 //
 
-void PlayState::init(Game *mGame)
+void PlayState::init(Game *game)
 {
-  game = mGame;
+  this->game = game;
   display = new Display(game);
   terrain = new Terrain();
+  logic = new Logic();
+  entityHandler = new EntityHandler(this);
 }
 
 void PlayState::destroy(void)

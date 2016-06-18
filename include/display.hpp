@@ -4,12 +4,14 @@
 # include <SDL2/SDL.h>
 # include <SDL2/SDL_image.h>
 # include <iostream>
+# include <vector>
 
 # include "camera.hpp"
 
 class Tile;
 class Terrain;
 class Game;
+class Renderable;
 
 namespace display
 {
@@ -46,6 +48,7 @@ public:
 private:
   Game *game;
   SDL_Texture *textures[display::TEXTURE_MAX];
+  std::vector<Renderable *> renderables;
   Camera camera;
 };
 
