@@ -43,7 +43,8 @@ Display::~Display(void)
 
 void Display::clearScreen(int r, int g, int b)
 {
-  SDL_SetRenderDrawColor(game->getRenderer(), r, g, b, 255);
+  SDL_SetRenderDrawColor(game->getRenderer(), static_cast<Uint8>(r), static_cast<Uint8>(g),
+			 static_cast<Uint8>(b), Uint8(255));
   SDL_RenderClear(game->getRenderer());
 }
 
@@ -54,10 +55,8 @@ void Display::displayRenderable(Renderable *renderable)
 
   rect.w = static_cast<int>((*renderable->dimensions)[0] * 60.0);
   rect.h = static_cast<int>((*renderable->dimensions)[1] * 60.0);
-  tmp = (*renderable->position);
-  tmp = (tmp  - getCamera());
-  tmp = tmp + Vect<2u, double>(-tmp[1], tmp[0]);
-  tmp = tmp  * Vect<2u, double>(60, 30);
+  tmp = (*renderable->position - getCamera());
+  tmp = display::fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
   SDL_RenderCopy(game->getRenderer(), renderable->texture, renderable->srcRect, &rect);
@@ -92,9 +91,9 @@ Vect <2, double> const &Display::getCamera() const
   return (camera.getCamera());
 }
 
-Vect <2, double> const Display::getIngameCursor() const
+Vect<2u, double> const Display::getIngameCursor() const
 {
-  Vect <2, double>	cursor;
+  Vect<2u, double>	cursor;
   double		tmp;
   int			x;
   int			y;
@@ -111,9 +110,7 @@ Vect <2, double> const Display::getIngameCursor() const
   cursor[1] -= tmp;
 
   // Absolute position
-  cursor[0] += getCamera()[0];
-  cursor[1] += getCamera()[1];
-  return (cursor);
+  return (cursor + getCamera());
 }
 
 void Display::isometrize(SDL_Rect& win) const
@@ -127,15 +124,11 @@ void Display::isometrize(SDL_Rect& win) const
 
 void Display::fixBoard(SDL_Rect& win) const
 {
-  Vect <2u, int> cam;
-  int x;
-  int y;
+  Vect<2u, int> pos;
 
-  cam = camera.getFlooredCamera();
-  x = cam[0] - TILE_WIDTH / 2;
-  y = cam[1] - TILE_HEIGHT / 2;
-  win.x -= (x - y);
-  win.y -= (y + x);
+  pos = camera.getFlooredCamera() - Vect<2u, int>(TILE_WIDTH / 2, TILE_HEIGHT / 2);
+  win.x -= (pos[0] - pos[1]);
+  win.y -= (pos[1] + pos[0]);
 }
 
 void Display::centerBoard(SDL_Rect& win) const
@@ -155,16 +148,9 @@ void Display::centerBoard(SDL_Rect& win) const
 void Display::smoothScrolling(SDL_Rect& win) const
 {
   Vect <2, double> rest;
-  double tmp;
 
-  rest = camera.getCamera() - Vect<2u, double>(camera.getFlooredCamera());
-  //isometrize
-  tmp = rest[0];
-  rest[0] -= rest[1];
-  rest[1] += tmp;
-  //scale
-  rest[0] *= 60;
-  rest[1] *= 30;
+  // calculate camera offset to integer
+  rest = display::fullIsometrize(camera.getCamera() - Vect<2u, double>(camera.getFlooredCamera()));
   //translate
   win.x -= (int)rest[0];
   win.y -= (int)rest[1];

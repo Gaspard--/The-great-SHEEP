@@ -21,6 +21,12 @@ namespace display
       TEXTURE_TILE_WATER,
       TEXTURE_MAX
     };
+
+  template<class T>
+  Vect<2u, T> fullIsometrize(Vect<2u, T> in)
+  {
+    return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(60, 30));
+  }
 };
 
 class Display
