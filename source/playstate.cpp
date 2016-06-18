@@ -36,11 +36,7 @@ void PlayState::handleEvent(void)
           game->quit();
           return;
 	case SDL_MOUSEBUTTONDOWN:
-	  Vect<2, double> tmp = display->getIngameCursor();
-	  Vect<2, double> camPos = display->getCamera();
-	  camPos[0] += tmp[0];
-	  camPos[1] += tmp[1];
-	  perso->moveTo(camPos);
+	  perso->moveTo(display->getIngameCursor());
 	  break;
 	}
       if (event.type != SDL_KEYDOWN)

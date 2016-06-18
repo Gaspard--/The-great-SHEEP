@@ -85,6 +85,10 @@ Vect <2, double> const Display::getIngameCursor() const
   tmp =  cursor[0];
   cursor[0] += cursor[1];
   cursor[1] -= tmp;
+
+  // Absolute position
+  cursor[0] += getCamera()[0];
+  cursor[1] += getCamera()[1];
   return (cursor);
 }
 
