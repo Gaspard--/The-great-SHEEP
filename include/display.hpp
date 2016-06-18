@@ -33,7 +33,7 @@ public:
   void clearScreen(int r, int g, int b);
   void moveCamera(double x, double y);
   void displayLine(Terrain *terrain, SDL_Rect const &);
-  void affTile(SDL_Rect const &, Tile const &);
+  void displayTile(SDL_Rect const &, Tile const &);
   void transformation(Tile const &);
   void smoothScrolling(SDL_Rect&) const;
   void tileScale(SDL_Rect&) const;
