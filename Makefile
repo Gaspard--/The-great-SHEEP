@@ -49,13 +49,21 @@ all:		$(NAME)
 %.hpp.gch:	%.hpp Makefile
 		$(CXX) $(CXXFLAGS) $< -o $@
 
-obj_gen = 	$(shell echo -n $(dir $1) >> targets.mk); \
-		$(shell g++ -I $(INCDIR) -MM $1 | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
-		$(shell echo -e $2 >> targets.mk)
-RULE_CONTENT :=	'\tg++ -c $$(CXXFLAGS) $$< -o $$@'
+# The first argument of this function (the `$(1)`) is the file name
+#
+# Note: Print a tabulation with `echo` is a real pain, implementations
+# differs than the POSIX standard. `printf` is better for this.
+#
+# Note: We could probably do something better with the $(eval ...)
+# function.
+obj_gen = \
+	$(shell printf "%s" $(dir $(1)) >> targets.mk); \
+	$(shell $(CXX) -I $(INCDIR) -MM $(1) | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
+	$(shell printf "\t$(CXX) -c $(CXXFLAGS) " >> targets.mk); \
+	$(shell printf '$$< -o $$@\n\n' >> targets.mk)
 
-$(shell echo -n > targets.mk)
-$(foreach var, $(SRC), $(call obj_gen, $(var), $(RULE_CONTENT)))
+$(shell printf "# Generated file - do not edit\n\n" > targets.mk)
+$(foreach var, $(SRC), $(call obj_gen,$(var)))
 include targets.mk
 
 $(NAME):	$(OBJ)
