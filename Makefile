@@ -58,7 +58,7 @@ all:		$(NAME)
 # function.
 obj_gen = \
 	$(shell printf $(dir $(1)) >> targets.mk); \
-	$(shell $(CXX) -I $(INCDIR) -MM $(1) | \
+	$(shell $(CXX)  $(CXXFLAGS) -MM $(1) | \
 		sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
 	$(shell printf '\t$(CXX) -c $(CXXFLAGS) $$< -o $$@\n\n' >> targets.mk);
 

@@ -1,6 +1,8 @@
 #ifndef VECT_HPP_
 # define VECT_HPP_
 
+# include <type_traits>
+
 template <unsigned int dim, class T>
 class Vect
 {
@@ -64,10 +66,6 @@ public:
 	i = i + 1;
       }
   }
-
-  // Vect(T t[dim]) : data(t)
-  // {
-  // }
 
   template<class... U, class V>
   Vect(V first, U... more) : Vect(more...)
@@ -177,6 +175,30 @@ public:
   T scalar(Vect<dim, T>& other) const
   {
     return ((*this * other).sum());
+  }
+
+  template<unsigned int _dim = dim, typename std::enable_if<(dim > 0)>::type* = nullptr>
+  T x()
+  {
+    return (data[0]);
+  }
+
+  template<unsigned int _dim = dim, typename std::enable_if<(dim > 1)>::type* = nullptr>
+  T y() const
+  {
+    return (data[1]);
+  }
+
+  template<unsigned int _dim = dim, typename std::enable_if<(_dim > 2)>::type* = nullptr>
+  T z() const
+  {
+    return (data[2]);
+  }
+
+  template<unsigned int _dim = dim, typename std::enable_if<(_dim > 3)>::type* = nullptr>
+  T w() const
+  {
+    return (data[3]);
   }
 };
 
