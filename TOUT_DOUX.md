@@ -5,7 +5,7 @@
  Le plus de details possibles.
  Le moins de choses coupant l'action possible (on évite les menu, les bo^tes de dialogue etc.)
  
- #BAZARD INITIAL
+#BAZARD INITIAL
  (faudra tout bien trier un jour)
 // signifie à revoir
 
