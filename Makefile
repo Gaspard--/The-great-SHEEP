@@ -57,10 +57,10 @@ all:		$(NAME)
 # Note: We could probably do something better with the $(eval ...)
 # function.
 obj_gen = \
-	$(shell printf "%s" $(dir $(1)) >> targets.mk); \
-	$(shell $(CXX) -I $(INCDIR) -MM $(1) | sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
-	$(shell printf "\t$(CXX) -c $(CXXFLAGS) " >> targets.mk); \
-	$(shell printf '$$< -o $$@\n\n' >> targets.mk)
+	$(shell printf $(dir $(1)) >> targets.mk); \
+	$(shell $(CXX) -I $(INCDIR) -MM $(1) | \
+		sed 's/.hpp/.hpp.gch/g;$$s/$$/ Makefile/' >> targets.mk); \
+	$(shell printf '\t$(CXX) -c $(CXXFLAGS) $$< -o $$@\n\n' >> targets.mk);
 
 $(shell printf "# Generated file - do not edit\n\n" > targets.mk)
 $(foreach var, $(SRC), $(call obj_gen,$(var)))
@@ -75,7 +75,7 @@ $(NAME):	$(OBJ)
 RM :=		rm -fv
 
 clean:
-		$(RM) $(OBJ) $(PCH)
+		$(RM) $(OBJ) $(PCH) targets.mk
 
 fclean:		clean
 		$(RM) $(NAME)
