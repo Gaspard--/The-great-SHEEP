@@ -1,9 +1,10 @@
-Affichage:
- - Terrain  (sol)  avec hauteur eventuel
- - Décor (Abbre, buisso, bouton etc) fix et sur la grille.
- - GUi fixé par rapport à la fenetre
- - affichage de la liste de renderable.
- - un renderable est difini par sa position, sa taille & son image.
-Logic:
-  - systeme de physique.
-  - systeme d'entités basic.
+Affichage :
+ - Terrain  (sol) avec hauteur éventuelle
+ - Décor (Arbre, buisson, bouton etc) fixe et sur la grille.
+ - GUI fixé par rapport à la fenêtre
+ - affichage de la liste de *renderables*.
+ - un *renderable* est défini par sa position, sa taille & son image.
+
+Logique :
+  - système de physique.
+  - système d'entités basique.
