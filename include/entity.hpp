@@ -11,9 +11,9 @@ class Game;
 class Entity
 {
 protected:
-  PlayState *playState;
+  PlayState *const playState;
+
 public:
-  Entity();
   Entity(PlayState *playState);
   virtual ~Entity(void);
   virtual void update(void) = 0;
