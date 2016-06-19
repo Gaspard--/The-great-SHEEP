@@ -6,9 +6,7 @@
 int main()
 {
   Game game;
-  Vect<3u, double> a(2, 2, 3);
 
-  std::cout << a.x() << std::endl;
   game.mainLoop();
   return (0);
 }
