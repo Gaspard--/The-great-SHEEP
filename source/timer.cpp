@@ -7,7 +7,7 @@ Timer::Timer(Game *game) : game(game)
 {
   if (TTF_Init() == -1)
     std::cout << TTF_GetError() << std::endl;
-  font = TTF_OpenFont("fonts/OpenSans-Semibold.ttf", 30);
+  font = TTF_OpenFont("fonts/OpenSans-Semibold.ttf", 50);
   fps = 0;
   frame = 0;
   startTicks = SDL_GetTicks();
@@ -39,7 +39,7 @@ void	Timer::update()
 
 void	Timer::showFps()
 {
-  sprintf(buffer, "%.1f", fps);
+  sprintf(buffer, "%.2f", fps);
   surfaceMessage = TTF_RenderText_Solid(font, buffer, {125, 125, 125, 255});
   if (!surfaceMessage)
     std::cout << TTF_GetError() << std::endl;
