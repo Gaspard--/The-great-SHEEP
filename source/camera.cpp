@@ -3,8 +3,8 @@
 
 Camera::Camera(void)
 {
-  lookat[0] = TILE_WIDTH / 2;
-  lookat[1] = TILE_HEIGHT / 2;
+  lookat[0] = TILE_DIM / 2;
+  lookat[1] = TILE_DIM / 2;
 }
 
 Camera::~Camera(void)

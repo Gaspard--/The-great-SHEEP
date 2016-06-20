@@ -51,6 +51,7 @@ public:
   void moveCamera(double x, double y);
   void setCamera(double x, double y);
   void displayLine(Terrain &terrain, SDL_Rect const &);
+  void displayLine2(Terrain &terrain, SDL_Rect const &, int x, int y, int line);
   void displayTile(SDL_Rect const &, Tile const &);
   void transformation(Tile const &);
   void smoothScrolling(SDL_Rect&) const;
