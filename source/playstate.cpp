@@ -80,7 +80,7 @@ void PlayState::update(void)
 
   // Display perso
   perso->update();
-  //  perso->render(game);
+  //perso->render(game);
 }
 
 void PlayState::draw(void)

@@ -5,22 +5,8 @@
 
 struct Tile
 {
-  enum class Type
-  {
-    GRASS,
-    HILL,
-    ROAD,
-    WATER,
-    SHORE,
-    MAX,
-  };
-
-  static const int typeCount = static_cast<int>(Type::MAX);
-
-  Type type;
-  Vect<2, int > pos;
-  int x;
-  int y;
+  int id;
+  Vect <2u, int> pos;
 };
 
 #endif // !TILE_HPP_
