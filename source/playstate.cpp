@@ -11,21 +11,12 @@
 
 PlayState::PlayState(Game *game) : GameState(game), display(game), entityHandler(this)
 {
-  // display = new Display(game);
-  // terrain = new Terrain();
-  // logic = new Logic();
   perso = new Perso(game, this, Vect<2, double>(0, 0));
-  // entityHandler = new EntityHandler(this);
 }
 
 PlayState::~PlayState()
 {
   delete perso;
-  // entities shold all be deleted at this point
-  // delete terrain;
-  // delete display;
-  // delete logic;
-  // delete entityHandler;
 }
 
 //
@@ -35,7 +26,7 @@ void PlayState::handleEvent(void)
 {
   SDL_Event event;
 
-  if (SDL_PollEvent(&event) != 0)
+  while (SDL_PollEvent(&event) != 0)
     {
       switch (event.type)
         {
@@ -52,7 +43,13 @@ void PlayState::handleEvent(void)
         {
         case SDLK_ESCAPE:
           game->quit();
-          return ;
+          return;
+        case SDLK_SPACE:
+	  {
+	    Vect<2, double> pos = perso->getPosition();
+	    display.setCamera(pos[0], pos[1]);
+	  }
+	  break;
         case SDLK_UP:
           display.moveCamera(0, -0.2);
           break;
@@ -66,8 +63,10 @@ void PlayState::handleEvent(void)
           display.moveCamera(0.2, 0);
           break;
 	case SDLK_p:
-	  Vect<2, double> tmp = display.getCamera();
-	  printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
+	  {
+	    Vect<2, double> tmp = display.getCamera();
+	    printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
+	  }
 	  break;
         }
     }
