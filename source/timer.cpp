@@ -1,0 +1,67 @@
+#include <iostream>
+#include <stdio.h>
+#include "game.hpp"
+#include "timer.hpp"
+
+Timer::Timer(Game *game) : game(game)
+{
+  if (TTF_Init() == -1)
+    std::cout << TTF_GetError() << std::endl;
+  font = TTF_OpenFont("fonts/OpenSans-Semibold.ttf", 30);
+  fps = 0;
+  frame = 0;
+  startTicks = SDL_GetTicks();
+  elapsed = 0;
+  show = false;
+  surfaceMessage = NULL;
+  msg = NULL;
+  msgRect.x = 10;
+  msgRect.y = 0;
+  msgRect.w = 100;
+  msgRect.h = 50;
+}
+
+Timer::~Timer()
+{
+  TTF_CloseFont(font);
+  TTF_Quit();
+}
+
+void	Timer::update()
+{
+  frame += 1;
+  elapsedTicks = SDL_GetTicks() - startTicks;
+  if (!elapsedTicks)
+    return;
+  elapsed = elapsedTicks / 1000.0;
+  fps = frame / elapsed;
+}
+
+void	Timer::showFps()
+{
+  sprintf(buffer, "%.1f", fps);
+  surfaceMessage = TTF_RenderText_Solid(font, buffer, {125, 125, 125, 255});
+  if (!surfaceMessage)
+    std::cout << TTF_GetError() << std::endl;
+  msg = SDL_CreateTextureFromSurface(game->getRenderer(), surfaceMessage);
+  SDL_RenderCopy(game->getRenderer(), msg, NULL, &msgRect);
+  SDL_FreeSurface(surfaceMessage);
+  SDL_DestroyTexture(msg);
+  surfaceMessage = NULL;
+  msg = NULL;
+}
+
+double	Timer::getFps()
+{
+  return (fps);
+}
+
+void	Timer::toggleShow()
+{
+  show = (show) ? false : true;
+}
+
+bool	Timer::getShow()
+{
+  return (show);
+}

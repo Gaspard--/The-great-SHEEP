@@ -55,6 +55,9 @@ void PlayState::handleEvent(void)
 	    display.setCamera(pos[0], pos[1]);
 	  }
 	  break;
+	case SDLK_F3:
+	  game->toggleShowFps();
+	  break;
         case SDLK_UP:
           display.moveCamera(0, -0.2);
           break;

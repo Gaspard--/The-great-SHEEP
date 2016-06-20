@@ -8,6 +8,7 @@
 # include "display.hpp"
 # include "terrain.hpp"
 # include "gamestate.hpp"
+# include "timer.hpp"
 
 /*
 ** Game class: contains WINDOW / RENDERER
@@ -36,6 +37,8 @@ public:
   // Leave the game
   void quit(void);
 
+  void toggleShowFps(void);
+
   /* Returns a pointer to the renderer */
   SDL_Renderer *getRenderer(void) const {
     return renderer;
@@ -63,6 +66,9 @@ private:
   bool running;
   SDL_Window *window;
   SDL_Renderer *renderer;
+
+  // Timer show fps
+  Timer timer;
 };
 
 #endif /* !GAME_HPP_ */

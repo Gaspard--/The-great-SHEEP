@@ -7,7 +7,7 @@
 //
 // Constructor/Destructor
 //
-Game::Game(void)
+Game::Game(void) : timer(this)
 {
   if (SDL_Init(SDL_INIT_VIDEO))
     {
@@ -59,6 +59,9 @@ void Game::mainLoop(void)
     {
       this->handleEvent();
       this->update();
+      timer.update();
+      if (timer.getShow())
+	timer.showFps();
       this->draw();
     }
 }
@@ -76,6 +79,11 @@ void Game::update(void)
 void Game::draw(void)
 {
   states.back()->draw();
+}
+
+void Game::toggleShowFps(void)
+{
+  timer.toggleShow();
 }
 
 //

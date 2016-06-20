@@ -44,6 +44,8 @@ void MenuState::handleEvent(void)
       if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
 				     event.key.keysym.sym == SDLK_ESCAPE))
 	game->quit();
+      else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F3)
+	game->toggleShowFps();
       mouse = event.button;
       if (mouse.button == SDL_BUTTON_LEFT &&
 	  mouse.x >= rect.x && mouse.x < rect.x + rect.w &&

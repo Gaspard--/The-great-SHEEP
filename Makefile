@@ -15,7 +15,7 @@ CXXFLAGS :=	`sdl2-config --cflags` -I $(INCDIR) -W -Wall -Wextra -std=c++11 -g -
 #
 LINKER :=	$(CXX)
 LDFLAGS :=	`sdl2-config --libs`
-LDLIBS :=	-l SDL2_image
+LDLIBS :=	-l SDL2_image -l SDL2_ttf
 
 #
 # binary options
@@ -23,19 +23,20 @@ LDLIBS :=	-l SDL2_image
 NAME :=		The-great-SHEEP
 
 SRC :=		main.cpp \
-		display.cpp \
-		terrain.cpp \
 		camera.cpp \
-		game.cpp \
-		menustate.cpp \
-		playstate.cpp \
-		perso.cpp \
-		renderable.cpp \
-		fixture.cpp \
-		entity_handler.cpp \
-		logic.cpp \
+		display.cpp \
 		entity.cpp \
+		entity_handler.cpp \
+		fixture.cpp \
+		game.cpp \
+		logic.cpp \
+		menustate.cpp \
 		object.cpp \
+		perso.cpp \
+		playstate.cpp \
+		renderable.cpp \
+		terrain.cpp \
+		timer.cpp \
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
