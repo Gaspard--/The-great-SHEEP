@@ -6,6 +6,7 @@
 # include "object.hpp"
 # include "vect.hpp"
 # include "renderable.hpp"
+# include "texture.hpp"
 
 // Perso movement speed
 # define PERSO_SPEED 0.04
@@ -28,7 +29,7 @@ class Display;
 ** Class Perso Derived from Entity: Main Perso
 */
 
-class Perso : public Entity
+class Perso : public Object
 {
 public:
   enum class Direction
@@ -42,32 +43,26 @@ public:
   static const int directionCount = static_cast<int>(Direction::MAX);
 
 private:
-
-  Renderable			*renderable;
-
-  // Perso movement
-  Vect<2, double>		position;
-  Vect<2, double>		destination;
-  Vect<2, double>		speed;
-  double			distance;
-
   // sprites
-  SDL_Texture			*textures[directionCount];
+  Texture			textures[directionCount];
   int				frame;
   SDL_Rect			sprites[PERSO_NB_FRAME];
   Direction                     direction;
+  Vect<2u, double>		destination;
+  double			distance;
 
   bool				moving;
   bool				selected;
 
-  SDL_Texture *getTexture(Direction direction) {
-    return textures[static_cast<int>(direction)];
+  Texture *getTexture(Direction direction)
+  {
+    return (textures + static_cast<int>(direction));
   }
 
-  void setTexture(Direction direction, SDL_Texture *texture) {
-    assert(texture);
-    textures[static_cast<int>(direction)] = texture;
-  }
+  // void setTexture(Direction direction, Texture& texture) {
+  //   assert(texture);
+  //   textures[static_cast<int>(direction)] = texture;
+  // }
 
 public:
   // Constructor/Destructor
@@ -83,9 +78,6 @@ public:
 
   // Move to given position
   void				moveTo(Vect<2u, double> dest);
-
-  // render
-  virtual void			render(Game *game) const;
 
   // Get bool
   bool				isMoving() const;

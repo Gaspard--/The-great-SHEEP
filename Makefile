@@ -36,6 +36,7 @@ SRC :=		main.cpp \
 		logic.cpp \
 		entity.cpp \
 		object.cpp \
+		texture.cpp
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
