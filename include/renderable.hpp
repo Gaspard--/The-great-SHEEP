@@ -5,15 +5,17 @@
 
 # include "vect.hpp"
 
+class Texture;
+
 class Renderable
 {
 public:
-  Renderable(Vect<2u, double> *position, Vect<2u, double> *dimensions, SDL_Texture *texture);
+  Renderable(Vect<2u, double> *position, Vect<2u, double> *dimensions, Texture *texture);
 
   Vect<2u, double> *position;
   Vect<2u, double> *dimensions;
   SDL_Rect *srcRect;
-  SDL_Texture *texture;
+  Texture  *texture;
 };
 
 #endif // !RENDERABLE_HPP_

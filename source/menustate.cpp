@@ -8,19 +8,12 @@
 // Constructor/Destructor
 //
 
-MenuState::MenuState(Game *game) : GameState(game)
+MenuState::MenuState(Game *game) : GameState(game), startButton(game, "startButton.png")
 {
-  startButton = IMG_LoadTexture(game->getRenderer(), "assets/startButton.png");
-  if (!startButton)
-    {
-      std::cerr << "Failed to load image : " << SDL_GetError() << std::endl;
-      exit(-1);
-    }
 }
 
 MenuState::~MenuState()
 {
-  SDL_DestroyTexture(startButton);
 }
 
 //
@@ -34,7 +27,7 @@ void MenuState::handleEvent(void)
   int			w;
   int			h;
 
-  SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
+  SDL_QueryTexture(startButton.getTexture(), NULL, NULL, &w, &h);
   rect.x = (game->getWindowWidth() - w) / 2;
   rect.y = (game->getWindowHeight() - h) / 2;
   rect.w = w;
@@ -62,14 +55,14 @@ void MenuState::update(void)
   int		w;
   int		h;
 
-  SDL_QueryTexture(startButton, NULL, NULL, &w, &h);
+  SDL_QueryTexture(startButton.getTexture(), NULL, NULL, &w, &h);
   start.x = (game->getWindowWidth() - w) / 2;
   start.y = (game->getWindowHeight() - h) / 2;
   start.w = w;
   start.h = h;
   SDL_SetRenderDrawColor(game->getRenderer(), 255, 255, 255, 255);
   SDL_RenderClear(game->getRenderer());
-  SDL_RenderCopy(game->getRenderer(), startButton, NULL, &start);
+  SDL_RenderCopy(game->getRenderer(), startButton.getTexture(), NULL, &start);
 }
 
 void	MenuState::draw()

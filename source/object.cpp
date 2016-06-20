@@ -1,7 +1,6 @@
 #include "object.hpp"
 #include "playstate.hpp"
 #include "fixture.hpp"
-#include "renderable.hpp"
 #include "logic.hpp"
 #include "entity_handler.hpp"
 
@@ -21,5 +20,6 @@ void Object::update()
 Object::~Object()
 {
   playState->getLogic().removeFixture(&fixture);
+  playState->getDisplay().removeRenderable(&renderable);
   playState->getEntityHandler().removeEntity(this);
 }

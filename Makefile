@@ -36,7 +36,8 @@ SRC :=		main.cpp \
 		playstate.cpp \
 		renderable.cpp \
 		terrain.cpp \
-		timer.cpp \
+		texture.cpp \
+		timer.cpp
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)

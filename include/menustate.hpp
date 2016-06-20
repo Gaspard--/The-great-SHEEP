@@ -2,6 +2,7 @@
 # define MENUSTATE_HPP_
 
 # include "gamestate.hpp"
+# include "texture.hpp"
 
 /*
 ** INHERITED FROM GAMESTATE!! => check gamestate.hpp for more details about
@@ -24,7 +25,7 @@ public:
 
 private:
   // Menustate's variables
-  SDL_Texture *startButton;
+  Texture startButton;
 };
 
 #endif /* !MENUSTATE_HPP_ */

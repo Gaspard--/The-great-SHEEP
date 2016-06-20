@@ -31,5 +31,5 @@ void EntityHandler::removeEntity(Entity *entity)
   i = 0;
   while (entities[i] != entity)
     i = i + 1;
-  entities.erase(entities.begin() + 5);
+  entities.erase(entities.begin() + i);
 }

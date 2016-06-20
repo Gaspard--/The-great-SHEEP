@@ -4,7 +4,7 @@
 
 Renderable::Renderable(Vect<2u, double> *position,
 		       Vect<2u, double> *dimensions,
-		       SDL_Texture *texture)
+		       Texture *texture)
   : position(position), dimensions(dimensions), texture(texture)
 {
 }

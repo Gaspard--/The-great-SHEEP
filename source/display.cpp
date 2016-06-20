@@ -6,45 +6,19 @@
 #include "camera.hpp"
 #include "renderable.hpp"
 
-Display::Display(Game *game) : game(game), renderables()
-{
-  int i;
-
-  // Load textures
-  textures[display::TEXTURE_GRASS_01] =
-    IMG_LoadTexture(game->getRenderer(), "assets/grass_01.png");
-  textures[display::TEXTURE_GRASS_02] =
-    IMG_LoadTexture(game->getRenderer(), "assets/grass_02.png");
-  textures[display::TEXTURE_DRY_01] =
-    IMG_LoadTexture(game->getRenderer(), "assets/dry_01.png");
-  textures[display::TEXTURE_DRY_02] =
-    IMG_LoadTexture(game->getRenderer(), "assets/dry_02.png");
-  textures[display::TEXTURE_WATER_01] =
-    IMG_LoadTexture(game->getRenderer(), "assets/water_01.png");
-
-  i = 0;
-  while (i < display::TEXTURE_MAX)
-    {
-      if (!textures[i])
-	{
-          std::cerr << "Failed to open a texture: nbr:" << i << std::endl
-                    << SDL_GetError() << std::endl;
-	  exit(-1);
-	}
-      i = i + 1;
+Display::Display(Game *game) : game(game), renderables(),
+			       textures{
+  Texture(game, "grass_01.png"),
+    Texture(game, "grass_02.png"),
+    Texture(game, "dry_01.png"),
+    Texture(game, "dry_02.png"),
+    Texture(game, "water_01.png")
     }
+{
 }
 
 Display::~Display(void)
 {
-  int i;
-
-  i = 0;
-  while (i < display::TEXTURE_MAX)
-    {
-      SDL_DestroyTexture(textures[i]);
-      i = i + 1;
-    }
 }
 
 void Display::clearScreen(int r, int g, int b)
@@ -65,7 +39,7 @@ void Display::displayRenderable(Renderable *renderable)
   tmp = display::fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
-  SDL_RenderCopy(game->getRenderer(), renderable->texture, renderable->srcRect, &rect);
+  SDL_RenderCopy(game->getRenderer(), renderable->texture->getTexture(), renderable->srcRect, &rect);
 }
 
 void Display::render(void)
@@ -167,7 +141,7 @@ void Display::displayTile(SDL_Rect const &win, Tile const &tile)
   tileset.w = 120;
   tileset.h = 60;
   SDL_RenderCopy(game->getRenderer(),
-                 textures[tile.id],
+                 textures[tile.id].getTexture(),
                  &tileset, &win);
 }
 

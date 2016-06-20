@@ -7,6 +7,7 @@
 # include <vector>
 
 # include "camera.hpp"
+# include "texture.hpp"
 
 class Tile;
 class Terrain;
@@ -35,6 +36,12 @@ namespace display
 
 class Display
 {
+private:
+  Game *game;
+  std::vector<Renderable *> renderables;
+  Texture textures[display::TEXTURE_MAX];
+  Camera camera;
+
 public:
   Display(Game *game);
   ~Display(void);
@@ -58,12 +65,6 @@ public:
 
   Vect <2, double> const &getCamera() const;
   Vect <2, double> const getIngameCursor() const;
-
-private:
-  Game *game;
-  SDL_Texture *textures[display::TEXTURE_MAX];
-  std::vector<Renderable *> renderables;
-  Camera camera;
 };
 
 #endif
