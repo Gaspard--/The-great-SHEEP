@@ -1,10 +1,10 @@
-Affichage :
+Affichage :
  - Terrain  (sol) avec hauteur éventuelle
  - Décor (Arbre, buisson, bouton etc) fixe et sur la grille.
  - GUI fixé par rapport à la fenêtre
  - affichage de la liste de *renderables*.
  - un *renderable* est défini par sa position, sa taille & son image.
 
-Logique :
+Logique :
   - système de physique.
   - système d'entités basique.

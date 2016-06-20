@@ -36,7 +36,7 @@ Game::Game(void)
       exit(-1);
     }
   running = true;
-  this->changeState(new PlayState(this));
+  this->changeState(new MenuState(this));
 }
 
 Game::~Game(void)
@@ -60,7 +60,6 @@ void Game::mainLoop(void)
       this->handleEvent();
       this->update();
       this->draw();
-      SDL_Delay(10);
     }
 }
 

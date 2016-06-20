@@ -59,6 +59,7 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   i = 0;
   while (i < PERSO_NB_FRAME)
     {
+      // TODO:ADD CONSTANT
       sprites[i].x = i * 60;
       sprites[i].y = 0;
       sprites[i].w = 60;
@@ -155,18 +156,4 @@ void		Perso::moveTo(Vect<2, double> dest)
     }
   speed = Vect<2, double>((destination[0] - position[0]) / distance,
 			  (destination[1] - position[1]) / distance);
-}
-
-void		Perso::render(Game *game) const
-{
-  SDL_Rect	rect;
-
-  rect.w = PERSO_WIDTH;
-  rect.h = PERSO_HEIGHT;
-  rect.x = game->getWindowWidth() / 2 - rect.w / 2;
-  rect.y = game->getWindowHeight() / 2 - rect.h;
-  if (!moving)
-    SDL_RenderCopy(game->getRenderer(), renderable->texture, NULL, &rect);
-  else
-    SDL_RenderCopy(game->getRenderer(), renderable->texture, &sprites[frame / PERSO_FRAME_SPEED], &rect);
 }

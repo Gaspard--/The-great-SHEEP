@@ -30,6 +30,7 @@ private:
   EntityHandler entityHandler;
   Logic logic;
   Perso *perso;
+  Perso *perso2;
 
 public:
   // Constructor/Destructor

@@ -8,10 +8,10 @@
 # include "renderable.hpp"
 
 // Perso movement speed
-# define PERSO_SPEED 0.04
+# define PERSO_SPEED 0.06
 
 // Perso frame speed (lower is faster)
-# define PERSO_FRAME_SPEED 7
+# define PERSO_FRAME_SPEED 3
 
 // Perso frame number
 # define PERSO_NB_FRAME 9
@@ -83,9 +83,6 @@ public:
 
   // Move to given position
   void				moveTo(Vect<2u, double> dest);
-
-  // render
-  virtual void			render(Game *game) const;
 
   // Get bool
   bool				isMoving() const;

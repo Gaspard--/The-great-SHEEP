@@ -11,12 +11,14 @@
 
 PlayState::PlayState(Game *game) : GameState(game), display(game), entityHandler(this)
 {
-  perso = new Perso(game, this, Vect<2, double>(0, 0));
+  perso = new Perso(game, this, Vect<2, double>(2, 4));
+  perso2 = new Perso(game, this, Vect<2, double>(8, 10));
 }
 
 PlayState::~PlayState()
 {
   delete perso;
+  delete perso2;
 }
 
 //
@@ -34,7 +36,10 @@ void PlayState::handleEvent(void)
           game->quit();
           return;
 	case SDL_MOUSEBUTTONDOWN:
-	  perso->moveTo(display.getIngameCursor());
+	  if (event.button.button == SDL_BUTTON_LEFT)
+	    perso->moveTo(display.getIngameCursor());
+	  else if (event.button.button == SDL_BUTTON_RIGHT)
+	    perso2->moveTo(display.getIngameCursor());
 	  break;
 	}
       if (event.type != SDL_KEYDOWN)
@@ -80,7 +85,7 @@ void PlayState::update(void)
 
   // Display perso
   perso->update();
-  //perso->render(game);
+  perso2->update();
 }
 
 void PlayState::draw(void)
