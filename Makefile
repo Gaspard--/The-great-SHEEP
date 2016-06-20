@@ -34,6 +34,7 @@ SRC :=		main.cpp \
 		object.cpp \
 		perso.cpp \
 		playstate.cpp \
+		physics.cpp \
 		renderable.cpp \
 		terrain.cpp \
 		texture.cpp \
