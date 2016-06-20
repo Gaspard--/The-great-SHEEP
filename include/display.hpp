@@ -15,11 +15,15 @@ class Renderable;
 
 namespace display
 {
+
   enum texture_names
     {
-      TEXTURE_TILE_GRASS,
-      TEXTURE_TILE_WATER,
-      TEXTURE_MAX
+      TEXTURE_GRASS_01,
+      TEXTURE_GRASS_02,
+      TEXTURE_DRY_01,
+      TEXTURE_DRY_02,
+      TEXTURE_WATER_01,
+      TEXTURE_MAX,
     };
 
   template<class T>

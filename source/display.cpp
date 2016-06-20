@@ -11,17 +11,23 @@ Display::Display(Game *game) : game(game), renderables()
   int i;
 
   // Load textures
-  textures[display::TEXTURE_TILE_GRASS] =
-    IMG_LoadTexture(game->getRenderer(), "assets/tile_grass.png");
-  textures[display::TEXTURE_TILE_WATER] =
-    IMG_LoadTexture(game->getRenderer(), "assets/tile_water.png");
+  textures[display::TEXTURE_GRASS_01] =
+    IMG_LoadTexture(game->getRenderer(), "assets/grass_01.png");
+  textures[display::TEXTURE_GRASS_02] =
+    IMG_LoadTexture(game->getRenderer(), "assets/grass_02.png");
+  textures[display::TEXTURE_DRY_01] =
+    IMG_LoadTexture(game->getRenderer(), "assets/dry_01.png");
+  textures[display::TEXTURE_DRY_02] =
+    IMG_LoadTexture(game->getRenderer(), "assets/dry_02.png");
+  textures[display::TEXTURE_WATER_01] =
+    IMG_LoadTexture(game->getRenderer(), "assets/water_01.png");
 
   i = 0;
   while (i < display::TEXTURE_MAX)
     {
       if (!textures[i])
 	{
-          std::cerr << "Failed to open a texture: (%s)\n"
+          std::cerr << "Failed to open a texture: nbr:" << i << std::endl
                     << SDL_GetError() << std::endl;
 	  exit(-1);
 	}
@@ -113,8 +119,7 @@ Vect<2u, double> const Display::getIngameCursor() const
   tmp =  cursor[0];
   cursor[0] += cursor[1];
   cursor[1] -= tmp;
-
-  // Absolute position
+  //Absolute position
   return (cursor + getCamera());
 }
 
@@ -138,16 +143,8 @@ void Display::fixBoard(SDL_Rect& win) const
 
 void Display::centerBoard(SDL_Rect& win) const
 {
-  int windowWidth = game->getWindowWidth();
-  int windowHeight = game->getWindowHeight();
-
-  win.x += (windowWidth / 2) + (TILE_HEIGHT - TILE_WIDTH) / 2 * 60 - 60;
-  if (TILE_HEIGHT > TILE_WIDTH)
-    win.y += windowHeight / 2 - TILE_HEIGHT * 30 / 2;
-  else if (TILE_HEIGHT < TILE_WIDTH)
-    win.y += windowHeight / 2 - TILE_WIDTH * 30 / 2;
-  else
-    win.y += windowHeight / 2 - TILE_WIDTH * 60 / 2;
+  win.x += game->getWindowWidth() / 2 - TILE_WIDTH * 30 + TILE_HEIGHT * 30 - 60;
+  win.y += game->getWindowHeight() / 2 - TILE_WIDTH * 15 - TILE_HEIGHT * 15;
 }
 
 void Display::smoothScrolling(SDL_Rect& win) const
@@ -166,11 +163,11 @@ void Display::displayTile(SDL_Rect const &win, Tile const &tile)
   SDL_Rect tileset;
 
   tileset.x = 0;
-  tileset.y = static_cast<int>(tile.type) * 60;
+  tileset.y = 0;
   tileset.w = 120;
   tileset.h = 60;
   SDL_RenderCopy(game->getRenderer(),
-                 textures[display::TEXTURE_TILE_GRASS],
+                 textures[tile.id],
                  &tileset, &win);
 }
 
@@ -178,8 +175,8 @@ void Display::transformation(Tile const &tile)
 {
   SDL_Rect win;
 
-  win.x = tile.x;
-  win.y = tile.y;
+  win.x = tile.pos[0];
+  win.y = tile.pos[1];
   win.w = 120;
   win.h = 60;
   isometrize(win);
@@ -192,22 +189,39 @@ void Display::transformation(Tile const &tile)
 
 void Display::displayLine(Terrain &terrain, SDL_Rect const &rect)
 {
-  int tmp;
   int x;
   int y;
+  int i;
 
-  tmp = rect.x;
-  y = rect.y;
-  while (y < rect.h)
+  //upper half of the board
+  i = 0;
+  while (i < TILE_WIDTH)
     {
-      x = tmp;
-      while (x < rect.w)
+      y = i;
+      x = 0;
+      while (y >= 0)
 	{
-	  if (terrain.isTile(x ,y))
-	    transformation(terrain.getTile(x, y));
+	  if (terrain.isTile(x + rect.x ,y + rect.y))
+	    transformation(terrain.getTile(x + rect.x, y + rect.y));
 	  ++x;
+	  --y;
 	}
-      ++y;
+      ++i;
+    }
+  //lower half of the board
+  i = 0;
+  while (i < TILE_WIDTH)
+    {
+      x = i;
+      y = TILE_WIDTH;
+      while (x < TILE_WIDTH)
+	{
+	  if (terrain.isTile(x + rect.x, y + rect.y))
+	    transformation(terrain.getTile(x + rect.x, y + rect.y));
+	  ++x;
+	  --y;
+	}
+      ++i;
     }
 }
 

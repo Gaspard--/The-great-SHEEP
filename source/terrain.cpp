@@ -20,14 +20,12 @@ void Terrain::orderTiles(void)
 {
   int size = world_dimension[0] * world_dimension[1];
   int i = 0;
+
   while (i < size)
     {
-      int typeInt = rand() % 5;
-      assert(typeInt >= 0);
-      assert(typeInt < Tile::typeCount);
-      tiles[i].type = static_cast<Tile::Type>(typeInt);
-      tiles[i].x = i % world_dimension[0];
-      tiles[i].y = i / world_dimension[0];
+      tiles[i].id = rand() % 5;
+      tiles[i].pos[0] = i % world_dimension[0];
+      tiles[i].pos[1] = i / world_dimension[0];
       i = i + 1;
     }
 }
