@@ -9,7 +9,7 @@
 // Constructor/Destructor
 //
 
-PlayState::PlayState(Game *game) : GameState(game), display(game), entityHandler(this)
+PlayState::PlayState(Game *game) : GameState(game), display(game, this), entityHandler(this)
 {
   perso = new Perso(game, this, Vect<2, double>(2, 4));
   perso2 = new Perso(game, this, Vect<2, double>(8, 10));
@@ -82,9 +82,6 @@ void PlayState::handleEvent(void)
 
 void PlayState::update(void)
 {
-  // Display tiles
-  display.clearScreen(0, 0, 0);
-  display.displayTiles(terrain);
   logic.tick();
   // Display perso
   perso->update();

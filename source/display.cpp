@@ -5,19 +5,21 @@
 #include "tile.hpp"
 #include "camera.hpp"
 #include "renderable.hpp"
+#include "playstate.hpp"
 
-Display::Display(Game *game) : game(game), renderables(),
-			       textures{
+Display::Display(Game *game, PlayState *playState) : game(game),  playState(playState), renderables(),
+						     tileset(game, "basic_ground_tiles.png"), textures
+{
   Texture(game, "grass_01.png"),
     Texture(game, "grass_02.png"),
     Texture(game, "dry_01.png"),
     Texture(game, "dry_02.png"),
-    Texture(game, "water_01.png")
-    }
+    Texture(game, "water_01.png"),
+}
 {
 }
 
-Display::~Display(void)
+Display::~Display()
 {
 }
 
@@ -30,14 +32,17 @@ void Display::clearScreen(int r, int g, int b)
 
 void Display::render(void)
 {
-  unsigned int	i;
+  clearScreen(0, 0, 0);
+  displayTiles(playState->getTerrain());
+  {
+    unsigned int	i(0);
 
-  i = 0;
-  while (i < renderables.size())
-    {
-      displayRenderable(renderables[i]);
-      i = i + 1;
-    }
+    while (i < renderables.size())
+      {
+	displayRenderable(renderables[i]);
+	i = i + 1;
+      }
+  }
   SDL_RenderPresent(game->getRenderer());
 }
 
@@ -45,13 +50,19 @@ void Display::displayRenderable(Renderable *renderable)
 {
   SDL_Rect      rect;
   Vect<2u, double> tmp;
+  int x;
+  int y;
 
   rect.w = static_cast<int>((*renderable->dimensions)[0] * 60.0);
   rect.h = static_cast<int>((*renderable->dimensions)[1] * 60.0);
+  x = (int)(*renderable->position)[0];
+  y = (int)(*renderable->position)[1];
   tmp = (*renderable->position - getCamera());
   tmp = display::fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
+  if (playState->getTerrain().isTile(x, y))
+    rect.y += playState->getTerrain().getTile(x, y).height * 15;
   SDL_RenderCopy(game->getRenderer(), renderable->texture->getTexture(), renderable->srcRect, &rect);
 }
 
@@ -62,13 +73,10 @@ void Display::addRenderable(Renderable *renderable)
 
 void Display::removeRenderable(Renderable *renderable)
 {
-  unsigned int i;
+  unsigned int i(0);
 
-  i = 0;
   while (renderables[i] != renderable)
-    {
-      i = i + 1;
-    }
+    i = i + 1;
   renderables.erase(renderables.begin() + i);
 }
 
@@ -106,70 +114,34 @@ Vect<2u, double> const Display::getIngameCursor() const
 
 void Display::displayTile(SDL_Rect const &win, Tile const &tile)
 {
-  SDL_Rect tileset;
+  SDL_Rect rect;
 
-  tileset.x = 0;
-  tileset.y = 0;
-  tileset.w = 120;
-  tileset.h = 60;
+  rect.w = 1024 / 8 ;
+  rect.h = 896 / 7;
+  rect.x = (tile.id % 8) * rect.w;
+  rect.y = ((tile.id) / 8) * rect.h;
   SDL_RenderCopy(game->getRenderer(),
-                 textures[tile.id].getTexture(),
-                 &tileset, &win);
-}
-
-void Display::smoothScrolling(SDL_Rect& win) const
-{
-  Vect <2, double> rest;
-
-  rest = display::fullIsometrize(camera.getCamera() - Vect<2u, double>(camera.getFlooredCamera()));
-  win.x -= (int)rest[0];
-  win.y -= (int)rest[1];
+                 tileset.getTexture(),
+                 &rect, &win);
 }
 
 void Display::centerBoard(SDL_Rect& win) const
 {
   win.x += game->getWindowWidth() / 2 - 60;
-  win.y += game->getWindowHeight() / 2 - TILE_DIM * 30;
-
-}
-
-void Display::tileScale(SDL_Rect& win) const
-{
-  win.x *= 60;
-  win.y *= 30;
-}
-
-void Display::fixBoard(SDL_Rect& win) const
-{
-  Vect<2u, int> pos;
-
-  pos = camera.getFlooredCamera() - Vect<2u, int>(TILE_DIM / 2, TILE_DIM / 2);
-  win.x -= (pos[0] - pos[1]);
-  win.y -= (pos[1] + pos[0]);
-}
-
-void Display::isometrize(SDL_Rect& win) const
-{
-  int tmp;
-
-  tmp = win.x;
-  win.x -= win.y;
-  win.y += tmp;
+  win.y += game->getWindowHeight() / 2 - 30;
 }
 
 void Display::transformation(Tile const &tile)
 {
   SDL_Rect win;
+  Vect<2u, int> tmp(tile.pos);
 
-  win.x = tile.pos[0];
-  win.y = tile.pos[1];
+  tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(camera.getCamera()));
+  win.x = tmp[0];
+  win.y = tmp[1] + tile.height * 15;
   win.w = 120;
-  win.h = 60;
-  isometrize(win);
-  fixBoard(win);
-  tileScale(win);
+  win.h = 120;
   centerBoard(win);
-  smoothScrolling(win);
   displayTile(win, tile);
 }
 

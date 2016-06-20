@@ -13,6 +13,7 @@ class Tile;
 class Terrain;
 class Game;
 class Renderable;
+class PlayState;
 
 namespace display
 {
@@ -38,12 +39,14 @@ class Display
 {
 private:
   Game *game;
+  PlayState *playState;
   std::vector<Renderable *> renderables;
+  Texture tileset;
   Texture textures[display::TEXTURE_MAX];
   Camera camera;
 
 public:
-  Display(Game *game);
+  Display(Game *game, PlayState *playstate);
   ~Display(void);
 
   void render(void);
