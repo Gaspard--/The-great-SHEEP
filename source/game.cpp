@@ -29,7 +29,7 @@ Game::Game(void)
     }
 
   // Create renderer
-  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
   if (!renderer)
     {
       std::cerr << "Failed to create renderer: " << SDL_GetError() << std::endl;
