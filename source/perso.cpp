@@ -117,20 +117,19 @@ void		Perso::moveTo(Vect<2, double> dest)
   frame = 0;
   moving = true;
   destination = dest;
-  if (destination[0] >= position[0])
+  if (destination.x() >= position.x())
     direction = Direction::RIGHT;
   else
     direction = Direction::LEFT;
 
   // Set sprite accordingly to direction
   renderable.texture = getTexture(direction);
-  distance = sqrt(pow(destination[0] - position[0], 2) +
-  		  pow(destination[1] - position[1], 2));
+  distance = sqrt(pow(destination.x() - position.x(), 2) +
+  		  pow(destination.y() - position.y(), 2));
   if (distance <= 0)
     {
       moving = false;
       return;
     }
-  speed = Vect<2, double>((destination[0] - position[0]) / distance,
-			  (destination[1] - position[1]) / distance);
+  speed = Vect<2, double>((destination - position) / distance);
 }
