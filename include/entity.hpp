@@ -17,7 +17,6 @@ public:
   Entity(PlayState *playState);
   virtual ~Entity(void);
   virtual void update(void) = 0;
-  virtual void render(Game *game) const = 0;
 };
 
 #endif // !ENTITY_HPP_

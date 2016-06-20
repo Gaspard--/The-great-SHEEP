@@ -13,7 +13,7 @@ class Game;
 class GameState
 {
 public:
-  GameState(Game *game_) : game(game_) {};
+  GameState(Game *game) : game(game) {};
   virtual ~GameState() {};
 
   // Write your Event handler in this function

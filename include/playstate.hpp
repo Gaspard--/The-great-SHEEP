@@ -4,12 +4,16 @@
 # include <iostream>
 
 # include "gamestate.hpp"
+# include "display.hpp"
+# include "terrain.hpp"
+# include "logic.hpp"
+# include "entity_handler.hpp"
 
 // Forward declaration
-class Display;
-class Terrain;
-class EntityHandler;
-class Logic;
+// class Display;
+// class Terrain;
+// class EntityHandler;
+// class Logic;
 class Perso;
 
 /*
@@ -21,10 +25,10 @@ class PlayState: public GameState
 {
 private:
   // Main class
-  Display *display;
-  Terrain *terrain;
-  EntityHandler *entityHandler;
-  Logic *logic;
+  Display display;
+  Terrain terrain;
+  EntityHandler entityHandler;
+  Logic logic;
   Perso *perso;
 
 public:
@@ -41,10 +45,10 @@ public:
 
 
   // getters
-  Logic *getLogic();
-  Terrain *getTerrain();
-  EntityHandler *getEntityHandler();
-  Display *getDisplay();
+  Logic& getLogic();
+  Terrain& getTerrain();
+  EntityHandler& getEntityHandler();
+  Display& getDisplay();
 };
 
 #endif /* !PLAYSTATE_HPP_ */

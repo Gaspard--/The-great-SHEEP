@@ -9,23 +9,23 @@
 // Constructor/Destructor
 //
 
-PlayState::PlayState(Game *game) : GameState(game)
+PlayState::PlayState(Game *game) : GameState(game), display(game), entityHandler(this)
 {
-  display = new Display(game);
-  terrain = new Terrain();
-  logic = new Logic();
+  // display = new Display(game);
+  // terrain = new Terrain();
+  // logic = new Logic();
   perso = new Perso(game, this, Vect<2, double>(0, 0));
-  entityHandler = new EntityHandler(this);
+  // entityHandler = new EntityHandler(this);
 }
 
 PlayState::~PlayState()
 {
   delete perso;
   // entities shold all be deleted at this point
-  delete terrain;
-  delete display;
-  delete logic;
-  delete entityHandler;
+  // delete terrain;
+  // delete display;
+  // delete logic;
+  // delete entityHandler;
 }
 
 //
@@ -43,7 +43,7 @@ void PlayState::handleEvent(void)
           game->quit();
           return;
 	case SDL_MOUSEBUTTONDOWN:
-	  perso->moveTo(display->getIngameCursor());
+	  perso->moveTo(display.getIngameCursor());
 	  break;
 	}
       if (event.type != SDL_KEYDOWN)
@@ -54,19 +54,19 @@ void PlayState::handleEvent(void)
           game->quit();
           return ;
         case SDLK_UP:
-          display->moveCamera(0, -0.2);
+          display.moveCamera(0, -0.2);
           break;
         case SDLK_DOWN:
-          display->moveCamera(0, 0.2);
+          display.moveCamera(0, 0.2);
           break;
         case SDLK_LEFT:
-          display->moveCamera(-0.2, 0);
+          display.moveCamera(-0.2, 0);
           break;
         case SDLK_RIGHT:
-          display->moveCamera(0.2, 0);
+          display.moveCamera(0.2, 0);
           break;
 	case SDLK_p:
-	  Vect<2, double> tmp = display->getCamera();
+	  Vect<2, double> tmp = display.getCamera();
 	  printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
 	  break;
         }
@@ -76,8 +76,8 @@ void PlayState::handleEvent(void)
 void PlayState::update(void)
 {
   // Display tiles
-  display->clearScreen(0, 0, 0);
-  display->displayTiles(terrain);
+  display.clearScreen(0, 0, 0);
+  display.displayTiles(terrain);
 
   // Display perso
   perso->update();
@@ -86,7 +86,7 @@ void PlayState::update(void)
 
 void PlayState::draw(void)
 {
-  display->render();
+  display.render();
   //  SDL_RenderPresent(game->getRenderer());
 }
 
@@ -100,22 +100,22 @@ void PlayState::resume(void)
   // Do nothing
 }
 
-Logic *PlayState::getLogic()
+Logic& PlayState::getLogic()
 {
   return (logic);
 }
 
-Terrain *PlayState::getTerrain()
+Terrain& PlayState::getTerrain()
 {
   return (terrain);
 }
 
-EntityHandler *PlayState::getEntityHandler()
+EntityHandler& PlayState::getEntityHandler()
 {
   return (entityHandler);
 }
 
-Display *PlayState::getDisplay()
+Display& PlayState::getDisplay()
 {
   return (display);
 }

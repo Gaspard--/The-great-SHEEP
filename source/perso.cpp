@@ -43,7 +43,7 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
 			      new Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT),
 			      getTexture(Direction::IDLE));
   renderable->srcRect = NULL;
-  playState->getDisplay()->addRenderable(renderable);
+  playState->getDisplay().addRenderable(renderable);
 
   // Set booleans
   moving = false;
@@ -69,7 +69,7 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
 
 Perso::~Perso()
 {
-  playState->getDisplay()->removeRenderable(renderable);
+  playState->getDisplay().removeRenderable(renderable);
   delete renderable->dimensions;
   delete renderable;
   for (SDL_Texture *texture : textures)

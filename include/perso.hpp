@@ -3,7 +3,7 @@
 
 # include <cassert>
 # include <SDL2/SDL.h>
-# include "entity.hpp"
+# include "object.hpp"
 # include "vect.hpp"
 # include "renderable.hpp"
 

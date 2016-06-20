@@ -185,7 +185,7 @@ void Display::transformation(Tile const &tile)
   displayTile(win, tile);
 }
 
-void Display::displayLine(Terrain *terrain, SDL_Rect const &rect)
+void Display::displayLine(Terrain &terrain, SDL_Rect const &rect)
 {
   int tmp;
   int x;
@@ -198,15 +198,15 @@ void Display::displayLine(Terrain *terrain, SDL_Rect const &rect)
       x = tmp;
       while (x < rect.w)
 	{
-	  if (terrain->isTile(x ,y))
-	    transformation(terrain->getTile(x, y));
+	  if (terrain.isTile(x ,y))
+	    transformation(terrain.getTile(x, y));
 	  ++x;
 	}
       ++y;
     }
 }
 
-void Display::displayTiles(Terrain *terrain)
+void Display::displayTiles(Terrain &terrain)
 {
   Vect<2u, int> cam;
   SDL_Rect rect;

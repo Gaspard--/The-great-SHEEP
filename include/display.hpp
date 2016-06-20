@@ -38,7 +38,7 @@ public:
   void render(void);
   void clearScreen(int r, int g, int b);
   void moveCamera(double x, double y);
-  void displayLine(Terrain *terrain, SDL_Rect const &);
+  void displayLine(Terrain &terrain, SDL_Rect const &);
   void displayTile(SDL_Rect const &, Tile const &);
   void transformation(Tile const &);
   void smoothScrolling(SDL_Rect&) const;
@@ -46,7 +46,7 @@ public:
   void centerBoard(SDL_Rect&) const;
   void fixBoard(SDL_Rect&) const;
   void isometrize(SDL_Rect&) const;
-  void displayTiles(Terrain *terrain);
+  void displayTiles(Terrain &terrain);
   void displayRenderable(Renderable *renderable);
   void addRenderable(Renderable *renderable);
   void removeRenderable(Renderable *renderable);

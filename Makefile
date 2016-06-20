@@ -35,7 +35,7 @@ SRC :=		main.cpp \
 		entity_handler.cpp \
 		logic.cpp \
 		entity.cpp \
-		monster.cpp \
+		object.cpp \
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
