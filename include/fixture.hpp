@@ -10,6 +10,7 @@ public:
   Vect<2u, double> *position;
   Vect<2u, double> *speed;
   double *size;
+  double t;
 };
 
 #endif // FIXTURE_HPP_

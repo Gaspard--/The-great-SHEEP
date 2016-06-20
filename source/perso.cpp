@@ -14,10 +14,10 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   : Object(startPosition, 1, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
     textures
 {
-      Texture(game, "perso.png"),
-      Texture(game, "left.png"),
-      Texture(game, "right.png")
-	}
+  Texture(game, "perso.png"),
+    Texture(game, "left.png"),
+    Texture(game, "right.png")
+    }
 {
   // Add renderable
   renderable.texture = getTexture(Direction::IDLE);
@@ -95,13 +95,14 @@ void		Perso::update()
 
   // Decremente distance & update position
   distance -= PERSO_SPEED;
-  position = position + speed * PERSO_SPEED;
+  //  position = position + speed * PERSO_SPEED;
   if (distance <= 0)
     {
       *renderable.dimensions = Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT);
       // Set IDLE sprite
       renderable.texture = getTexture(Direction::IDLE);
       moving = false;
+      speed = Vect<2u, double>(0.0, 0.0);
     }
   if (moving)
     renderable.srcRect = sprites + frame / PERSO_FRAME_SPEED;
@@ -131,5 +132,5 @@ void		Perso::moveTo(Vect<2, double> dest)
       moving = false;
       return;
     }
-  speed = Vect<2, double>((destination - position) / distance);
+  speed = (destination - position) *  PERSO_SPEED / distance;
 }

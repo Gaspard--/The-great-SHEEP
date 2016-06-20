@@ -85,7 +85,7 @@ void PlayState::update(void)
   // Display tiles
   display.clearScreen(0, 0, 0);
   display.displayTiles(terrain);
-
+  logic.tick();
   // Display perso
   perso->update();
   perso2->update();
