@@ -96,7 +96,7 @@ void		Perso::update()
   // Decremente distance & update position
   distance -= PERSO_SPEED;
   //  position = position + speed * PERSO_SPEED;
-  if (distance <= 0)
+  if (distance <= 0 || (speed[0] == 0.0 && speed[1] == 0.0))
     {
       *renderable.dimensions = Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT);
       // Set IDLE sprite
