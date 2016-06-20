@@ -86,6 +86,11 @@ void Display::moveCamera(double x, double y)
   camera.moveCamera(x, y);
 }
 
+void Display::setCamera(double x, double y)
+{
+  camera.setCamera(x, y);
+}
+
 Vect <2, double> const &Display::getCamera() const
 {
   return (camera.getCamera());

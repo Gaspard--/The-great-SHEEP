@@ -22,8 +22,8 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   SDL_Texture *newTextures[directionCount] =
     {
       loadTexture(game, "perso"),
-      loadTexture(game, "right"),
       loadTexture(game, "left"),
+      loadTexture(game, "right"),
     };
 
   for (SDL_Texture *tex : newTextures)
