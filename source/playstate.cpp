@@ -11,8 +11,8 @@
 
 PlayState::PlayState(Game *game) : GameState(game), display(game, this), entityHandler(this)
 {
-  perso = new Perso(game, this, Vect<2, double>(2, 4));
-  perso2 = new Perso(game, this, Vect<2, double>(8, 10));
+  perso = new Perso(game, this, Vect<2, double>(10, 14));
+  perso2 = new Perso(game, this, Vect<2, double>(14, 10));
 }
 
 PlayState::~PlayState()
