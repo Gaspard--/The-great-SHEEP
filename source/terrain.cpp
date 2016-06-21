@@ -24,7 +24,7 @@ void Terrain::orderTiles(void)
 
   while (i < size)
     {
-      tiles[i].id = rand() % 5;
+      tiles[i].id = rand() % 4;
       tiles[i].height = (sin((i % world_dimension[0]) * 0.3) * sin((i / world_dimension[0]) * 0.3) + 1) * 5;
       tiles[i].pos[0] = i % world_dimension[0];
       tiles[i].pos[1] = i / world_dimension[0];
