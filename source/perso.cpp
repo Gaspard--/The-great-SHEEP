@@ -27,7 +27,6 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   moving = false;
   selected = true;
 
-  // Set perso position
   destination = 0;
   direction = Direction::MAX;
 
@@ -50,8 +49,6 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
 
 Perso::~Perso()
 {
-  // for (SDL_Texture *texture : textures)
-  //   SDL_DestroyTexture(texture);
 }
 
 //
@@ -98,7 +95,6 @@ void		Perso::update()
   //  position = position + speed * PERSO_SPEED;
   if (distance <= 0 || (speed[0] == 0.0 && speed[1] == 0.0))
     {
-      *renderable.dimensions = Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT);
       // Set IDLE sprite
       renderable.texture = getTexture(Direction::IDLE);
       moving = false;

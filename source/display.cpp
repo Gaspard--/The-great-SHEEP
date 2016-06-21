@@ -26,7 +26,7 @@ Display::~Display()
 void Display::clearScreen(int r, int g, int b)
 {
   SDL_SetRenderDrawColor(game->getRenderer(), static_cast<Uint8>(r), static_cast<Uint8>(g),
-			 static_cast<Uint8>(b), Uint8(255));
+  static_cast<Uint8>(b), Uint8(255));
   SDL_RenderClear(game->getRenderer());
 }
 

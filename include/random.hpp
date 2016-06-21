@@ -2,11 +2,13 @@
 # define RANDOM_HPP_
 
 # include <cstdint>
+# include "vect.hpp"
 
-namespace random
+namespace my_random
 {
   uint64_t randomFrom(uint64_t source);
-}
+  uint64_t randomFrom(Vect<2u, uint32_t> source);
+};
 
 class Random
 {
