@@ -53,16 +53,16 @@ void Display::displayRenderable(Renderable *renderable)
   int x;
   int y;
 
-  rect.w = static_cast<int>((*renderable->dimensions)[0] * 60.0);
-  rect.h = static_cast<int>((*renderable->dimensions)[1] * 60.0);
-  x = (int)(*renderable->position)[0];
-  y = (int)(*renderable->position)[1];
+  rect.w = static_cast<int>((*renderable->dimensions)[0] * 120.0);
+  rect.h = static_cast<int>((*renderable->dimensions)[1] * 120.0);
+  x = (int)round((*renderable->position)[0]);
+  y = (int)round((*renderable->position)[1]);
   tmp = (*renderable->position - getCamera());
   tmp = display::fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
   if (playState->getTerrain().isTile(x, y))
-    rect.y += playState->getTerrain().getTile(x, y).height * 15;
+    rect.y -= playState->getTerrain().getTile(x, y).height * 15;
   SDL_RenderCopy(game->getRenderer(), renderable->texture->getTexture(), renderable->srcRect, &rect);
 }
 
@@ -97,19 +97,29 @@ Vect <2, double> const &Display::getCamera() const
 
 Vect<2u, double> const Display::getIngameCursor() const
 {
-  Vect<2, double>	cursor;
-  double		tmp;
+  Vect<2, double>	true_cursor;
   int			x;
   int			y;
+  int			h;
 
   SDL_GetMouseState(&x, &y);
-  cursor[0] = x - game->getWindowWidth() / 2;
-  cursor[1] = y - game->getWindowHeight() / 2;
-  cursor = cursor * Vect<2, double>(1.0 / 120.0, 1.0 / 60.0);
-  tmp = cursor[0];
-  cursor[0] += cursor[1];
-  cursor[1] -= tmp;
-  return (cursor + getCamera());
+  true_cursor[0] = x - game->getWindowWidth() / 2;
+  true_cursor[1] = y - game->getWindowHeight() / 2;
+  true_cursor = true_cursor * Vect<2u, double>(1.0 / 120.0, 1.0 / 60.0);
+  true_cursor = true_cursor + Vect<2u, double>(true_cursor[1], -true_cursor[0]) + getCamera();
+  h = 10;
+  while (h > 0)
+    {
+      Vect<2, double> cursor(true_cursor + Vect<2u, double>(1.0, 1.0) * h * 0.25);
+      std::cout << "trying h = " << h << std::endl;
+  
+      x = static_cast<int>(round(cursor[0]));
+      y = static_cast<int>(round(cursor[1]));
+      if ((playState->getTerrain().isTile(x, y) ? playState->getTerrain().getTile(x, y).height : 0) >= h)
+	return (cursor);
+      h = h - 1;
+    }
+  return (true_cursor);
 }
 
 void Display::displayTile(SDL_Rect const &win, Tile const &tile)
@@ -138,7 +148,7 @@ void Display::transformation(Tile const &tile)
 
   tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(camera.getCamera()));
   win.x = tmp[0];
-  win.y = tmp[1] + tile.height * 15;
+  win.y = tmp[1] - tile.height * 15;
   win.w = 120;
   win.h = 120;
   centerBoard(win);

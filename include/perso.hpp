@@ -18,8 +18,8 @@
 # define PERSO_NB_FRAME 9
 
 // Perso dimensions
-# define PERSO_WIDTH 1
-# define PERSO_HEIGHT 2
+# define PERSO_WIDTH 0.5
+# define PERSO_HEIGHT 1.0
 
 // Forward declaration
 class Game;

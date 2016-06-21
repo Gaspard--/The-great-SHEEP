@@ -11,7 +11,7 @@
 // Constructor/Destructor
 //
 Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
-  : Object(startPosition, 1, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
+  : Object(startPosition, 0.5, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
     textures
 {
   Texture(game, "perso.png"),
