@@ -6,16 +6,17 @@
 
 namespace my_random
 {
-  uint64_t randomFrom(uint64_t source);
-  uint64_t randomFrom(Vect<2u, uint32_t> source);
 };
 
 class Random
 {
 private:
+  uint64_t seed;
   uint64_t x;
 public:
-  Random(uint64_t x);
+  Random(uint64_t seed);
+  uint64_t randomFrom(uint64_t source);
+  uint64_t randomFrom(Vect<2u, uint32_t> source);
   uint64_t next();
 };
 

@@ -39,6 +39,7 @@ namespace display
 class Display
 {
 private:
+  int maxRenderHeight;
   Game *game;
   PlayState *playState;
   std::vector<Renderable *> renderables;

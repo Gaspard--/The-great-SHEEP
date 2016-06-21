@@ -13,10 +13,12 @@ class TerrainGenerator
 public:
   TerrainGenerator(void);
   ~TerrainGenerator(void);
-  int getHeight(Vect<2u, int> position, int snap, int range);
+  int getNoise(Vect<2u, int> position, Random& random,
+	       unsigned int snap, unsigned int range);
   Tile genTile(Vect<2u, int> position);
 private:
-  Random random;
+  Random height;
+  Random temperature;
 };
 
 #endif // !TERRAIN_GENERATOR_HPP_

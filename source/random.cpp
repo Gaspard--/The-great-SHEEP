@@ -1,16 +1,16 @@
 #include "random.hpp"
 
-uint64_t my_random::randomFrom(uint64_t x)
+uint64_t Random::randomFrom(uint64_t y)
 {
-  return (Random((Random(Random(x).next()).next())).next());
+  return (Random(Random(y ^ x).next() ^ x).next());
 }
 
-uint64_t my_random::randomFrom(Vect<2u, uint32_t> vec)
+uint64_t Random::randomFrom(Vect<2u, uint32_t> vec)
 {
-  return (my_random::randomFrom(vec[0] | vec[1] * ((1ul << 32ul) - 1)));
+  return (Random::randomFrom(vec[0] | vec[1] * ((1ul << 32ul) - 1ul)));
 }
 
-Random::Random(uint64_t x) : x(x)
+Random::Random(uint64_t seed) : seed(seed), x(seed)
 {
 }
 

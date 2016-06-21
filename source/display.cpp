@@ -107,7 +107,7 @@ Vect<2u, double> const Display::getIngameCursor() const
   true_cursor[1] = y - game->getWindowHeight() / 2;
   true_cursor = true_cursor * Vect<2u, double>(1.0 / 120.0, 1.0 / 60.0);
   true_cursor = true_cursor + Vect<2u, double>(true_cursor[1], -true_cursor[0]) + getCamera();
-  h = 10;
+  h = maxRenderHeight;
   while (h > 0)
     {
       Vect<2, double> cursor(true_cursor + Vect<2u, double>(1.0, 1.0) * h * 0.25);
@@ -148,6 +148,7 @@ void Display::transformation(Tile const &tile)
   tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(camera.getCamera()));
   win.x = tmp[0];
   win.y = tmp[1] - tile.height * 15;
+  maxRenderHeight = std::max(tile.height, maxRenderHeight);
   win.w = 120;
   win.h = 120;
   centerBoard(win);
@@ -191,6 +192,7 @@ void Display::displayTiles(Terrain &terrain)
   Vect<2u, int> cam;
   SDL_Rect rect;
 
+  maxRenderHeight = 0;
   cam = camera.getFlooredCamera();
   rect.x = cam[0] - TILE_DIM / 2;
   rect.y = cam[1] - TILE_DIM / 2;
