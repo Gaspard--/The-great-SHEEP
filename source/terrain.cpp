@@ -4,7 +4,7 @@
 #include "tile.hpp"
 #include <cmath>
 
-Terrain::Terrain(void)
+Terrain::Terrain(void) : terrainGenerator()
 {
   world_dimension[0] = 500;
   world_dimension[1] = 500;
@@ -24,10 +24,7 @@ void Terrain::orderTiles(void)
 
   while (i < size)
     {
-      tiles[i].id = rand() % 5;
-      tiles[i].height = (sin((i % world_dimension[0]) * 0.3) * sin((i / world_dimension[0]) * 0.3) + 1) * 5;
-      tiles[i].pos[0] = i % world_dimension[0];
-      tiles[i].pos[1] = i / world_dimension[0];
+      tiles[i] = terrainGenerator.genTile(Vect<2u, int>(i % world_dimension[0], i / world_dimension[0]));
       i = i + 1;
     }
 }
