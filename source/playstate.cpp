@@ -86,12 +86,12 @@ void PlayState::update(void)
   // Display perso
   perso->update();
   perso2->update();
+  display.render();
 }
 
 void PlayState::draw(void)
 {
-  display.render();
-  //  SDL_RenderPresent(game->getRenderer());
+  SDL_RenderPresent(game->getRenderer());
 }
 
 void PlayState::pause(void)

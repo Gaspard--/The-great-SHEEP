@@ -43,7 +43,6 @@ void Display::render(void)
 	i = i + 1;
       }
   }
-  SDL_RenderPresent(game->getRenderer());
 }
 
 void Display::displayRenderable(Renderable *renderable)
@@ -112,7 +111,7 @@ Vect<2u, double> const Display::getIngameCursor() const
     {
       Vect<2, double> cursor(true_cursor + Vect<2u, double>(1.0, 1.0) * h * 0.25);
       std::cout << "trying h = " << h << std::endl;
-  
+
       x = static_cast<int>(round(cursor[0]));
       y = static_cast<int>(round(cursor[1]));
       if ((playState->getTerrain().isTile(x, y) ? playState->getTerrain().getTile(x, y).height : 0) >= h)
