@@ -2,6 +2,7 @@
 # define TERRAIN_GENERATOR_HPP_
 
 # include <iostream>
+# include <cmath>
 # include "vect.hpp"
 
 class Tile;

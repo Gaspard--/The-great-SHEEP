@@ -6,11 +6,17 @@
 # include <cstdlib>
 
 # include "vect.hpp"
+# include "terrain_generator.hpp"
 
 class Tile;
 
 class Terrain
 {
+private:
+  std::vector<Tile> tiles;
+  Vect <2, int > world_dimension;
+  TerrainGenerator terrainGenerator;
+
 public:
   Terrain(void);
   ~Terrain(void);
@@ -18,10 +24,6 @@ public:
   bool isTile(int x, int y) const;
   Tile const &getTile(int x, int y) const;
   void orderTiles(void);
-
-private:
-  std::vector<Tile> tiles;
-  Vect <2, int > world_dimension;
 };
 
 #endif // !TERRAIN_HPP_

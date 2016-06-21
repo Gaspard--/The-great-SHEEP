@@ -3,6 +3,11 @@
 
 # include <cstdint>
 
+namespace random
+{
+  uint64_t randomFrom(uint64_t source);
+}
+
 class Random
 {
 private:

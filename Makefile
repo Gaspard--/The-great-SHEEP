@@ -40,6 +40,7 @@ SRC :=		main.cpp \
 		texture.cpp \
 		timer.cpp \
 		random.cpp \
+		terrain_generator.cpp \
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)
