@@ -8,15 +8,7 @@
 #include "playstate.hpp"
 
 Display::Display(Game *game, PlayState *playState) : game(game),  playState(playState), renderables(),
-						     tileset(game, "basic_ground_tiles.png"),
-						     textures
-                                                     {
-						       Texture(game, "grass_01.png"),
-						       Texture(game, "grass_02.png"),
-						       Texture(game, "dry_01.png"),
-						       Texture(game, "dry_02.png"),
-						       Texture(game, "water_01.png"),
-						     }
+						     tileset(game, "basic_ground_tiles.png")
 {
 }
 
@@ -27,7 +19,7 @@ Display::~Display()
 void Display::clearScreen(int r, int g, int b)
 {
   SDL_SetRenderDrawColor(game->getRenderer(), static_cast<Uint8>(r), static_cast<Uint8>(g),
-  static_cast<Uint8>(b), Uint8(255));
+			 static_cast<Uint8>(b), Uint8(255));
   SDL_RenderClear(game->getRenderer());
 }
 
@@ -61,8 +53,7 @@ void Display::displayRenderable(Renderable *renderable)
   tmp = display::fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
-  if (playState->getTerrain().isTile(x, y))
-    rect.y -= playState->getTerrain().getTile(x, y).height * 15;
+  rect.y -= playState->getTerrain().getTile(x, y).height * 15;
   SDL_RenderCopy(game->getRenderer(), renderable->texture->getTexture(), renderable->srcRect, &rect);
 }
 
@@ -114,7 +105,7 @@ Vect<2u, double> const Display::getIngameCursor() const
 
       x = static_cast<int>(round(cursor[0]));
       y = static_cast<int>(round(cursor[1]));
-      if ((playState->getTerrain().isTile(x, y) ? playState->getTerrain().getTile(x, y).height : 0) >= h)
+      if (playState->getTerrain().getTile(x, y).height >= h)
 	return (cursor);
       h = h - 1;
     }
@@ -159,8 +150,7 @@ void Display::displayLine2(Terrain &terrain, SDL_Rect const &rect, int x, int y,
 {
   while (line > 0)
     {
-      if (terrain.isTile(x + rect.x, y + rect.y))
-	transformation(terrain.getTile(x + rect.x, y + rect.y));
+      transformation(terrain.getTile(x + rect.x, y + rect.y));
       ++x;
       --y;
       --line;

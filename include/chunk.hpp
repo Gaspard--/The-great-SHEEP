@@ -1,14 +1,14 @@
 #ifndef CHUNK_HPP_
 # define CHUNK_HPP_
 
-class Chunk
+# include <vector>
+# include "vect.hpp"
+# include "tile.hpp"
+
+struct Chunk
 {
-
-public:
-  Chunk();
-  ~Chunk(void);
-
-private:
+  Tile tiles[16 * 16];
+  Vect<2, int> coord;
 };
 
 #endif // !CHUNK_HPP_

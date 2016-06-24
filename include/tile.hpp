@@ -3,9 +3,8 @@
 
 #include "vect.hpp"
 
-class Tile
+struct Tile
 {
-public:
   int id;
   Vect <2u, int> pos;
   int height;

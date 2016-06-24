@@ -19,16 +19,6 @@ class PlayState;
 namespace display
 {
 
-  enum texture_names
-    {
-      TEXTURE_GRASS_01,
-      TEXTURE_GRASS_02,
-      TEXTURE_DRY_01,
-      TEXTURE_DRY_02,
-      TEXTURE_WATER_01,
-      TEXTURE_MAX,
-    };
-
   template<class T>
   Vect<2u, T> fullIsometrize(Vect<2u, T> in)
   {
@@ -44,7 +34,6 @@ private:
   PlayState *playState;
   std::vector<Renderable *> renderables;
   Texture tileset;
-  Texture textures[display::TEXTURE_MAX];
   Camera camera;
 
 public:
@@ -59,11 +48,8 @@ public:
   void displayLine2(Terrain &terrain, SDL_Rect const &, int x, int y, int line);
   void displayTile(SDL_Rect const &, Tile const &);
   void transformation(Tile const &);
-  void smoothScrolling(SDL_Rect&) const;
-  void tileScale(SDL_Rect&) const;
   void centerBoard(SDL_Rect&) const;
   void fixBoard(SDL_Rect&) const;
-  void isometrize(SDL_Rect&) const;
   void displayTiles(Terrain &terrain);
   void displayRenderable(Renderable *renderable);
   void addRenderable(Renderable *renderable);
