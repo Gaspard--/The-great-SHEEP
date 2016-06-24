@@ -36,14 +36,10 @@ private:
   int		frame;
 
   // Ticks
-  Uint32	startTicks;
-  Uint32	elapsedTicks;
-
-  // Times
-  double	elapsed;
+  Uint32	old;
 
   // Frame per second
-  double	fps;
+  int		fps;
 
   bool		show;
 };
