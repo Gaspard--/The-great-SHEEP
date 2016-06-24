@@ -8,14 +8,15 @@
 #include "playstate.hpp"
 
 Display::Display(Game *game, PlayState *playState) : game(game),  playState(playState), renderables(),
-						     tileset(game, "basic_ground_tiles.png"), textures
-{
-  Texture(game, "grass_01.png"),
-    Texture(game, "grass_02.png"),
-    Texture(game, "dry_01.png"),
-    Texture(game, "dry_02.png"),
-    Texture(game, "water_01.png"),
-}
+						     tileset(game, "basic_ground_tiles.png"),
+						     textures
+                                                     {
+						       Texture(game, "grass_01.png"),
+						       Texture(game, "grass_02.png"),
+						       Texture(game, "dry_01.png"),
+						       Texture(game, "dry_02.png"),
+						       Texture(game, "water_01.png"),
+						     }
 {
 }
 
