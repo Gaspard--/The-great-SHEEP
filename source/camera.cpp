@@ -1,10 +1,12 @@
 #include "top_header.hpp"
 #include "camera.hpp"
 
+#include <iostream>
+
 Camera::Camera(void)
 {
-  lookat[0] = TILE_DIM / 2;
-  lookat[1] = TILE_DIM / 2;
+  lookat = Vect<2, double>(TILE_DIM / 2, TILE_DIM / 2);
+  angle = Vect<2, int>(0, 0);
 }
 
 Camera::~Camera(void)
@@ -20,6 +22,16 @@ Vect<2u, int> const Camera::getFlooredCamera(void) const
 Vect<2u, double> const &Camera::getCamera(void) const
 {
   return (lookat);
+}
+
+Vect<2u, int> const &Camera::getAngle(void) const
+{
+  return (angle);
+}
+
+void Camera::changeAngle(int x, int y)
+{
+  angle ^= Vect<2, int>(x, y);
 }
 
 void Camera::setCamera(double x, double y)

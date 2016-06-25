@@ -70,6 +70,13 @@ void PlayState::handleEvent(void)
         case SDLK_RIGHT:
           display.moveCamera(0.2, 0);
           break;
+        case SDLK_a:
+	  std::cout << "yolo" << std::endl;
+          display.changeAngle(1, 0);
+          break;
+        case SDLK_q:
+          display.changeAngle(0, 1);
+          break;
 	case SDLK_p:
 	  {
 	    Vect<2, double> tmp = display.getCamera();

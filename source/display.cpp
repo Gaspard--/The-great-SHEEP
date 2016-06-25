@@ -7,6 +7,8 @@
 #include "renderable.hpp"
 #include "playstate.hpp"
 
+using namespace std;
+
 Display::Display(Game *game, PlayState *playState) : game(game),  playState(playState), renderables(),
 						     tileset(game, "basic_ground_tiles.png")
 {
@@ -86,6 +88,11 @@ Vect <2, double> const &Display::getCamera() const
   return (camera.getCamera());
 }
 
+void Display::changeAngle(int x, int y)
+{
+  camera.changeAngle(x, y);
+}
+
 Vect<2u, double> const Display::getIngameCursor() const
 {
   Vect<2, double>	true_cursor;
@@ -131,14 +138,26 @@ void Display::centerBoard(SDL_Rect& win) const
   win.y += game->getWindowHeight() / 2 - 30;
 }
 
-void Display::transformation(Tile const &tile)
+void Display::calcAngle(Vect<2, int> & pos, Vect<2, int> const & win_pos)
+{
+  Vect<2u, int> angle = camera.getAngle();
+
+  if (!!(win_pos[1] & (1 << 0)))
+    pos[0] += (((TILE_DIM / 2 - win_pos[0]) * 2 - 1) * 120 * angle[0]);
+  else
+    pos[0] += (((TILE_DIM / 2 - win_pos[0]) * 2) * 120 * angle[0]);
+  pos[1] += ((((TILE_DIM * 2 - 2) / 2 - win_pos[1]) * 2) * 30 * angle[1]);
+}
+
+void Display::transformation(Tile const &tile, int line_x, int line_y)
 {
   SDL_Rect win;
   Vect<2u, int> tmp(tile.pos);
 
   tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(camera.getCamera()));
+  calcAngle(tmp, Vect<2, int>(line_x, line_y));
   win.x = tmp[0];
-  win.y = tmp[1] - tile.height * 15;
+  win.y = tmp[1]- tile.height * 15;
   maxRenderHeight = std::max(tile.height, maxRenderHeight);
   win.w = 120;
   win.h = 120;
@@ -146,39 +165,55 @@ void Display::transformation(Tile const &tile)
   displayTile(win, tile);
 }
 
-void Display::displayLine2(Terrain &terrain, SDL_Rect const &rect, int x, int y, int line)
+void Display::displayLine(Terrain &terrain, SDL_Rect const &rect, int x, int y, int line_y)
 {
+  int line = TILE_DIM;
+  int line_x = 0;
+
   while (line > 0)
     {
-      transformation(terrain.getTile(x + rect.x, y + rect.y));
+      transformation(terrain.getTile(x + rect.x , y + rect.y), line_x++, line_y);
       ++x;
       --y;
       --line;
     }
+  cout << endl;
 }
 
-void Display::displayLine(Terrain &terrain, SDL_Rect const &rect)
+void Display::displayLines(Terrain &terrain, SDL_Rect const &rect)
 {
-  int i;
-  int x;
-  int y;
+  int i = 0;
+  int dim = TILE_DIM / 2;
+  int line_y = 0;
 
-  i = 0;
   while (i < TILE_DIM - 1)
     {
-      x = i - TILE_DIM / 2;
-      y = i + TILE_DIM / 2;
-      displayLine2(terrain, rect, x, y, TILE_DIM);
-      displayLine2(terrain, rect, x + 1, y, TILE_DIM - 1);
+      displayLine(terrain, rect, i - dim, i + dim, line_y++);
+      displayLine(terrain, rect, i - dim + 1, i + dim, line_y++);
       ++i;
     }
-  x = i - TILE_DIM / 2;
-  y = i + TILE_DIM / 2;
-  displayLine2(terrain, rect, x, y, TILE_DIM);
+  displayLine(terrain, rect, i - dim, i + dim, line_y++);
+}
+
+void Display::displayReversedLines(Terrain &terrain, SDL_Rect const &rect)
+{
+  int i = TILE_DIM - 1;
+  int dim = TILE_DIM / 2;
+  int line_y = TILE_DIM * 2 - 2;
+
+  displayLine(terrain, rect, i - dim, i + dim, line_y--);
+  --i;
+  while (i >= 0)
+    {
+      displayLine(terrain, rect, i - dim + 1, i + dim, line_y--);
+      displayLine(terrain, rect, i - dim, i + dim, line_y--);
+      --i;
+    }
 }
 
 void Display::displayTiles(Terrain &terrain)
 {
+  Vect<2u, int> angle = camera.getAngle();
   Vect<2u, int> cam;
   SDL_Rect rect;
 
@@ -188,5 +223,8 @@ void Display::displayTiles(Terrain &terrain)
   rect.y = cam[1] - TILE_DIM / 2;
   rect.w = rect.x + TILE_DIM;
   rect.h = rect.y + TILE_DIM;
-  displayLine(terrain, rect);
+  if (angle[1])
+      displayReversedLines(terrain, rect);
+  else
+    displayLines(terrain, rect);
 }

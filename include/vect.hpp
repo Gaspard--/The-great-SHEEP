@@ -114,6 +114,19 @@ public:
     return (result);
   }
 
+  Vect<dim, T> operator-=(Vect<dim, T> const &other)
+  {
+    unsigned int i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] -= other[i];
+	i = i + 1;
+      }
+    return (*this);
+  }
+
   Vect<dim, T> operator-(void) const
   {
     Vect<dim, T> result;
@@ -209,6 +222,19 @@ public:
 	i = i + 1;
       }
     return (result);
+  }
+
+  Vect<dim, T> operator^=(Vect<dim, T> const &other)
+  {
+    unsigned int	i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] ^= other[i];
+	i = i + 1;
+      }
+    return (*this);
   }
 
   T sum(void) const
