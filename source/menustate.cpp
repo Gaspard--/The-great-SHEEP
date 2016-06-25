@@ -23,7 +23,6 @@ void MenuState::handleEvent(void)
 {
   SDL_Event		event;
   SDL_Rect		rect;
-  SDL_MouseButtonEvent	mouse;
   int			w;
   int			h;
 
@@ -32,17 +31,24 @@ void MenuState::handleEvent(void)
   rect.y = (game->getWindowHeight() - h) / 2;
   rect.w = w;
   rect.h = h;
-  if (SDL_PollEvent(&event) != 0)
+  while (SDL_PollEvent(&event) != 0)
     {
       if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN &&
 				     event.key.keysym.sym == SDLK_ESCAPE))
-	game->quit();
-      mouse = event.button;
-      if (mouse.button == SDL_BUTTON_LEFT &&
-	  mouse.x >= rect.x && mouse.x < rect.x + rect.w &&
-	  mouse.y >= rect.y && mouse.y < rect.y + rect.h)
 	{
-	  game->changeState(new PlayState(game));
+	  game->quit();
+	  return;
+	}
+      else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_F3)
+	game->toggleShowFps();
+      else if (event.button.button == SDL_BUTTON_LEFT)
+	{
+	  if (event.button.x >= rect.x && event.button.x < rect.x + rect.w &&
+	      event.button.y >= rect.y && event.button.y < rect.y + rect.h)
+	    {
+	      game->changeState(new PlayState(game));
+	      return;
+	    }
 	}
     }
 }

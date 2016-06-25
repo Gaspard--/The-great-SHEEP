@@ -9,14 +9,16 @@
 // Constructor/Destructor
 //
 
-PlayState::PlayState(Game *game) : GameState(game), display(game), entityHandler(this)
+PlayState::PlayState(Game *game) : GameState(game), display(game, this), entityHandler(this)
 {
-  perso = new Perso(game, this, Vect<2, double>(0, 0));
+  perso = new Perso(game, this, Vect<2, double>(10, 14));
+  perso2 = new Perso(game, this, Vect<2, double>(14, 10));
 }
 
 PlayState::~PlayState()
 {
   delete perso;
+  delete perso2;
 }
 
 //
@@ -34,7 +36,10 @@ void PlayState::handleEvent(void)
           game->quit();
           return;
 	case SDL_MOUSEBUTTONDOWN:
-	  perso->moveTo(display.getIngameCursor());
+	  if (event.button.button == SDL_BUTTON_LEFT)
+	    perso->moveTo(display.getIngameCursor());
+	  else if (event.button.button == SDL_BUTTON_RIGHT)
+	    perso2->moveTo(display.getIngameCursor());
 	  break;
 	}
       if (event.type != SDL_KEYDOWN)
@@ -49,6 +54,9 @@ void PlayState::handleEvent(void)
 	    Vect<2, double> pos = perso->getPosition();
 	    display.setCamera(pos[0], pos[1]);
 	  }
+	  break;
+	case SDLK_F3:
+	  game->toggleShowFps();
 	  break;
         case SDLK_UP:
           display.moveCamera(0, -0.2);
@@ -74,19 +82,16 @@ void PlayState::handleEvent(void)
 
 void PlayState::update(void)
 {
-  // Display tiles
-  display.clearScreen(0, 0, 0);
-  display.displayTiles(terrain);
-
+  logic.tick();
   // Display perso
   perso->update();
-  //perso->render(game);
+  perso2->update();
+  display.render();
 }
 
 void PlayState::draw(void)
 {
-  display.render();
-  //  SDL_RenderPresent(game->getRenderer());
+  SDL_RenderPresent(game->getRenderer());
 }
 
 void PlayState::pause(void)

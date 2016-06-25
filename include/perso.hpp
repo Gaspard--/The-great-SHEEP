@@ -9,17 +9,17 @@
 # include "texture.hpp"
 
 // Perso movement speed
-# define PERSO_SPEED 0.04
+# define PERSO_SPEED 0.06
 
 // Perso frame speed (lower is faster)
-# define PERSO_FRAME_SPEED 7
+# define PERSO_FRAME_SPEED 3
 
 // Perso frame number
 # define PERSO_NB_FRAME 9
 
 // Perso dimensions
-# define PERSO_WIDTH 1
-# define PERSO_HEIGHT 2
+# define PERSO_WIDTH 0.5
+# define PERSO_HEIGHT 1.0
 
 // Forward declaration
 class Game;

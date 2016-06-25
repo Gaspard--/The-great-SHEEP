@@ -87,6 +87,19 @@ public:
     return (result);
   }
 
+  Vect<dim, T> operator+=(Vect<dim, T> const &other)
+  {
+    unsigned int i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] += other[i];
+	i = i + 1;
+      }
+    return (*this);
+  }
+
   Vect<dim, T> operator-(Vect<dim, T> const &other) const
   {
     Vect<dim, T> result;
@@ -129,6 +142,33 @@ public:
     return (result);
   }
 
+  Vect<dim, T> operator*=(Vect<dim, T> const& other)
+  {
+    unsigned int i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] *= other[i];
+	i = i + 1;
+      }
+    return (*this);
+  }
+
+  bool operator==(Vect<dim, T> const& other)
+  {
+    unsigned int i;
+
+    i = 0;
+    while (i < dim)
+      {
+	if (data[i] != other[i])
+	  return (0);
+	i = i + 1;
+      }
+    return (1);
+  }
+
   Vect<dim, T> operator*(Vect<dim, T> const& other) const
   {
     Vect<dim, T> result;
@@ -152,6 +192,20 @@ public:
     while (i < dim)
       {
 	result[i] = data[i] / other;
+	i = i + 1;
+      }
+    return (result);
+  }
+
+  Vect<dim, T> operator%(T const& other) const
+  {
+    Vect<dim, T>	result;
+    unsigned int	i;
+
+    i = 0;
+    while (i < dim)
+      {
+	result[i] = data[i] % other;
 	i = i + 1;
       }
     return (result);

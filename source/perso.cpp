@@ -11,13 +11,13 @@
 // Constructor/Destructor
 //
 Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
-  : Object(startPosition, 1, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
+  : Object(startPosition, 0.5, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
     textures
 {
-      Texture(game, "perso.png"),
-      Texture(game, "left.png"),
-      Texture(game, "right.png")
-	}
+  Texture(game, "perso.png"),
+    Texture(game, "left.png"),
+    Texture(game, "right.png")
+    }
 {
   // Add renderable
   renderable.texture = getTexture(Direction::IDLE);
@@ -27,7 +27,6 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   moving = false;
   selected = true;
 
-  // Set perso position
   destination = 0;
   direction = Direction::MAX;
 
@@ -50,8 +49,6 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
 
 Perso::~Perso()
 {
-  // for (SDL_Texture *texture : textures)
-  //   SDL_DestroyTexture(texture);
 }
 
 //
@@ -95,13 +92,13 @@ void		Perso::update()
 
   // Decremente distance & update position
   distance -= PERSO_SPEED;
-  position = position + speed * PERSO_SPEED;
-  if (distance <= 0)
+  //  position = position + speed * PERSO_SPEED;
+  if (distance <= 0 || (speed[0] == 0.0 && speed[1] == 0.0))
     {
-      *renderable.dimensions = Vect<2, double>(PERSO_WIDTH, PERSO_HEIGHT);
       // Set IDLE sprite
       renderable.texture = getTexture(Direction::IDLE);
       moving = false;
+      speed = Vect<2u, double>(0.0, 0.0);
     }
   if (moving)
     renderable.srcRect = sprites + frame / PERSO_FRAME_SPEED;
@@ -117,20 +114,19 @@ void		Perso::moveTo(Vect<2, double> dest)
   frame = 0;
   moving = true;
   destination = dest;
-  if (destination[0] >= position[0])
+  if (destination.x() >= position.x())
     direction = Direction::RIGHT;
   else
     direction = Direction::LEFT;
 
   // Set sprite accordingly to direction
   renderable.texture = getTexture(direction);
-  distance = sqrt(pow(destination[0] - position[0], 2) +
-  		  pow(destination[1] - position[1], 2));
+  distance = sqrt(pow(destination.x() - position.x(), 2) +
+  		  pow(destination.y() - position.y(), 2));
   if (distance <= 0)
     {
       moving = false;
       return;
     }
-  speed = Vect<2, double>((destination[0] - position[0]) / distance,
-			  (destination[1] - position[1]) / distance);
+  speed = (destination - position) *  PERSO_SPEED / distance;
 }
