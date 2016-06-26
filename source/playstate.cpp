@@ -50,29 +50,34 @@ void PlayState::handleEvent(void)
           game->quit();
           return;
         case SDLK_SPACE:
-	  {
-	    Vect<2, double> pos = perso->getPosition();
-	    display.setCamera(pos[0], pos[1]);
-	  }
+          display.setCameraPosition(perso->getPosition());
 	  break;
 	case SDLK_F3:
 	  game->toggleShowFps();
 	  break;
         case SDLK_UP:
-          display.moveCamera(0, -0.2);
+          display.moveCamera(Vect<2, double>(0, -0.2));
           break;
         case SDLK_DOWN:
-          display.moveCamera(0, 0.2);
+          display.moveCamera(Vect<2, double>(0, 0.2));
           break;
         case SDLK_LEFT:
-          display.moveCamera(-0.2, 0);
+          display.moveCamera(Vect<2, double>(-0.2, 0));
           break;
         case SDLK_RIGHT:
-          display.moveCamera(0.2, 0);
+          display.moveCamera(Vect<2, double>(0.2, 0));
+          break;
+        case SDLK_a:
+	  std::cout << "yolo" << std::endl;
+          display.setCameraAngle(Vect<2, int>(1, 0));
+          break;
+        case SDLK_q:
+          display.setCameraAngle(Vect<2, int>(0, 1));
           break;
 	case SDLK_p:
 	  {
-	    Vect<2, double> tmp = display.getCamera();
+	    Vect<2, double> tmp = display.getCameraPosition();
+            // TODO: Use `cout`
 	    printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
 	  }
 	  break;

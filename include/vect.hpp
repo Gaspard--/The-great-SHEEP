@@ -114,6 +114,19 @@ public:
     return (result);
   }
 
+  Vect<dim, T> operator-=(Vect<dim, T> const &other)
+  {
+    unsigned int i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] -= other[i];
+	i = i + 1;
+      }
+    return (*this);
+  }
+
   Vect<dim, T> operator-(void) const
   {
     Vect<dim, T> result;
@@ -211,6 +224,19 @@ public:
     return (result);
   }
 
+  Vect<dim, T> operator^=(Vect<dim, T> const &other)
+  {
+    unsigned int	i;
+
+    i = 0;
+    while (i < dim)
+      {
+	data[i] ^= other[i];
+	i = i + 1;
+      }
+    return (*this);
+  }
+
   T sum(void) const
   {
     unsigned int	i;
@@ -232,7 +258,7 @@ public:
   }
 
   template<unsigned int _dim = dim, typename std::enable_if<(dim > 0)>::type* = nullptr>
-  T x()
+  T x() const
   {
     return (data[0]);
   }

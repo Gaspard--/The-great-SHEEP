@@ -12,12 +12,23 @@ public:
   Camera(void);
   ~Camera(void);
 
-  void	setCamera(double x, double y);
-  void	moveCamera(double x, double y);
-  Vect<2u, double> const &getCamera(void) const;
-  Vect<2u, int> const getFlooredCamera(void) const;
+  Vect<2u, double> getPosition(void) const;
+  void	setPosition(const Vect<2u, double> &position);
+
+  /**
+   * The given offset is relative to the actual camera position
+   */
+  void	move(const Vect<2u, double> &offset);
+
+
+  Vect<2u, int> getAngle(void) const;
+  void setAngle(const Vect<2u, int> &angle);
+
+  Vect<2u, int> getFlooredCamera(void) const;
+
 private:
-  Vect<2, double> lookat;
+  Vect<2, double> position;
+  Vect<2, int> angle;
 };
 
 #endif // !CAMERA_HPP_
