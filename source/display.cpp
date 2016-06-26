@@ -51,7 +51,7 @@ void Display::displayRenderable(Renderable *renderable)
   rect.h = static_cast<int>((*renderable->dimensions)[1] * 120.0);
   x = (int)round((*renderable->position)[0]);
   y = (int)round((*renderable->position)[1]);
-  tmp = (*renderable->position - getCamera());
+  tmp = *renderable->position - getCameraPosition();
   tmp = display::fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
@@ -73,27 +73,35 @@ void Display::removeRenderable(Renderable *renderable)
   renderables.erase(renderables.begin() + i);
 }
 
-void Display::moveCamera(double x, double y)
+
+Vect <2, double> Display::getCameraPosition() const
 {
-  camera.moveCamera(x, y);
+  return (camera.getPosition());
 }
 
-void Display::setCamera(double x, double y)
+void Display::moveCamera(Vect<2, double> offset)
 {
-  camera.setCamera(x, y);
+  camera.move(offset);
 }
 
-Vect <2, double> const &Display::getCamera() const
+void Display::setCameraPosition(Vect<2, double> newPosition)
 {
-  return (camera.getCamera());
+  camera.setPosition(newPosition);
 }
 
-void Display::changeAngle(int x, int y)
+
+Vect <2, int> Display::getCameraAngle() const
 {
-  camera.changeAngle(x, y);
+  return camera.getAngle();
+};
+
+void Display::setCameraAngle(Vect<2, int> angle)
+{
+  camera.setAngle(angle);
 }
 
-Vect<2u, double> const Display::getIngameCursor() const
+
+Vect<2u, double> Display::getIngameCursor() const
 {
   Vect<2, double>	true_cursor;
   int			x;
@@ -104,7 +112,7 @@ Vect<2u, double> const Display::getIngameCursor() const
   true_cursor[0] = x - game->getWindowWidth() / 2;
   true_cursor[1] = y - game->getWindowHeight() / 2;
   true_cursor = true_cursor * Vect<2u, double>(1.0 / 120.0, 1.0 / 60.0);
-  true_cursor = true_cursor + Vect<2u, double>(true_cursor[1], -true_cursor[0]) + getCamera();
+  true_cursor = true_cursor + Vect<2u, double>(true_cursor[1], -true_cursor[0]) + getCameraPosition();
   h = maxRenderHeight;
   while (h > 0)
     {
@@ -140,13 +148,13 @@ void Display::centerBoard(SDL_Rect& win) const
 
 void Display::calcAngle(Vect<2, int> & pos, Vect<2, int> const & win_pos)
 {
-  Vect<2u, int> angle = camera.getAngle();
+  Vect<2u, int> angle = getCameraAngle();
 
   if (!!(win_pos[1] & (1 << 0)))
-    pos[0] += (((TILE_DIM / 2 - win_pos[0]) * 2 - 1) * 120 * angle[0]);
+    pos[0] += ((TILE_DIM / 2 - win_pos[0]) * 2 - 1) * 120 * angle[0];
   else
-    pos[0] += (((TILE_DIM / 2 - win_pos[0]) * 2) * 120 * angle[0]);
-  pos[1] += ((((TILE_DIM * 2 - 2) / 2 - win_pos[1]) * 2) * 30 * angle[1]);
+    pos[0] += ((TILE_DIM / 2 - win_pos[0]) * 2) * 120 * angle[0];
+  pos[1] += (((TILE_DIM * 2 - 2) / 2 - win_pos[1]) * 2) * 30 * angle[1];
 }
 
 void Display::transformation(Tile const &tile, int line_x, int line_y)
@@ -154,7 +162,7 @@ void Display::transformation(Tile const &tile, int line_x, int line_y)
   SDL_Rect win;
   Vect<2u, int> tmp(tile.pos);
 
-  tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(camera.getCamera()));
+  tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(getCameraPosition()));
   calcAngle(tmp, Vect<2, int>(line_x, line_y));
   win.x = tmp[0];
   win.y = tmp[1]- tile.height * 15;
@@ -177,7 +185,6 @@ void Display::displayLine(Terrain &terrain, SDL_Rect const &rect, int x, int y, 
       --y;
       --line;
     }
-  cout << endl;
 }
 
 void Display::displayLines(Terrain &terrain, SDL_Rect const &rect)
@@ -213,7 +220,7 @@ void Display::displayReversedLines(Terrain &terrain, SDL_Rect const &rect)
 
 void Display::displayTiles(Terrain &terrain)
 {
-  Vect<2u, int> angle = camera.getAngle();
+  Vect<2u, int> angle = getCameraAngle();
   Vect<2u, int> cam;
   SDL_Rect rect;
 

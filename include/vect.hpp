@@ -258,7 +258,7 @@ public:
   }
 
   template<unsigned int _dim = dim, typename std::enable_if<(dim > 0)>::type* = nullptr>
-  T x()
+  T x() const
   {
     return (data[0]);
   }
