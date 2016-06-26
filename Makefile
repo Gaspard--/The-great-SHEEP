@@ -41,6 +41,7 @@ SRC :=		main.cpp \
 		timer.cpp \
 		random.cpp \
 		terrain_generator.cpp \
+		renderable_compare.cpp \
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)

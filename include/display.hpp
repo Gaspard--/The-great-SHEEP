@@ -5,6 +5,7 @@
 # include <SDL2/SDL_image.h>
 # include <iostream>
 # include <vector>
+# include <algorithm>
 
 # include "top_header.hpp"
 # include "camera.hpp"
@@ -15,15 +16,6 @@ class Terrain;
 class Game;
 class Renderable;
 class PlayState;
-
-namespace display
-{
-  template<class T>
-  Vect<2u, T> fullIsometrize(Vect<2u, T> in)
-  {
-    return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(60, 30));
-  }
-};
 
 class Display
 {
@@ -39,6 +31,11 @@ public:
   Display(Game *game, PlayState *playstate);
   ~Display(void);
 
+  template<class T>
+  Vect<2u, T> fullIsometrize(Vect<2u, T> in)
+  {
+    return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(60, 30));
+  }
   void render(void);
   void clearScreen(int r, int g, int b);
 

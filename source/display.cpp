@@ -6,8 +6,8 @@
 #include "camera.hpp"
 #include "renderable.hpp"
 #include "playstate.hpp"
+#include "renderable_compare.hpp"
 
-using namespace std;
 
 Display::Display(Game *game, PlayState *playState) : game(game),  playState(playState), renderables(),
 						     tileset(game, "basic_ground_tiles.png")
@@ -32,6 +32,7 @@ void Display::render(void)
   {
     unsigned int	i(0);
 
+    std::sort(renderables.begin(), renderables.end(), RenderableCompare(this));
     while (i < renderables.size())
       {
 	displayRenderable(renderables[i]);
@@ -52,7 +53,7 @@ void Display::displayRenderable(Renderable *renderable)
   x = (int)round((*renderable->position)[0]);
   y = (int)round((*renderable->position)[1]);
   tmp = *renderable->position - getCameraPosition();
-  tmp = display::fullIsometrize(tmp);
+  tmp = fullIsometrize(tmp);
   rect.x = static_cast<int>(tmp[0]) + ((game->getWindowWidth() - rect.w) / 2);
   rect.y = static_cast<int>(tmp[1]) + game->getWindowHeight() / 2 - rect.h;
   rect.y -= playState->getTerrain().getTile(x, y).height * 15;
@@ -162,7 +163,7 @@ void Display::transformation(Tile const &tile, int line_x, int line_y)
   SDL_Rect win;
   Vect<2u, int> tmp(tile.pos);
 
-  tmp = display::fullIsometrize(tmp) - Vect<2u, int>(display::fullIsometrize(getCameraPosition()));
+  tmp = fullIsometrize(tmp) - Vect<2u, int>(fullIsometrize(getCameraPosition()));
   calcAngle(tmp, Vect<2, int>(line_x, line_y));
   win.x = tmp[0];
   win.y = tmp[1]- tile.height * 15;
