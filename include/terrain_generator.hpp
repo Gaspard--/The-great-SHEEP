@@ -13,7 +13,8 @@ class TerrainGenerator
 public:
   TerrainGenerator(void);
   ~TerrainGenerator(void);
-  int getNoise(Vect<2u, int> position, Random& random,
+  unsigned int getBiome(Vect<2u, unsigned int> position, Random& random);
+  unsigned int getNoise(Vect<2u, unsigned int> position, Random& random,
 	       unsigned int snap, unsigned int range);
   Tile genTile(Vect<2u, int> position);
 private:

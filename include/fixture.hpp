@@ -3,6 +3,8 @@
 
 # include "vect.hpp"
 
+class Entity;
+
 class Fixture
 {
 public:

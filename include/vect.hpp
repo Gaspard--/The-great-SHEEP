@@ -257,6 +257,11 @@ public:
     return ((*this * other).sum());
   }
 
+  T length() const
+  {
+    return ((*this * *this).sum());
+  }
+
   template<unsigned int _dim = dim, typename std::enable_if<(dim > 0)>::type* = nullptr>
   T x() const
   {

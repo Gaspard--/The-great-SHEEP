@@ -9,30 +9,77 @@ TerrainGenerator::~TerrainGenerator()
 {
 }
 
-int TerrainGenerator::getNoise(Vect<2u, int> position, Random& random,
-			       unsigned int snap, unsigned int range)
+unsigned int TerrainGenerator::getBiome(Vect<2u, unsigned int> position, Random& random)
 {
-  Vect<2u, int> pos(position / snap);
-  Vect<2u, int> subpos(position - pos * snap);
+  unsigned int snap(16u);
+  unsigned int mindist;
+  unsigned int result;
+  Vect<2u, unsigned int> off(0u, 0u);
+  unsigned int i(0u);
 
-  return (int((((random.randomFrom(pos) % range) * (snap - subpos[0])
-	    + (random.randomFrom(pos + Vect<2u, int>(1, 0)) % range) * subpos[0]) * (snap - subpos[1])
-	   + ((random.randomFrom(pos + Vect<2u, int>(0, 1)) % range) * (snap - subpos[0])
-	      + (random.randomFrom(pos + Vect<2u, int>(1, 1)) % range) * subpos[0]) * subpos[1]) / (snap * 4)));
+  while (off[0] <= 2u)
+    {
+      off[1] = 0u;
+      while (off[1] <= 2u)
+	{
+	  Vect<2u, unsigned int> biomePos(position / snap + off - Vect<2u, unsigned int>(1u, 1U));
+	  uint64_t tmp(random.randomFrom(biomePos));
+	  Vect<2u, unsigned int> neighboor(biomePos * snap +
+					   Vect<2u, unsigned int>(tmp & (snap - 1u), (tmp >> 16u) & (snap - 1u)));
+
+	  if (!i || (neighboor - position).length() < mindist)
+	    {
+	      result = (tmp / 17) & 3u;
+	      mindist = (neighboor - position).length();
+	    }
+	  i = i + 1u;
+	  off[1] = off[1] + 1u;
+	}
+      off[0] = off[0] + 1u;
+    }
+  return (result);
+}
+
+unsigned int TerrainGenerator::getNoise(Vect<2u, unsigned int> position, Random& random,
+					unsigned int snap, unsigned int range)
+{
+  unsigned int mindist;
+  unsigned int result;
+  Vect<2u, unsigned int> off(0u, 0u);
+  unsigned int i(0u);
+
+  while (off[0] <= 2u)
+    {
+      off[1] = 0u;
+      while (off[1] <= 2u)
+	{
+	  Vect<2u, unsigned int> biomePos(position / snap + off - Vect<2u, unsigned int>(1u, 1U));
+	  uint64_t tmp(random.randomFrom(biomePos));
+	  Vect<2u, unsigned int> neighboor(biomePos * snap +
+					   Vect<2u, unsigned int>(tmp % snap, (tmp >> 16u) % snap));
+
+	  if (!i || (neighboor - position).length() < mindist)
+	    {
+	      mindist = (neighboor - position).length();
+	      result = mindist;
+	    }
+	  i = i + 1u;
+	  off[1] = off[1] + 1u;
+	}
+      off[0] = off[0] + 1u;
+    }
+  return (result);
 }
 
 
 Tile TerrainGenerator::genTile(Vect<2u, int> position)
 {
+  Vect<2u, unsigned int> genPos(Vect<2u, long int>(position) + Vect<2u, long int>(0x80000000, 0x80000000));
   Tile tile;
 
-  tile.id = (getNoise(position, temperature, 8, 8)
-    + getNoise(position, temperature, 4, 4)
-    + getNoise(position, temperature, 4, 2)) / 4;
-  tile.height = getNoise(position, height, 8, 8)
-    + getNoise(position, height, 4, 4)
-    + getNoise(position, height, 2, 2)
-    + getNoise(position, height, 1, 1);
-  tile.pos = position;
+  tile.id = getBiome(genPos, temperature);
+  tile.height = getNoise(genPos, height, 16, 8) / 16
+    + getNoise(genPos, height, 8, 8) / 16;
+  tile.pos = genPos;
   return (tile);
 }
