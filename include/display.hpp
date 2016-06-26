@@ -46,11 +46,14 @@ public:
   void addRenderable(Renderable *renderable);
   void removeRenderable(Renderable *renderable);
 
-  void moveCamera(double x, double y);
-  void setCamera(double x, double y);
-  void changeAngle(int x, int y);
-  Vect <2, double> const &getCamera() const;
-  Vect <2, double> const getIngameCursor() const;
+  Vect <2, double> getCameraPosition() const;
+  void setCameraPosition(Vect<2, double> newPosition);
+  void moveCamera(Vect<2, double> offset);
+
+  Vect <2, int> getCameraAngle() const;
+  void setCameraAngle(Vect <2, int> angle);
+
+  Vect <2, double> getIngameCursor() const;
 
   void transformation(Tile const &, int line_x, int line_y);
   void calcAngle(Vect<2, int> & pos, Vect<2, int> const & win_pos);

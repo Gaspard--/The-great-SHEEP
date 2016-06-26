@@ -5,7 +5,7 @@
 
 Camera::Camera(void)
 {
-  lookat = Vect<2, double>(TILE_DIM / 2, TILE_DIM / 2);
+  position = Vect<2, double>(TILE_DIM / 2, TILE_DIM / 2);
   angle = Vect<2, int>(0, 0);
 }
 
@@ -13,35 +13,38 @@ Camera::~Camera(void)
 {
 }
 
-Vect<2u, int> const Camera::getFlooredCamera(void) const
+
+Vect<2u, double> Camera::getPosition(void) const
 {
-  return (Vect<2u, int>(lookat) + Vect<2u, int>(lookat[0] < 0 && (int)lookat[0] != lookat[0],
-						lookat[1] < 0 && (int)lookat[1] != lookat[1]));
+  return (position);
 }
 
-Vect<2u, double> const &Camera::getCamera(void) const
+void Camera::setPosition(const Vect<2u, double> &newPosition)
 {
-  return (lookat);
+  position = newPosition;
 }
 
-Vect<2u, int> const &Camera::getAngle(void) const
+void Camera::move(const Vect<2, double> &offset)
+{
+  position += offset;
+}
+
+
+Vect<2u, int> Camera::getAngle(void) const
 {
   return (angle);
 }
 
-void Camera::changeAngle(int x, int y)
+void Camera::setAngle(const Vect<2u, int> &newAngle)
 {
-  angle ^= Vect<2, int>(x, y);
+  angle ^= newAngle;
 }
 
-void Camera::setCamera(double x, double y)
-{
-  lookat[0] = x;
-  lookat[1] = y;
-}
 
-void Camera::moveCamera(double x, double y)
+Vect<2u, int> Camera::getFlooredCamera(void) const
 {
-  lookat[0] += x;
-  lookat[1] += y;
+  Vect<2, int> offset(position.x() < 0 && (int)position.x() != position.x(),
+                      position.y() < 0 && (int)position.y() != position.y());
+
+  return Vect<2u, int>(position) + offset;
 }
