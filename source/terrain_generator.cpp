@@ -41,10 +41,9 @@ unsigned int TerrainGenerator::getBiome(Vect<2u, unsigned int> position, Random&
 }
 
 unsigned int TerrainGenerator::getNoise(Vect<2u, unsigned int> position, Random& random,
-					unsigned int snap, unsigned int range)
+					unsigned int snap)
 {
   unsigned int mindist;
-  unsigned int result;
   Vect<2u, unsigned int> off(0u, 0u);
   unsigned int i(0u);
 
@@ -61,14 +60,13 @@ unsigned int TerrainGenerator::getNoise(Vect<2u, unsigned int> position, Random&
 	  if (!i || (neighboor - position).length() < mindist)
 	    {
 	      mindist = (neighboor - position).length();
-	      result = mindist;
 	    }
 	  i = i + 1u;
 	  off[1] = off[1] + 1u;
 	}
       off[0] = off[0] + 1u;
     }
-  return (result);
+  return (mindist);
 }
 
 
@@ -78,8 +76,8 @@ Tile TerrainGenerator::genTile(Vect<2u, int> position)
   Tile tile;
 
   tile.id = getBiome(genPos, temperature);
-  tile.height = getNoise(genPos, height, 16, 8) / 16
-    + getNoise(genPos, height, 8, 8) / 16;
+  tile.height = getNoise(genPos, height, 16) / 8
+    + getNoise(genPos, height, 8) / 8;
   tile.pos = genPos;
   return (tile);
 }

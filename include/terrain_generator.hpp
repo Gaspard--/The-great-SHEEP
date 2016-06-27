@@ -15,7 +15,7 @@ public:
   ~TerrainGenerator(void);
   unsigned int getBiome(Vect<2u, unsigned int> position, Random& random);
   unsigned int getNoise(Vect<2u, unsigned int> position, Random& random,
-	       unsigned int snap, unsigned int range);
+	       unsigned int snap);
   Tile genTile(Vect<2u, int> position);
 private:
   Random height;
