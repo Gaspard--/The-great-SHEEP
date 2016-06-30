@@ -132,7 +132,7 @@ void Display::displayTile(SDL_Rect const &win, Tile const &tile)
 {
   SDL_Rect rect;
 
-  rect.w = 1024 / 8 ;
+  rect.w = 1024 / 8;
   rect.h = 896 / 7;
   rect.x = (tile.id % 8) * rect.w;
   rect.y = ((tile.id) / 8) * rect.h;
@@ -232,7 +232,7 @@ void Display::displayTiles(Terrain &terrain)
   rect.w = rect.x + TILE_DIM;
   rect.h = rect.y + TILE_DIM;
   if (angle[1])
-      displayReversedLines(terrain, rect);
+    displayReversedLines(terrain, rect);
   else
     displayLines(terrain, rect);
 }

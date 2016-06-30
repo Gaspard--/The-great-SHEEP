@@ -15,6 +15,7 @@ protected:
   Vect<2u, double> speed;
   double size;
   Vect<2u, double> dimensions;
+  Vect<2u, double> sizedDimensions;
   Fixture fixture;
   Renderable renderable;
 public:

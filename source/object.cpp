@@ -6,7 +6,8 @@
 
 Object::Object(Vect<2u, double> nposition, double nsize, Vect<2u, double> ndimensions, PlayState *playState)
   : Entity(playState), position(nposition), speed(0, 0), size(nsize), dimensions(ndimensions),
-    fixture(&position, &speed, &size), renderable(&position, &dimensions, NULL)
+    sizedDimensions(dimensions * size * 2),
+    fixture(&position, &speed, &size), renderable(&position, &sizedDimensions, NULL)
 {
   playState->getLogic().addFixture(&fixture);
   playState->getDisplay().addRenderable(&renderable);
