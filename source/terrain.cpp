@@ -13,7 +13,7 @@ Terrain::~Terrain(void)
 
 int Terrain::getChunk(Vect<2, int> pos)
 {
-  int i = 0;
+  int i(0);
 
   while (i < (int)chunks.size() && !(chunks[i].coord == pos))
     i = i + 1;

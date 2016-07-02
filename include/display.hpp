@@ -36,6 +36,12 @@ public:
   {
     return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(60, 30));
   }
+
+  template<class T>
+  Vect<2u, T> fullIsometrizeRev(Vect<2u, T> in)
+  {
+    return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(30, 60));
+  }
   void render(void);
   void clearScreen(int r, int g, int b);
 
@@ -49,19 +55,20 @@ public:
 
   Vect <2, int> getCameraAngle() const;
   void setCameraAngle(Vect <2, int> angle);
-
   Vect <2, double> getIngameCursor() const;
 
-  void transformation(Tile const &, int line_x, int line_y);
-  void calcAngle(Vect<2, int> & pos, Vect<2, int> const & win_pos);
-  void centerBoard(SDL_Rect&) const;
+  void transformation(Tile const &);
+  void calcAngle(Vect<2, int>& pos);
+  void centerBoard(Vect<2, int>&) const;
   void fixBoard(SDL_Rect&) const;
 
   void displayTile(SDL_Rect const &, Tile const &);
-  void displayLine(Terrain &terrain, SDL_Rect const &, int x, int y, int line_y);
-  void displayReversedLines(Terrain &terrain, SDL_Rect const &);
-  void displayLines(Terrain &terrain, SDL_Rect const &);
-  void displayTiles(Terrain &terrain);
+  void displayLine(Terrain & terrain, SDL_Rect const &, int x, int y);
+  void displayLines(Terrain& terrain, SDL_Rect const &);
+  void displayTiles(Terrain& terrain);
+
+  void getStartRect(SDL_Rect&);
+
 };
 
 #endif

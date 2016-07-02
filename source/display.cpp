@@ -8,7 +8,6 @@
 #include "playstate.hpp"
 #include "renderable_compare.hpp"
 
-
 Display::Display(Game *game, PlayState *playState) : game(game),  playState(playState), renderables(),
 						     tileset(game, "basic_ground_tiles.png")
 {
@@ -74,7 +73,6 @@ void Display::removeRenderable(Renderable *renderable)
   renderables.erase(renderables.begin() + i);
 }
 
-
 Vect <2, double> Display::getCameraPosition() const
 {
   return (camera.getPosition());
@@ -90,17 +88,15 @@ void Display::setCameraPosition(Vect<2, double> newPosition)
   camera.setPosition(newPosition);
 }
 
-
 Vect <2, int> Display::getCameraAngle() const
 {
-  return camera.getAngle();
-};
+  return (camera.getAngle());
+}
 
 void Display::setCameraAngle(Vect<2, int> angle)
 {
   camera.setAngle(angle);
 }
-
 
 Vect<2u, double> Display::getIngameCursor() const
 {
@@ -128,7 +124,33 @@ Vect<2u, double> Display::getIngameCursor() const
   return (true_cursor);
 }
 
-void Display::displayTile(SDL_Rect const &win, Tile const &tile)
+void Display::centerBoard(Vect<2, int>& pos) const
+{
+  Vect<2u, int> angle(camera.getAngle());
+
+  angle[0] ?
+    pos[0] += game->getWindowWidth() / 2 + 30:
+    pos[0] += game->getWindowWidth() / 2 - 60;
+
+  angle[0] ?
+    pos[1] += game->getWindowHeight() / 2 - 60 :
+    pos[1] += game->getWindowHeight() / 2 - 30;
+}
+
+void Display::calcAngle(Vect<2, int>& pos)
+{
+  Vect<2u, int> angle(camera.getAngle());
+
+  if (angle[0])
+    {
+      int tmp(pos[0]);
+
+      pos[0] = game->getWindowWidth() / 2 + (pos[1] - game->getWindowHeight() / 2);
+      pos[1] = game->getWindowHeight() / 2 + (game->getWindowWidth() / 2 - tmp);
+    }
+}
+
+void Display::displayTile(SDL_Rect const & win, Tile const & tile)
 {
   SDL_Rect rect;
 
@@ -141,98 +163,80 @@ void Display::displayTile(SDL_Rect const &win, Tile const &tile)
                  &rect, &win);
 }
 
-void Display::centerBoard(SDL_Rect& win) const
-{
-  win.x += game->getWindowWidth() / 2 - 60;
-  win.y += game->getWindowHeight() / 2 - 30;
-}
-
-void Display::calcAngle(Vect<2, int> & pos, Vect<2, int> const & win_pos)
-{
-  Vect<2u, int> angle = getCameraAngle();
-
-  if (!!(win_pos[1] & (1 << 0)))
-    pos[0] += ((TILE_DIM / 2 - win_pos[0]) * 2 - 1) * 120 * angle[0];
-  else
-    pos[0] += ((TILE_DIM / 2 - win_pos[0]) * 2) * 120 * angle[0];
-  pos[1] += (((TILE_DIM * 2 - 2) / 2 - win_pos[1]) * 2) * 30 * angle[1];
-}
-
-void Display::transformation(Tile const &tile, int line_x, int line_y)
+void Display::transformation(Tile const & tile)
 {
   SDL_Rect win;
+  Vect<2u, int> angle(camera.getAngle());
   Vect<2u, int> tmp(tile.pos);
 
-  tmp = fullIsometrize(tmp) - Vect<2u, int>(fullIsometrize(getCameraPosition()));
-  calcAngle(tmp, Vect<2, int>(line_x, line_y));
+  angle[0] ?
+    tmp = fullIsometrizeRev(tmp) - Vect<2u, int>(fullIsometrizeRev(getCameraPosition())) :
+    tmp = fullIsometrize(tmp) - Vect<2u, int>(fullIsometrize(getCameraPosition()));
+
+  centerBoard(tmp);
+  calcAngle(tmp);
+
   win.x = tmp[0];
-  win.y = tmp[1]- tile.height * 15;
-  maxRenderHeight = std::max(tile.height, maxRenderHeight);
+  win.y = tmp[1] - tile.height * 15;
   win.w = 120;
   win.h = 120;
-  centerBoard(win);
+
+  maxRenderHeight = std::max(tile.height, maxRenderHeight);
+
   displayTile(win, tile);
 }
 
-void Display::displayLine(Terrain &terrain, SDL_Rect const &rect, int x, int y, int line_y)
+void Display::displayLine(Terrain& terrain, SDL_Rect const & rect, int x, int y)
 {
-  int line = TILE_DIM;
-  int line_x = 0;
+  Vect<2u, int> angle(camera.getAngle());
+  int line(TILE_DIM);
 
   while (line > 0)
     {
-      transformation(terrain.getTile(x + rect.x , y + rect.y), line_x++, line_y);
+      transformation(terrain.getTile(x + rect.x , y + rect.y));
+      angle[0] ? ++y : --y;
       ++x;
-      --y;
       --line;
     }
 }
 
-void Display::displayLines(Terrain &terrain, SDL_Rect const &rect)
+void Display::displayLines(Terrain& terrain, SDL_Rect const & rect)
 {
-  int i = 0;
-  int dim = TILE_DIM / 2;
-  int line_y = 0;
+  Vect<2u, int> angle(camera.getAngle());
+  int x(-(TILE_DIM / 2));
+  int y(angle[0] ? -(TILE_DIM / 2) : (TILE_DIM / 2));
+  int decalage(angle[0] ? -1 : 1);
+  int i(0);
 
   while (i < TILE_DIM - 1)
     {
-      displayLine(terrain, rect, i - dim, i + dim, line_y++);
-      displayLine(terrain, rect, i - dim + 1, i + dim, line_y++);
+      displayLine(terrain, rect, x, y);
+      displayLine(terrain, rect, x + decalage, y);
+      angle[0] ? --x : ++x;
+      ++y;
       ++i;
     }
-  displayLine(terrain, rect, i - dim, i + dim, line_y++);
+  displayLine(terrain, rect, x, y);
 }
 
-void Display::displayReversedLines(Terrain &terrain, SDL_Rect const &rect)
+void Display::getStartRect(SDL_Rect& rect)
 {
-  int i = TILE_DIM - 1;
-  int dim = TILE_DIM / 2;
-  int line_y = TILE_DIM * 2 - 2;
+  Vect<2u, int> angle(camera.getAngle());
+  Vect<2u, int> cam(camera.getFlooredCamera());
 
-  displayLine(terrain, rect, i - dim, i + dim, line_y--);
-  --i;
-  while (i >= 0)
-    {
-      displayLine(terrain, rect, i - dim + 1, i + dim, line_y--);
-      displayLine(terrain, rect, i - dim, i + dim, line_y--);
-      --i;
-    }
+  angle[0] ?
+    rect.x = cam[0] + TILE_DIM / 2 :
+    rect.x = cam[0] - TILE_DIM / 2;
+  rect.y = cam[1] - TILE_DIM / 2;
 }
 
-void Display::displayTiles(Terrain &terrain)
+void Display::displayTiles(Terrain& terrain)
 {
-  Vect<2u, int> angle = getCameraAngle();
-  Vect<2u, int> cam;
   SDL_Rect rect;
 
   maxRenderHeight = 0;
-  cam = camera.getFlooredCamera();
-  rect.x = cam[0] - TILE_DIM / 2;
-  rect.y = cam[1] - TILE_DIM / 2;
+  getStartRect(rect);
   rect.w = rect.x + TILE_DIM;
   rect.h = rect.y + TILE_DIM;
-  if (angle[1])
-    displayReversedLines(terrain, rect);
-  else
-    displayLines(terrain, rect);
+  displayLines(terrain, rect);
 }

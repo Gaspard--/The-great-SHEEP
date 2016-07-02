@@ -68,10 +68,11 @@ void PlayState::handleEvent(void)
           display.moveCamera(Vect<2, double>(0.2, 0));
           break;
         case SDLK_a:
-	  std::cout << "yolo" << std::endl;
+	  // change south, east
           display.setCameraAngle(Vect<2, int>(1, 0));
           break;
         case SDLK_q:
+	  // change top, down
           display.setCameraAngle(Vect<2, int>(0, 1));
           break;
 	case SDLK_p:

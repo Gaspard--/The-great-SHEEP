@@ -15,11 +15,7 @@ public:
   Vect<2u, double> getPosition(void) const;
   void	setPosition(const Vect<2u, double> &position);
 
-  /**
-   * The given offset is relative to the actual camera position
-   */
-  void	move(const Vect<2u, double> &offset);
-
+  void	move(Vect<2u, double> &offset);
 
   Vect<2u, int> getAngle(void) const;
   void setAngle(const Vect<2u, int> &angle);
