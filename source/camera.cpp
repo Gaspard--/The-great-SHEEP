@@ -8,7 +8,7 @@ Camera::Camera(void)
 
   //1st int : 0 = north/south, 1 = east/west
   //2nd int : 0 = top/down, 1 = down/top
-  angle = Vect<2, int>(1, 0);
+  angle = Vect<2, int>(0, 0);
 }
 
 Camera::~Camera(void)
