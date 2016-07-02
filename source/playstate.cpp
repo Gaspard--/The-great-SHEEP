@@ -67,11 +67,11 @@ void PlayState::handleEvent(void)
         case SDLK_RIGHT:
           display.moveCamera(Vect<2, double>(0.2, 0));
           break;
-        case SDLK_a:
+        case SDLK_l:
 	  // change south, east
           display.setCameraAngle(Vect<2, int>(1, 0));
           break;
-        case SDLK_q:
+        case SDLK_m:
 	  // change top, down
           display.setCameraAngle(Vect<2, int>(0, 1));
           break;
