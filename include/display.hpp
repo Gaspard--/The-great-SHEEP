@@ -57,17 +57,18 @@ public:
   void setCameraAngle(Vect <2, int> angle);
   Vect <2, double> getIngameCursor() const;
 
-  void transformation(Tile const &);
-  void calcAngle(Vect<2, int>& pos);
   void centerBoard(Vect<2, int>&) const;
-  void fixBoard(SDL_Rect&) const;
+  void calcAngle(Vect<2, int>& pos);
+  void revAngle(Vect<2, int>& pos);
+  void transformation(Tile const &);
+  void getStartRect(SDL_Rect&);
 
   void displayTile(SDL_Rect const &, Tile const &);
-  void displayLine(Terrain & terrain, SDL_Rect const &, int x, int y);
+  void displayLine(Terrain & terrain, SDL_Rect const &, int x, int y, bool cut);
+  void displayLineRev(Terrain & terrain, SDL_Rect const &, int x, int y, bool cut);
   void displayLines(Terrain& terrain, SDL_Rect const &);
+  void displayLinesRev(Terrain& terrain, SDL_Rect const &);
   void displayTiles(Terrain& terrain);
-
-  void getStartRect(SDL_Rect&);
 
 };
 

@@ -36,7 +36,7 @@ Game::Game(void) : timer(this)
       exit(-1);
     }
   running = true;
-  this->changeState(new PlayState(this));
+  this->changeState(new MenuState(this));
 }
 
 Game::~Game(void)

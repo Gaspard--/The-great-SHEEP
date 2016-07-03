@@ -182,6 +182,20 @@ public:
     return (1);
   }
 
+  bool operator!=(Vect<dim, T> const& other)
+  {
+    unsigned int i;
+
+    i = 0;
+    while (i < dim)
+      {
+	if (data[i] != other[i])
+	  return (1);
+	i = i + 1;
+      }
+    return (0);
+  }
+
   Vect<dim, T> operator*(Vect<dim, T> const& other) const
   {
     Vect<dim, T> result;

@@ -36,6 +36,13 @@ void Camera::move(Vect<2, double>& offset)
       offset[0] = -offset[1];
       offset[1] = tmp;
     }
+
+  if (angle[1])
+    {
+      offset[0] = -offset[0];
+      offset[1] = -offset[1];
+    }
+
   position += offset;
 }
 
