@@ -10,7 +10,7 @@
 //
 // Constructor/Destructor
 //
-Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
+Perso::Perso(Game &game, PlayState &playState, Vect<2u, double> startPosition)
   : Object(startPosition, 0.25, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
     textures
 {
@@ -27,7 +27,7 @@ Perso::Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition)
   moving = false;
   selected = true;
 
-  destination = 0;
+  destination = {0, 0};
   direction = Direction::MAX;
 
   // Set sprites

@@ -13,7 +13,7 @@ class Game;
 class GameState
 {
 public:
-  GameState(Game *game) : game(game) {};
+  GameState(Game &game) : game(game) {};
   virtual ~GameState() {};
 
   // Write your Event handler in this function
@@ -29,7 +29,7 @@ public:
   virtual void pause(void) = 0;
   virtual void resume(void) = 0;
 
-  Game *const game;
+  Game &game;
 };
 
 #endif /* !GAMESTATE_HPP_ */

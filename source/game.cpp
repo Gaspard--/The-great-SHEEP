@@ -7,7 +7,7 @@
 //
 // Constructor/Destructor
 //
-Game::Game(void) : timer(this)
+Game::Game(void) : timer(*this)
 {
   if (SDL_Init(SDL_INIT_VIDEO))
     {
@@ -36,14 +36,14 @@ Game::Game(void) : timer(this)
       exit(-1);
     }
   running = true;
-  this->changeState(new MenuState(this));
+  changeState(new MenuState(*this));
 }
 
 Game::~Game(void)
 {
   while (states.empty() != true)
     {
-      this->popState();
+      popState();
     }
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
@@ -57,12 +57,12 @@ void Game::mainLoop(void)
 {
   while (running == true)
     {
-      this->handleEvent();
-      this->update();
+      handleEvent();
+      update();
       timer.update();
       if (timer.getShow())
 	timer.showFps();
-      this->draw();
+      draw();
     }
 }
 

@@ -8,14 +8,14 @@ INCDIR :=	./include
 # compilation options
 #
 CXX :=		g++
-CXXFLAGS :=	`sdl2-config --cflags` -I $(INCDIR) -W -Wall -Wextra -std=c++11 -g -Winvalid-pch -Wconversion
+CXXFLAGS :=	`sdl2-config --cflags` -I $(INCDIR) -W -Wall -Wextra -std=c++14 -Winvalid-pch -O3
 
 #
 # link options
 #
 LINKER :=	$(CXX)
 LDFLAGS :=	`sdl2-config --libs`
-LDLIBS :=	-l SDL2_image -l SDL2_ttf
+LDLIBS :=	-lSDL2_image -lSDL2_ttf -lm
 
 #
 # binary options
@@ -41,7 +41,6 @@ SRC :=		main.cpp \
 		timer.cpp \
 		random.cpp \
 		terrain_generator.cpp \
-		renderable_compare.cpp \
 
 SRC :=		$(addprefix $(SRCDIR)/, $(SRC))
 OBJ :=		$(SRC:.cpp=.o)

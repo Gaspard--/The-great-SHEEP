@@ -17,14 +17,10 @@ public:
 
   void	move(Vect<2u, double> &offset);
 
-  Vect<2u, int> getAngle(void) const;
-  void setAngle(const Vect<2u, int> &angle);
-
   Vect<2u, int> getFlooredCamera(void) const;
 
 private:
   Vect<2, double> position;
-  Vect<2, int> angle;
 };
 
 #endif // !CAMERA_HPP_

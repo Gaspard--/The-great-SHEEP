@@ -24,7 +24,7 @@ int Terrain::getChunk(Vect<2, int> pos)
 
 void Terrain::orderTiles(Tile *tiles, Vect<2, int> pos)
 {
-  int size(16 * 16);
+  constexpr int const size(16 * 16);
   int i(0);
 
   while (i < size)

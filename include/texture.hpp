@@ -12,7 +12,7 @@ class Texture
 private:
   SDL_Texture *texture;
 public:
-  Texture(Game *game, const std::string& name);
+  Texture(Game &game, const std::string& name);
   ~Texture();
   SDL_Texture *getTexture() const;
 };

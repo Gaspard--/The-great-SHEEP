@@ -66,7 +66,7 @@ private:
 
 public:
   // Constructor/Destructor
-  Perso(Game *game, PlayState *playState, Vect<2u, double> startPosition);
+  Perso(Game &game, PlayState &playState, Vect<2u, double> startPosition);
   ~Perso();
 
   Vect<2u, double>		getPosition() const;

@@ -27,10 +27,10 @@ unsigned int TerrainGenerator::getBiome(Vect<2u, unsigned int> position, Random&
 	  Vect<2u, unsigned int> neighboor(biomePos * snap +
 					   Vect<2u, unsigned int>(tmp & (snap - 1u), (tmp >> 16u) & (snap - 1u)));
 
-	  if (!i || (neighboor - position).length() < mindist)
+	  if (!i || (neighboor - position).length2() < mindist)
 	    {
 	      result = (tmp / 17) & 3u;
-	      mindist = (neighboor - position).length();
+	      mindist = (neighboor - position).length2();
 	    }
 	  i = i + 1u;
 	  off[1] = off[1] + 1u;
@@ -57,9 +57,9 @@ unsigned int TerrainGenerator::getNoise(Vect<2u, unsigned int> position, Random&
 	  Vect<2u, unsigned int> neighboor(biomePos * snap +
 					   Vect<2u, unsigned int>(tmp % snap, (tmp >> 16u) % snap));
 
-	  if (!i || (neighboor - position).length() < mindist)
+	  if (!i || (neighboor - position).length2() < mindist)
 	    {
-	      mindist = (neighboor - position).length();
+	      mindist = (neighboor - position).length2();
 	    }
 	  i = i + 1u;
 	  off[1] = off[1] + 1u;

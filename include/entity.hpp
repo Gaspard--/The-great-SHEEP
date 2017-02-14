@@ -11,10 +11,10 @@ class Game;
 class Entity
 {
 protected:
-  PlayState *const playState;
+  PlayState &playState;
 
 public:
-  Entity(PlayState *playState);
+  Entity(PlayState &playState);
   virtual ~Entity(void);
   virtual void update(void) = 0;
 };

@@ -13,7 +13,7 @@ class MenuState: public GameState
 {
 public:
   // Constructor/Destructor
-  MenuState(Game *game);
+  MenuState(Game &game);
   ~MenuState();
 
   // Gamestate flow

@@ -1,11 +1,11 @@
 #include "texture.hpp"
 #include "game.hpp"
 
-Texture::Texture(Game *game, const std::string &name)
+Texture::Texture(Game &game, const std::string &name)
 {
   std::string file_path("assets/" + name);
 
-  texture = IMG_LoadTexture(game->getRenderer(), file_path.c_str());
+  texture = IMG_LoadTexture(game.getRenderer(), file_path.c_str());
   if (!texture)
     {
       std::cerr << "Failed to open a texture: " << name << std::endl

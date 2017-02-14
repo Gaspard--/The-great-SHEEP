@@ -10,9 +10,9 @@ class EntityHandler
 {
 private:
   std::vector<Entity *> entities;
-  PlayState *playState;
+  PlayState &playState;
 public:
-  EntityHandler(PlayState *playState);
+  EntityHandler(PlayState &playState);
   void	update();
   void	addEntity(Entity *entity);
   void  removeEntity(Entity *entity);

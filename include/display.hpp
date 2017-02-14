@@ -21,31 +21,32 @@ class Display
 {
 private:
   int maxRenderHeight;
-  Game *game;
-  PlayState *playState;
+  Game &game;
+  PlayState &playState;
   std::vector<Renderable *> renderables;
   Texture tileset;
   Camera camera;
 
 public:
-  Display(Game *game, PlayState *playstate);
-  ~Display(void);
+  Display(Game &game, PlayState &playstate);
+  ~Display();
 
   template<class T>
-  Vect<2u, T> fullIsometrize(Vect<2u, T> in)
+  Vect<2u, T> fullIsometrize(Vect<2u, T> const &in)
   {
     return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(60, 30));
   }
 
   template<class T>
-  Vect<2u, T> fullIsometrizeRev(Vect<2u, T> in)
+  Vect<2u, T> fullIsometrizeRev(Vect<2u, T> const &in)
   {
     return ((in + Vect<2u, T>(-in[1], in[0])) * Vect<2u, T>(30, 60));
   }
+
   void render(void);
   void clearScreen(int r, int g, int b);
 
-  void displayRenderable(Renderable *renderable);
+  void displayRenderable(Renderable const &renderable);
   void addRenderable(Renderable *renderable);
   void removeRenderable(Renderable *renderable);
 
@@ -53,22 +54,14 @@ public:
   void setCameraPosition(Vect<2, double> newPosition);
   void moveCamera(Vect<2, double> offset);
 
-  Vect <2, int> getCameraAngle() const;
-  void setCameraAngle(Vect <2, int> angle);
   Vect <2, double> getIngameCursor() const;
 
-  void centerBoard(Vect<2, int>&) const;
-  void calcAngle(Vect<2, int>& pos);
-  void revAngle(Vect<2, int>& pos);
   void transformation(Tile const &);
-  void getStartRect(SDL_Rect&);
 
   void displayTile(SDL_Rect const &, Tile const &);
-  void displayLine(Terrain & terrain, SDL_Rect const &, int x, int y, bool cut);
-  void displayLineRev(Terrain & terrain, SDL_Rect const &, int x, int y, bool cut);
-  void displayLines(Terrain& terrain, SDL_Rect const &);
-  void displayLinesRev(Terrain& terrain, SDL_Rect const &);
-  void displayTiles(Terrain& terrain);
+  void displayLine(Terrain &terrain, Vect<2u, int> const &, Vect<2u, int> pos, bool cut);
+  void displayLines(Terrain &terrain, Vect<2u, int> const &);
+  void displayTiles(Terrain &terrain);
 
 };
 

@@ -15,7 +15,7 @@ class Timer
 {
 public:
   // Constructor/Destructor
-  Timer(Game *game);
+  Timer(Game &game);
   ~Timer();
 
   void		update();
@@ -26,7 +26,7 @@ public:
 
 private:
   char		buffer[256];
-  Game		*game;
+  Game		&game;
 
   TTF_Font	*font;
   SDL_Rect	msgRect;

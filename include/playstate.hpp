@@ -8,13 +8,14 @@
 # include "terrain.hpp"
 # include "logic.hpp"
 # include "entity_handler.hpp"
+# include "perso.hpp"
 
 // Forward declaration
 // class Display;
 // class Terrain;
 // class EntityHandler;
 // class Logic;
-class Perso;
+// class Perso;
 
 /*
 ** INHERITED FROM GAMESTATE!! => check gamestate.hpp for more details about
@@ -29,12 +30,12 @@ private:
   Terrain terrain;
   EntityHandler entityHandler;
   Logic logic;
-  Perso *perso;
-  Perso *perso2;
+  Perso perso;
+  Perso perso2;
 
 public:
   // Constructor/Destructor
-  PlayState(Game *game);
+  PlayState(Game &game);
   ~PlayState();
 
   // Gamestate flow

@@ -2,7 +2,7 @@
 #include "entity.hpp"
 #include "playstate.hpp"
 
-EntityHandler::EntityHandler(PlayState *playState)
+EntityHandler::EntityHandler(PlayState &playState)
   : entities(), playState(playState)
 {
 }

@@ -11,7 +11,7 @@ private:
   std::vector<Fixture *> fixtures;
 public:
   Logic();
-  void collision(Fixture *A, Fixture *B);
+  void collision(Fixture &A, Fixture &B);
   void tick();
   void addFixture(Fixture *fixture);
   void removeFixture(Fixture *fixture);

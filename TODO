@@ -1,10 +1,17 @@
 Affichage :
- - Terrain  (sol) avec hauteur éventuelle
+ - Terrain  (sol) avec hauteur éventuelle -> Ok
+ - affichage de la liste de *renderables*. -> Ok
+ - un *renderable* est défini par sa position, sa taille & son image. -> Ok
+ - revoir le sytème de renderable (les renderable devrais être interne à display...)
  - Décor (Arbre, buisson, bouton etc) fixe et sur la grille.
  - GUI fixé par rapport à la fenêtre
- - affichage de la liste de *renderables*.
- - un *renderable* est défini par sa position, sa taille & son image.
 
 Logique :
-  - système de physique.
-  - système d'entités basique.
+  - système de physique. -> WIP
+  - système d'entités basique. -> OK, mais à revoir (trop d'héritage virtuel)
+
+Mise au propre:
+  - trouver et supprimmer l'heritage (virtuel surtout) superflu
+  - chercher les classes mal séparées.
+  - Fix camera vs display
+  - rendre le code compatible pour une compilation avec -Ofast

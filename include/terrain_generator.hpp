@@ -6,7 +6,7 @@
 # include "vect.hpp"
 # include "random.hpp"
 
-class Tile;
+struct Tile;
 
 class TerrainGenerator
 {

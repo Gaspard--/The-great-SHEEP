@@ -19,7 +19,7 @@ protected:
   Fixture fixture;
   Renderable renderable;
 public:
-  Object(Vect<2u, double> position, double size, Vect<2u, double> dimensions, PlayState *playState);
+  Object(Vect<2u, double> position, double size, Vect<2u, double> dimensions, PlayState &playState);
   virtual ~Object(void);
 
   void update(void);

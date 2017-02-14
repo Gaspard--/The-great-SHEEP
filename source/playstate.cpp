@@ -9,16 +9,14 @@
 // Constructor/Destructor
 //
 
-PlayState::PlayState(Game *game) : GameState(game), display(game, this), entityHandler(this)
+PlayState::PlayState(Game &game)
+  : GameState(game), display(game, *this), entityHandler(*this),
+    perso(game, *this, Vect<2, double>(10, 14)), perso2(game, *this, Vect<2, double>(14, 10))    
 {
-  perso = new Perso(game, this, Vect<2, double>(10, 14));
-  perso2 = new Perso(game, this, Vect<2, double>(14, 10));
 }
 
 PlayState::~PlayState()
 {
-  delete perso;
-  delete perso2;
 }
 
 //
@@ -33,13 +31,13 @@ void PlayState::handleEvent(void)
       switch (event.type)
         {
         case SDL_QUIT:
-          game->quit();
+          game.quit();
           return;
 	case SDL_MOUSEBUTTONDOWN:
 	  if (event.button.button == SDL_BUTTON_LEFT)
-	    perso->moveTo(display.getIngameCursor());
+	    perso.moveTo(display.getIngameCursor());
 	  else if (event.button.button == SDL_BUTTON_RIGHT)
-	    perso2->moveTo(display.getIngameCursor());
+	    perso2.moveTo(display.getIngameCursor());
 	  break;
 	}
       if (event.type != SDL_KEYDOWN)
@@ -47,13 +45,13 @@ void PlayState::handleEvent(void)
       switch (event.key.keysym.sym)
         {
         case SDLK_ESCAPE:
-          game->quit();
+          game.quit();
           return;
         case SDLK_SPACE:
-          display.setCameraPosition(perso->getPosition());
+          display.setCameraPosition(perso.getPosition());
 	  break;
 	case SDLK_F3:
-	  game->toggleShowFps();
+	  game.toggleShowFps();
 	  break;
         case SDLK_UP:
           display.moveCamera(Vect<2, double>(0, -0.2));
@@ -66,14 +64,6 @@ void PlayState::handleEvent(void)
           break;
         case SDLK_RIGHT:
           display.moveCamera(Vect<2, double>(0.2, 0));
-          break;
-        case SDLK_l:
-	  // change south, east
-          display.setCameraAngle(Vect<2, int>(1, 0));
-          break;
-        case SDLK_m:
-	  // change top, down
-          display.setCameraAngle(Vect<2, int>(0, 1));
           break;
 	case SDLK_p:
 	  {
@@ -90,14 +80,14 @@ void PlayState::update(void)
 {
   logic.tick();
   // Display perso
-  perso->update();
-  perso2->update();
+  perso.update();
+  perso2.update();
   display.render();
 }
 
 void PlayState::draw(void)
 {
-  SDL_RenderPresent(game->getRenderer());
+  SDL_RenderPresent(game.getRenderer());
 }
 
 void PlayState::pause(void)

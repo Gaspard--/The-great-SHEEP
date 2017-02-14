@@ -8,10 +8,10 @@ class Entity;
 class Fixture
 {
 public:
-  Fixture(Vect<2u, double> *position, Vect<2u, double> *speed, double *size);
-  Vect<2u, double> *position;
-  Vect<2u, double> *speed;
-  double *size;
+  Fixture(Vect<2u, double> &position, Vect<2u, double> &speed, double &size);
+  Vect<2u, double> &position;
+  Vect<2u, double> &speed;
+  double &size;
   double t;
 };
 

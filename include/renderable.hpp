@@ -10,10 +10,10 @@ class Texture;
 class Renderable
 {
 public:
-  Renderable(Vect<2u, double> *position, Vect<2u, double> *dimensions, Texture *texture);
+  Renderable(Vect<2u, double> &position, Vect<2u, double> &dimensions, Texture *texture);
 
-  Vect<2u, double> *position;
-  Vect<2u, double> *dimensions;
+  Vect<2u, double> &position;
+  Vect<2u, double> &dimensions;
   SDL_Rect *srcRect;
   Texture  *texture;
 };

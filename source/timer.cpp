@@ -3,7 +3,7 @@
 #include "game.hpp"
 #include "timer.hpp"
 
-Timer::Timer(Game *game) : game(game)
+Timer::Timer(Game &game) : game(game)
 {
   if (TTF_Init() == -1)
     std::cout << TTF_GetError() << std::endl;
@@ -46,8 +46,8 @@ void	Timer::showFps()
   surfaceMessage = TTF_RenderText_Solid(font, buffer, {125, 125, 125, 255});
   if (!surfaceMessage)
     std::cout << TTF_GetError() << std::endl;
-  msg = SDL_CreateTextureFromSurface(game->getRenderer(), surfaceMessage);
-  SDL_RenderCopy(game->getRenderer(), msg, NULL, &msgRect);
+  msg = SDL_CreateTextureFromSurface(game.getRenderer(), surfaceMessage);
+  SDL_RenderCopy(game.getRenderer(), msg, NULL, &msgRect);
   SDL_FreeSurface(surfaceMessage);
   SDL_DestroyTexture(msg);
   surfaceMessage = NULL;
