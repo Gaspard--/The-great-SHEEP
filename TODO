@@ -2,7 +2,7 @@ Affichage :
  - Terrain  (sol) avec hauteur éventuelle -> Ok
  - affichage de la liste de *renderables*. -> Ok
  - un *renderable* est défini par sa position, sa taille & son image. -> Ok
- - revoir le sytème de renderable (les renderable devrais être interne à display...)
+ - revoir le sytème de renderable (les renderable devrais être interne à display...) -> Ok
  - Décor (Arbre, buisson, bouton etc) fixe et sur la grille.
  - GUI fixé par rapport à la fenêtre
 
@@ -13,5 +13,5 @@ Logique :
 Mise au propre:
   - trouver et supprimmer l'heritage (virtuel surtout) superflu
   - chercher les classes mal séparées.
-  - Fix camera vs display
+  - Fix camera vs display -> Ok plus ou moins
   - rendre le code compatible pour une compilation avec -Ofast
