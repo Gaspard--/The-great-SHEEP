@@ -8,7 +8,7 @@
 struct Chunk
 {
   Tile tiles[16 * 16];
-  Vect<2, int> coord;
+  Vect<2, int> coord{0, 0};
 };
 
 #endif // !CHUNK_HPP_

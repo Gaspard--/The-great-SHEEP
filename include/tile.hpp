@@ -6,7 +6,7 @@
 struct Tile
 {
   int id;
-  Vect <2u, int> pos;
+  Vect <2u, int> pos{0, 0};
   int height;
 };
 

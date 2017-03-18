@@ -78,6 +78,6 @@ Tile TerrainGenerator::genTile(Vect<2u, int> position)
   tile.id = getBiome(genPos, temperature);
   tile.height = (getNoise(genPos, height, 32)
 		 + getNoise(genPos, height, 16)) / 64;
-  tile.pos = genPos;
+  tile.pos = position;
   return (tile);
 }

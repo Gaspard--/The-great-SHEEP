@@ -11,17 +11,13 @@
 // Constructor/Destructor
 //
 Perso::Perso(Game &game, PlayState &playState, Vect<2u, double> startPosition)
-  : Object(startPosition, 0.25, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState),
-    textures
-{
-  Texture(game, "perso.png"),
-    Texture(game, "left.png"),
-    Texture(game, "right.png")
-    }
+  : Object(startPosition, 0.25, Vect<2u, double>(PERSO_WIDTH, PERSO_HEIGHT), playState)
+  , textures{Texture(game, "perso.png"), Texture(game, "left.png"), Texture(game, "right.png")}
+  , destination{0.0, 0.0}
 {
   // Add renderable
-  renderable.texture = getTexture(Direction::IDLE);
-  renderable.srcRect = NULL;
+  renderable->texture = getTexture(Direction::IDLE);
+  renderable->srcRect = nullptr;
 
   // Set booleans
   moving = false;
@@ -96,14 +92,14 @@ void		Perso::update()
   if (distance <= 0 || (speed[0] == 0.0 && speed[1] == 0.0))
     {
       // Set IDLE sprite
-      renderable.texture = getTexture(Direction::IDLE);
+      renderable->texture = getTexture(Direction::IDLE);
       moving = false;
       speed = Vect<2u, double>(0.0, 0.0);
     }
   if (moving)
-    renderable.srcRect = sprites + frame / PERSO_FRAME_SPEED;
+    renderable->srcRect = sprites + frame / PERSO_FRAME_SPEED;
   else
-    renderable.srcRect = NULL;
+    renderable->srcRect = NULL;
 }
 
 //
@@ -120,7 +116,7 @@ void		Perso::moveTo(Vect<2, double> dest)
     direction = Direction::LEFT;
 
   // Set sprite accordingly to direction
-  renderable.texture = getTexture(direction);
+  renderable->texture = getTexture(direction);
   distance = sqrt(pow(destination.x() - position.x(), 2) +
   		  pow(destination.y() - position.y(), 2));
   if (distance <= 0)

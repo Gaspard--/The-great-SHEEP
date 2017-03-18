@@ -5,6 +5,8 @@
 # include "vect.hpp"
 # include "fixture.hpp"
 # include "renderable.hpp"
+# include "follow.hpp"
+# include "display.hpp"
 
 class PlayState;
 
@@ -16,8 +18,8 @@ protected:
   double size;
   Vect<2u, double> dimensions;
   Vect<2u, double> sizedDimensions;
-  Fixture fixture;
-  Renderable renderable;
+  Follower<Fixture> fixture;
+  Follower<Renderable> renderable;
 public:
   Object(Vect<2u, double> position, double size, Vect<2u, double> dimensions, PlayState &playState);
   virtual ~Object(void);

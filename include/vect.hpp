@@ -51,13 +51,13 @@ public:
   constexpr Vect(U... ts) : data{static_cast<T>(ts)...}
   {}
 
-  constexpr Vect()
-  {}
+  // constexpr Vect()
+  // {}
 
-  T *getData()
-  {
-    return (data);
-  }
+  // T *getData()
+  // {
+  //   return (data);
+  // }
 
   template<class Operation>
   void applyOnSelf(Operation op)

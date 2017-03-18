@@ -4,13 +4,13 @@
 #include "logic.hpp"
 #include "entity_handler.hpp"
 
-Object::Object(Vect<2u, double> nposition, double nsize, Vect<2u, double> ndimensions, PlayState &playState)
-  : Entity(playState), position(nposition), speed(0, 0), size(nsize), dimensions(ndimensions),
+Object::Object(Vect<2u, double> position, double size, Vect<2u, double> dimensions, PlayState &playState)
+  : Entity(playState), position(position), speed(0, 0), size(size), dimensions(dimensions),
     sizedDimensions(dimensions * size * 2),
-    fixture(position, speed, size), renderable(position, sizedDimensions, NULL)
+    renderable()
 {
-  playState.getLogic().addFixture(&fixture);
-  playState.getDisplay().addRenderable(&renderable);
+  playState.getDisplay().renderables(renderable, this->position, sizedDimensions, nullptr);
+  playState.getLogic().fixtures(fixture, this->position, this->speed, this->size);
   playState.getEntityHandler().addEntity(this);
 }
 
@@ -20,7 +20,5 @@ void Object::update()
 
 Object::~Object()
 {
-  playState.getLogic().removeFixture(&fixture);
-  playState.getDisplay().removeRenderable(&renderable);
   playState.getEntityHandler().removeEntity(this);
 }

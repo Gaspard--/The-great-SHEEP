@@ -1,15 +1,5 @@
-#include "top_header.hpp"
 #include "camera.hpp"
 #include <iostream>
-
-Camera::Camera(void)
-  : position(TILE_DIM / 2, TILE_DIM / 2)
-{
-}
-
-Camera::~Camera(void)
-{
-}
 
 Vect<2u, double> Camera::getPosition(void) const
 {

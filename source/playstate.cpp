@@ -65,13 +65,6 @@ void PlayState::handleEvent(void)
         case SDLK_RIGHT:
           display.moveCamera(Vect<2, double>(0.2, 0));
           break;
-	case SDLK_p:
-	  {
-	    Vect<2, double> tmp = display.getCameraPosition();
-            // TODO: Use `cout`
-	    printf("cam pos: x %f, y %f\n", tmp[0], tmp[1]);
-	  }
-	  break;
         }
     }
 }

@@ -8,8 +8,8 @@
 #include "playstate.hpp"
 
 Display::Display(Game &game, PlayState &playState)
-  : game(game),  playState(playState), renderables(),
-    tileset(game, "basic_ground_tiles.png")
+  : game(game),  playState(playState),
+    tileset(game, "basic_ground_tiles.png"),  renderables()
 {
 }
 
@@ -28,20 +28,18 @@ void Display::render(void)
 {
   clearScreen(0, 0, 0);
   displayTiles(playState.getTerrain());
-  std::sort(renderables.begin(), renderables.end(), [this](Renderable *A, Renderable *B) {
-      return (fullIsometrize(A->position)[1] < fullIsometrize(B->position)[1]);
+  std::sort(renderables.begin(), renderables.end(), [this](Followable<Renderable> &A, Followable<Renderable> &B) {
+      return (camera.fullIsometrize(A->position)[1] < camera.fullIsometrize(B->position)[1]);
     });
-  std::for_each(renderables.begin(), renderables.end(), [this](Renderable *r) {
+  std::for_each(renderables.begin(), renderables.end(), [this](Followable<Renderable> &r) {
       this->displayRenderable(*r);
     });
 }
 
 void Display::displayRenderable(Renderable const &renderable)
 {
-  Vect<2u, double> const tmp(fullIsometrize(renderable.position - getCameraPosition()));
-  Vect<2u, int> const wh((renderable.dimensions).map([](double a){
-	return (a * 120.0);
-      }));
+  Vect<2u, double> const tmp(camera.fullIsometrize(renderable.position));
+  Vect<2u, int> const wh((renderable.dimensions * 120.0));
   Vect<2u, int> const pos((int)round((renderable.position)[0]),
 			  (int)round((renderable.position)[1]));
   SDL_Rect rect = {
@@ -51,27 +49,7 @@ void Display::displayRenderable(Renderable const &renderable)
     .w = wh[0],
     .h = wh[1],
   };
-
   SDL_RenderCopy(game.getRenderer(), renderable.texture->getTexture(), renderable.srcRect, &rect);
-}
-
-void Display::addRenderable(Renderable *renderable)
-{
-  renderables.push_back(renderable);
-}
-
-void Display::removeRenderable(Renderable *renderable)
-{
-  unsigned int i(0);
-
-  while (renderables[i] != renderable)
-    i = i + 1;
-  renderables.erase(renderables.begin() + i);
-}
-
-Vect <2, double> Display::getCameraPosition() const
-{
-  return (camera.getPosition());
 }
 
 void Display::moveCamera(Vect<2, double> offset)
@@ -86,14 +64,12 @@ void Display::setCameraPosition(Vect<2, double> newPosition)
 
 Vect<2u, double> Display::getIngameCursor() const
 {
-  Vect<2, double>	trueCursor;
-  Vect<2, int>		cursorPos;
+  Vect<2, int>		cursorPos(0u, 0u);
   int			h(maxRenderHeight);
 
   SDL_GetMouseState(&cursorPos[0], &cursorPos[1]);
-  trueCursor = (cursorPos - Vect<2u, int>{game.getWindowWidth() / 2, game.getWindowHeight() / 2});
-  trueCursor *= Vect<2u, double>(1.0 / 120.0, 1.0 / 60.0);
-  trueCursor +=  Vect<2u, double>(trueCursor[1], -trueCursor[0]) + getCameraPosition();
+  Vect<2, double>	trueCursor(camera.fullDesisometrize(cursorPos - Vect<2u, int>{game.getWindowWidth() / 2, game.getWindowHeight() / 2}));
+
   while (h > 0)
     {
       Vect<2, double> cursor(trueCursor + Vect<2u, double>(1.0, 1.0) * h * 0.25);
@@ -106,7 +82,7 @@ Vect<2u, double> Display::getIngameCursor() const
   return (trueCursor);
 }
 
-void Display::displayTile(SDL_Rect const & win, Tile const & tile)
+void Display::displayTile(Tile const & tile)
 {
   constexpr Vect<2u, int> wh(1024 / 8, 896 / 7);
   SDL_Rect rect = {
@@ -115,64 +91,39 @@ void Display::displayTile(SDL_Rect const & win, Tile const & tile)
     .w = wh[0],
     .h = wh[1],
   };
-
-  SDL_RenderCopy(game.getRenderer(), tileset.getTexture(), &rect, &win);
-}
-
-void Display::transformation(Tile const & tile)
-{
-  Vect<2u, int> tmp(fullIsometrize(tile.pos)
-		    - Vect<2u, int>(fullIsometrize(getCameraPosition()))
-		    + Vect<2u, int>(game.getWindowWidth() / 2 - 60,
-				    game.getWindowHeight() / 2 - 30 - tile.height * 15));
+  Vect<2u, double> tmp((camera.fullIsometrize(tile.pos))
+		       + Vect<2u, double>(game.getWindowWidth() / 2u - 60u,
+			  game.getWindowHeight() / 2u - 30u - tile.height * 15u));
   SDL_Rect win = {
     .x = tmp[0],
     .y = tmp[1],
     .w = 120,
     .h = 120
   };
-
   maxRenderHeight = std::max(tile.height, maxRenderHeight);
-  displayTile(win, tile);
+  SDL_RenderCopy(game.getRenderer(), tileset.getTexture(), &rect, &win);
 }
 
-void Display::displayLine(Terrain &terrain, Vect<2u, int> const & rect, Vect<2, int> pos, bool cut)
+void Display::displayLine(Terrain &terrain, Vect<2, int> pos, bool cut)
 {
-  int line(TILE_DIM - cut);
-
-  while (line > 0)
+  for (size_t line(TILE_DIM - cut); line; --line)
     {
-      transformation(terrain.getTile(pos[0] + rect[0] + cut, pos[1] + rect[1]));
+      displayTile(terrain.getTile(pos[0] + cut, pos[1]));
       pos += {1, -1};
-      --line;
     }
-}
-
-void Display::displayLines(Terrain &terrain, Vect<2u, int> const & rect)
-{
-  Vect<2u, int> pos(-(TILE_DIM / 2), (TILE_DIM / 2));
-  int i(0);
-
-  while (i < TILE_DIM - 1)
-    {
-      displayLine(terrain, rect, pos, 0);
-      displayLine(terrain, rect, pos, 1);
-      pos += {1, 1};
-      ++i;
-    }
-  displayLine(terrain, rect, pos, 0);
 }
 
 void Display::displayTiles(Terrain &terrain)
 {
   Vect<2u, int> const cam(camera.getFlooredCamera());
-  Vect<2u ,int> const rect = {
-    cam[0] - TILE_DIM / 2 + 1,
-    cam[1] - TILE_DIM / 2,
-    // .w = cam[0] + TILE_DIM / 2 + 1,
-    // .h = cam[1] + TILE_DIM / 2
-  };
-
+  Vect<2u, int> pos(cam[0] - TILE_DIM + 1, cam[1]);
   maxRenderHeight = 0;
-  displayLines(terrain, rect);
+
+  for (size_t i(0); i < TILE_DIM - 1; ++i)
+    {
+      displayLine(terrain, pos, 0);
+      displayLine(terrain, pos, 1);
+      pos += {1, 1};
+    }
+  displayLine(terrain, pos, 0);
 }
